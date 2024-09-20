@@ -6,8 +6,14 @@ export const drawElement = (
 ) => {
 	if (!ctx) return;
 
-	if (element.type === "rect") {
-		ctx.fillStyle = element.color;
-		ctx.fillRect(element.x, element.y, element.width, element.height);
+	if (element.type === "pencil") {
+		console.log("Drawing pencil", element);
+		ctx.strokeStyle = element.color;
+		ctx.lineWidth = element.width;
+		ctx.beginPath(); // Inicia un nuevo trazo
+		ctx.moveTo(element.x, element.y); // Mueve a las coordenadas iniciales
+		ctx.lineTo(element.x2, element.y2); // Traza hasta las coordenadas finales
+		ctx.stroke(); // Realiza el trazo
+		ctx.closePath(); // Cierra
 	}
 };

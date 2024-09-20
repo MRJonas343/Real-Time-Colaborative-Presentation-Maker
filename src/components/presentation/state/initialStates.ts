@@ -1,5 +1,7 @@
+import { EditorModes } from "@/interfaces";
+
 export const initialState = {
-	editorMode: "cursor" as "cursor" | "text" | "circle" | "arrow" | "rectangle",
+	editorMode: "cursor" as EditorModes,
 	presentationCreator: "",
 	presentationId: "",
 	presentationTopic: "",

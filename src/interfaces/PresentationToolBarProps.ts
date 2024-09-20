@@ -1,3 +1,5 @@
+import { EditorModes } from "@/interfaces";
+import { Dispatch, SetStateAction } from "react";
 export interface PresentationToolbarProps {
 	onUndo: () => void;
 	onReundo: () => void;
@@ -6,10 +8,7 @@ export interface PresentationToolbarProps {
 	presentationId: string;
 	presentationCurrentSlide: number;
 	presentationTotalSlides: number;
-	presentationSlides?: unknown;
 	role: "Creator" | "Viewer" | "Editor";
-	editorMode: "text" | "circle" | "arrow" | "cursor" | "rectangle";
-	changeEditorMode: (
-		mode: "text" | "circle" | "arrow" | "cursor" | "rectangle",
-	) => void;
+	editorMode: EditorModes;
+	changeEditorMode: (mode: EditorModes) => void;
 }

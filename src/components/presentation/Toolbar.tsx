@@ -10,6 +10,7 @@ import { FaDownload } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
 import { FC } from "react";
 import { PresentationToolbarProps } from "@/interfaces";
+import { RiPencilFill } from "react-icons/ri";
 
 export const Toolbar: FC<PresentationToolbarProps> = ({
 	onUndo,
@@ -20,7 +21,6 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 	presentationId,
 	presentationCurrentSlide,
 	presentationTotalSlides,
-	presentationSlides,
 	role,
 }) => {
 	return (
@@ -56,9 +56,19 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					size="lg"
 					className="p-2"
 					variant="faded"
-					onClick={() => changeEditorMode("arrow")}
+					onClick={() => changeEditorMode("cursor")}
 				>
 					<GiArrowCursor size={40} />
+				</Button>
+				<Button
+					radius="sm"
+					isIconOnly
+					size="lg"
+					className="p-2"
+					variant="faded"
+					onClick={() => changeEditorMode("pencil")}
+				>
+					<RiPencilFill size={40} />
 				</Button>
 				<Button
 					radius="sm"

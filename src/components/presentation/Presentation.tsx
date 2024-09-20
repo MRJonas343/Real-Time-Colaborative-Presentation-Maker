@@ -2,33 +2,74 @@
 
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { SlidePreview, Toolbar, UserProfile } from ".";
-import { changeEditorMode, changeUserRole } from "@/Services";
+import { changeUserRole } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
-import { use, useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { updateSlidesPositions, drawElement } from "@/Services";
 import { reducer, initialState } from "./state";
 import { SlideExample } from "@/interfaces";
 import { useDndSensors } from "@/hooks";
+import { MouseEvent } from "react";
 
 export const Presentation = () => {
 	const [slidePreviews, setSlidePreviews] = useState<SlideExample[]>([]);
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const sensors = useDndSensors();
+
+	const [startX, setStartX] = useState(0);
+	const [startY, setStartY] = useState(0);
+
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
+	const [isDrawing, setIsDrawing] = useState<boolean>();
+
+	const onMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
+		setIsDrawing(true);
+
+		const rect = canvasRef.current?.getBoundingClientRect();
+		setStartX(e.clientX - (rect?.left || 0));
+		setStartY(e.clientY - (rect?.top || 0));
+	};
+
+	const onMouseUp = (e: MouseEvent<HTMLCanvasElement>) => {
+		setIsDrawing(false);
+	};
+
+	const onMouseMove = (e: MouseEvent<HTMLCanvasElement>) => {
+		if (!isDrawing) return;
+		if (state.editorMode !== "pencil") return;
+
+		const rect = canvasRef.current?.getBoundingClientRect();
+		const x2 = e.clientX - (rect?.left || 0);
+		const y2 = e.clientY - (rect?.top || 0);
+
+		drawElement(ctx, {
+			x: startX,
+			y: startY,
+			x2: x2,
+			y2: y2,
+			width: 1,
+			height: 1,
+			color: "red",
+			type: "pencil",
+		});
+
+		setStartX(x2);
+		setStartY(y2);
+	};
 
 	const onUndo = () => {
 		console.log("Undoing");
-		drawElement(ctx, {
-			x: 10,
-			y: 10,
-			width: 40,
-			height: 25,
-			color: "red",
-			type: "rect",
-		});
+		// drawElement(ctx, {
+		// 	x: 10,
+		// 	y: 10,
+		// 	width: 100,
+		// 	height: 80,
+		// 	color: "red",
+		// 	type: "rect",
+		// });
 	};
 
 	const onReundo = () => {
@@ -52,7 +93,9 @@ export const Presentation = () => {
 		<main className="min-h-screen flex flex-col h-auto">
 			{/* Toolbar */}
 			<Toolbar
-				changeEditorMode={changeEditorMode}
+				changeEditorMode={(mode) => {
+					dispatch({ type: "SET_EDITOR_MODE", payload: mode });
+				}}
 				onUndo={onUndo}
 				onReundo={onReundo}
 				editorMode={state.editorMode}
@@ -95,9 +138,14 @@ export const Presentation = () => {
 
 				{/* Main content */}
 				<canvas
-					id="canvas"
+					style={{ backgroundColor: "white" }}
+					width={window.innerWidth * 0.7}
+					height={window.innerHeight * 0.9}
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
+					onMouseDown={onMouseDown}
+					onMouseUp={onMouseUp}
+					onMouseMove={onMouseMove}
 				/>
 
 				{/* User section */}

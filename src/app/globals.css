@@ -25,6 +25,10 @@ body {
   background: var(--background);
 }
 
+canvas{
+  object-fit: contain;
+}
+
 
 @layer utilities {
   .text-balance {
