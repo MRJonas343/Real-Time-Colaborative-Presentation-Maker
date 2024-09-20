@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { Gallery, ToolbarHome, ModalLoby, Footer } from ".";
 import { useDisclosure } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export const Loby = () => {
 	const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+	const router = useRouter();
 
 	const [presentationId, setPresentationId] = useState("");
 	const [totalPages, setTotalPages] = useState(10);
@@ -30,6 +32,7 @@ export const Loby = () => {
 		//TODO : If we dont have the id, we should create a new presentation
 		//TODO : If we have the id, we should join the presentation
 		console.log("Joining presentation:", id);
+		router.push("/presentation");
 		onClose();
 	};
 

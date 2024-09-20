@@ -16,7 +16,6 @@ export const Presentation = () => {
 	const [slidePreviews, setSlidePreviews] = useState<SlideExample[]>([]);
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const sensors = useDndSensors();
-
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 
