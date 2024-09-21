@@ -5,7 +5,8 @@ export type CanvasElement = {
 	y: number;
 	x2: number;
 	y2: number;
-	width: number;
+	radius?: number;
+	width?: number;
 	height?: number;
 	color: string;
 	type: EditorModes;

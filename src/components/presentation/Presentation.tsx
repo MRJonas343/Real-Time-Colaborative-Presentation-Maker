@@ -1,7 +1,14 @@
 "use client";
 
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
-import { clearCanvas, onMouseDown, onReundo, onUndo } from "./utils";
+import {
+	clearCanvas,
+	onMouseDown,
+	onMouseMove,
+	onMouseUp,
+	onReundo,
+	onUndo,
+} from "./utils";
 import { updateSlidesPositions, drawElement } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
 import { SlidePreview, Toolbar, UserProfile } from ".";
@@ -19,61 +26,6 @@ export const Presentation = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 	const sensors = useDndSensors();
-
-	const onMouseUp = (e: MouseEvent<HTMLCanvasElement>) => {
-		if (state.editorMode === "rectangle") {
-			const rect = canvasRef.current?.getBoundingClientRect();
-			const x2 = e.clientX - (rect?.left || 0);
-			const y2 = e.clientY - (rect?.top || 0);
-
-			const newElement: CanvasElement = {
-				x: state.startX,
-				y: state.startY,
-				x2: x2,
-				y2: y2,
-				width: Math.abs(x2 - state.startX),
-				height: Math.abs(y2 - state.startY),
-				color: "white",
-				type: state.editorMode,
-			};
-
-			dispatch({
-				type: "SET_DRAWN_ELEMENTS",
-				payload: [...state.drawnElements, newElement],
-			});
-		}
-
-		dispatch({ type: "SET_IS_DRAWING", payload: false });
-	};
-
-	const onMouseMove = (e: MouseEvent<HTMLCanvasElement>) => {
-		if (!state.isDrawing || !canvasRef.current) return;
-
-		const rect = canvasRef.current.getBoundingClientRect();
-		const x2 = e.clientX - (rect.left || 0);
-		const y2 = e.clientY - (rect.top || 0);
-
-		if (state.editorMode === "rectangle") {
-			clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
-
-			//* Drow previous elements
-			for (const element of state.drawnElements) drawElement(ctx, element);
-
-			const width = x2 - state.startX;
-			const height = y2 - state.startY;
-
-			drawElement(ctx, {
-				x: state.startX,
-				y: state.startY,
-				x2: x2,
-				y2: y2,
-				width: width,
-				height: height,
-				color: "white",
-				type: "rectangle",
-			});
-		}
-	};
 
 	useEffect(() => {
 		dispatch({ type: "SET_CREATOR", payload: "John Smith" });
@@ -149,8 +101,8 @@ export const Presentation = () => {
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={(e) => onMouseDown(e, dispatch, canvasRef)}
-					onMouseUp={onMouseUp}
-					onMouseMove={onMouseMove}
+					onMouseUp={(e) => onMouseUp(e, state, dispatch, canvasRef)}
+					onMouseMove={(e) => onMouseMove(e, state, canvasRef, ctx)}
 				/>
 
 				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">

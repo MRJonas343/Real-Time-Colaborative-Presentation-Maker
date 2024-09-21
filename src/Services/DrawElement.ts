@@ -14,4 +14,13 @@ export const drawElement = (
 		ctx.rect(element.x, element.y, width, height);
 		ctx.stroke();
 	}
+
+	if (element.type === "circle") {
+		if (!element.radius) return;
+
+		ctx.strokeStyle = element.color;
+		ctx.beginPath();
+		ctx.arc(element.x, element.y, element.radius, 0, Math.PI * 2);
+		ctx.stroke();
+	}
 };
