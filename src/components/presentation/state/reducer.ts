@@ -29,6 +29,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, slidesPreviews: action.payload };
 		case "SET_DRAWN_ELEMENTS":
 			return { ...state, drawnElements: action.payload };
+		case "SET_DELETED_ELEMENTS":
+			return { ...state, deletedElements: action.payload };
 
 		default:
 			return state;

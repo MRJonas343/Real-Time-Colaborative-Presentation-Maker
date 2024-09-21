@@ -14,4 +14,5 @@ export const initialState = {
 	isDrawing: false,
 	slidesPreviews: [] as SlideExample[],
 	drawnElements: [] as CanvasElement[],
+	deletedElements: [] as CanvasElement[],
 };

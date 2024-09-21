@@ -1,9 +1,10 @@
 "use client";
 
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import { clearCanvas, onMouseDown, onReundo, onUndo } from "./utils";
 import { updateSlidesPositions, drawElement } from "@/Services";
-import { SlidePreview, Toolbar, UserProfile } from ".";
 import { users, slidePreviewsExample } from "@/constants";
+import { SlidePreview, Toolbar, UserProfile } from ".";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
@@ -11,7 +12,6 @@ import { reducer, initialState } from "./state";
 import { changeUserRole } from "@/Services";
 import { useDndSensors } from "@/hooks";
 import { MouseEvent } from "react";
-import { clearCanvas } from "./utils";
 import { CanvasElement } from "@/interfaces";
 
 export const Presentation = () => {
@@ -19,13 +19,6 @@ export const Presentation = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 	const sensors = useDndSensors();
-
-	const onMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
-		const rect = canvasRef.current?.getBoundingClientRect();
-		dispatch({ type: "SET_IS_DRAWING", payload: true });
-		dispatch({ type: "SET_START_X", payload: e.clientX - (rect?.left || 0) });
-		dispatch({ type: "SET_START_Y", payload: e.clientY - (rect?.top || 0) });
-	};
 
 	const onMouseUp = (e: MouseEvent<HTMLCanvasElement>) => {
 		if (state.editorMode === "rectangle") {
@@ -40,7 +33,6 @@ export const Presentation = () => {
 				y2: y2,
 				width: Math.abs(x2 - state.startX),
 				height: Math.abs(y2 - state.startY),
-
 				color: "white",
 				type: state.editorMode,
 			};
@@ -83,10 +75,6 @@ export const Presentation = () => {
 		}
 	};
 
-	const onUndo = () => {};
-
-	const onReundo = () => {};
-
 	useEffect(() => {
 		dispatch({ type: "SET_CREATOR", payload: "John Smith" });
 		dispatch({ type: "SET_ID", payload: "5242" });
@@ -106,13 +94,12 @@ export const Presentation = () => {
 
 	return (
 		<main className="min-h-screen flex flex-col h-auto">
-			{/* Toolbar */}
 			<Toolbar
 				changeEditorMode={(mode) => {
 					dispatch({ type: "SET_EDITOR_MODE", payload: mode });
 				}}
-				onUndo={onUndo}
-				onReundo={onReundo}
+				onUndo={() => onUndo(state, dispatch, ctx, canvasRef)}
+				onReundo={() => onReundo(state, dispatch, ctx, canvasRef)}
 				editorMode={state.editorMode}
 				presentationCreator={state.presentationCreator}
 				presentationCurrentSlide={state.currentSlide}
@@ -122,7 +109,6 @@ export const Presentation = () => {
 				role={state.role}
 			/>
 			<section className="flex w-full h-screen flex-grow">
-				{/* Sidebar */}
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">
 					<p className="text-center text-lg pt-2">Slides</p>
 					<div className="flex pb-2 justify-center pt-4">
@@ -162,12 +148,11 @@ export const Presentation = () => {
 				<canvas
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
-					onMouseDown={onMouseDown}
+					onMouseDown={(e) => onMouseDown(e, dispatch, canvasRef)}
 					onMouseUp={onMouseUp}
 					onMouseMove={onMouseMove}
 				/>
 
-				{/* User section */}
 				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
 					<p>{state.presentationCreator}</p>
 					<span className="text-sm text-gray-600">Creator</span>

@@ -13,4 +13,5 @@ export type Action =
 	| { type: "SET_START_Y"; payload: number }
 	| { type: "SET_IS_DRAWING"; payload: boolean }
 	| { type: "SET_SLIDES_PREVIEWS"; payload: SlideExample[] }
-	| { type: "SET_DRAWN_ELEMENTS"; payload: CanvasElement[] };
+	| { type: "SET_DRAWN_ELEMENTS"; payload: CanvasElement[] }
+	| { type: "SET_DELETED_ELEMENTS"; payload: CanvasElement[] };
