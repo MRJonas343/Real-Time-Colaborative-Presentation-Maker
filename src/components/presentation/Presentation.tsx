@@ -139,8 +139,8 @@ export const Presentation = () => {
 				{/* Main content */}
 				<canvas
 					style={{ backgroundColor: "white" }}
-					width={window.innerWidth * 0.7}
-					height={window.innerHeight * 0.9}
+					width={window.innerWidth * 0.7 ?? 1}
+					height={window.innerHeight * 0.9 ?? 1}
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={onMouseDown}
