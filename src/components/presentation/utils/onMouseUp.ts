@@ -8,12 +8,14 @@ export const onMouseUp = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
-	if (state.editorMode === "rectangle") {
-		const rect = canvasRef.current?.getBoundingClientRect();
-		const x2 = e.clientX - (rect?.left || 0);
-		const y2 = e.clientY - (rect?.top || 0);
+	const rect = canvasRef.current?.getBoundingClientRect();
+	const x2 = e.clientX - (rect?.left || 0);
+	const y2 = e.clientY - (rect?.top || 0);
 
-		const newElement: CanvasElement = {
+	let newElement: CanvasElement | undefined;
+
+	if (state.editorMode === "rectangle") {
+		newElement = {
 			x: state.startX,
 			y: state.startY,
 			x2: x2,
@@ -23,23 +25,14 @@ export const onMouseUp = (
 			color: "white",
 			type: state.editorMode,
 		};
-
-		dispatch({
-			type: "SET_DRAWN_ELEMENTS",
-			payload: [...state.drawnElements, newElement],
-		});
 	}
 
 	if (state.editorMode === "circle") {
-		const rect = canvasRef.current?.getBoundingClientRect();
-		const x2 = e.clientX - (rect?.left || 0);
-		const y2 = e.clientY - (rect?.top || 0);
-
 		const radius = Math.sqrt(
 			(x2 - state.startX) ** 2 + (y2 - state.startY) ** 2,
 		);
 
-		const newElement: CanvasElement = {
+		newElement = {
 			x: state.startX,
 			y: state.startY,
 			radius: radius,
@@ -48,7 +41,20 @@ export const onMouseUp = (
 			color: "white",
 			type: state.editorMode,
 		};
+	}
 
+	if (state.editorMode === "arrow") {
+		newElement = {
+			x: state.startX,
+			y: state.startY,
+			x2: x2,
+			y2: y2,
+			color: "white",
+			type: state.editorMode,
+		};
+	}
+
+	if (newElement) {
 		dispatch({
 			type: "SET_DRAWN_ELEMENTS",
 			payload: [...state.drawnElements, newElement],
