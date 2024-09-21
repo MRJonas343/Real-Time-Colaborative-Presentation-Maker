@@ -19,6 +19,15 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, role: action.payload };
 		case "SET_IS_LOADING":
 			return { ...state, isLoading: action.payload };
+		case "SET_START_X":
+			return { ...state, startX: action.payload };
+		case "SET_START_Y":
+			return { ...state, startY: action.payload };
+		case "SET_IS_DRAWING":
+			return { ...state, isDrawing: action.payload };
+		case "SET_SLIDES_PREVIEWS":
+			return { ...state, slidesPreviews: action.payload };
+
 		default:
 			return state;
 	}

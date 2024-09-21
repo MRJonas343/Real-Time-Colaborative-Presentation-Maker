@@ -6,7 +6,7 @@ export type CanvasElement = {
 	x2: number;
 	y2: number;
 	width: number;
-	height: number;
+	height?: number;
 	color: string;
 	type: EditorModes;
 };

@@ -25,7 +25,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 }) => {
 	return (
 		<header className="w-full h-24 flex">
-			<div className="border-b-2 w-[15%] flex justify-center gap-6 items-center">
+			<div className="border-b-2 border-gray-700 w-[15%] flex justify-center gap-6 items-center">
 				<Button
 					radius="sm"
 					isIconOnly
@@ -49,7 +49,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</Button>
 			</div>
 
-			<div className="w-[35%] border-b-2 flex justify-center gap-3 items-center">
+			<div className="w-[35%] border-b-2 border-gray-700 flex justify-center gap-3 items-center">
 				<Button
 					radius="sm"
 					isIconOnly
@@ -60,16 +60,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				>
 					<GiArrowCursor size={40} />
 				</Button>
-				<Button
-					radius="sm"
-					isIconOnly
-					size="lg"
-					className="p-2"
-					variant="faded"
-					onClick={() => changeEditorMode("pencil")}
-				>
-					<RiPencilFill size={40} />
-				</Button>
+
 				<Button
 					radius="sm"
 					isIconOnly
@@ -113,7 +104,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</Button>
 			</div>
 
-			<div className="w-[30%] flex flex-col justify-center p-5 border-b-2">
+			<div className="w-[30%] flex flex-col justify-center p-5 border-b-2 border-gray-700">
 				<div className="flex justify-around px-3">
 					<p>{presentationTopic}</p>
 					<p>ID # {presentationId}</p>
@@ -127,7 +118,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</div>
 			</div>
 
-			<div className="w-[20%] flex justify-around items-center border-b-2">
+			<div className="w-[20%] flex justify-around items-center border-b-2 border-gray-700">
 				<Button
 					radius="sm"
 					color="danger"

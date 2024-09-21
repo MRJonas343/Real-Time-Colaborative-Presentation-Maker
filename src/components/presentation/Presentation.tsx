@@ -1,80 +1,90 @@
 "use client";
 
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import { updateSlidesPositions, drawElement } from "@/Services";
 import { SlidePreview, Toolbar, UserProfile } from ".";
-import { changeUserRole } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
-import { updateSlidesPositions, drawElement } from "@/Services";
 import { reducer, initialState } from "./state";
-import { SlideExample } from "@/interfaces";
+import { changeUserRole } from "@/Services";
 import { useDndSensors } from "@/hooks";
 import { MouseEvent } from "react";
+import { clearCanvas } from "./utils";
+import { CanvasElement } from "@/interfaces";
 
 export const Presentation = () => {
-	const [slidePreviews, setSlidePreviews] = useState<SlideExample[]>([]);
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const sensors = useDndSensors();
-
-	const [startX, setStartX] = useState(0);
-	const [startY, setStartY] = useState(0);
-
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
-	const [isDrawing, setIsDrawing] = useState<boolean>();
+	const sensors = useDndSensors();
+
+	const [elements, setElements] = useState<CanvasElement[]>([]);
 
 	const onMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
-		setIsDrawing(true);
-
 		const rect = canvasRef.current?.getBoundingClientRect();
-		setStartX(e.clientX - (rect?.left || 0));
-		setStartY(e.clientY - (rect?.top || 0));
+		dispatch({ type: "SET_IS_DRAWING", payload: true });
+		dispatch({ type: "SET_START_X", payload: e.clientX - (rect?.left || 0) });
+		dispatch({ type: "SET_START_Y", payload: e.clientY - (rect?.top || 0) });
 	};
 
 	const onMouseUp = (e: MouseEvent<HTMLCanvasElement>) => {
-		setIsDrawing(false);
+		if (state.editorMode === "rectangle") {
+			const rect = canvasRef.current?.getBoundingClientRect();
+			const x2 = e.clientX - (rect?.left || 0);
+			const y2 = e.clientY - (rect?.top || 0);
+
+			const newElement: CanvasElement = {
+				x: state.startX,
+				y: state.startY,
+				x2: x2,
+				y2: y2,
+				width: Math.abs(x2 - state.startX),
+				height: Math.abs(y2 - state.startY),
+
+				color: "white",
+				type: state.editorMode,
+			};
+
+			setElements((prevElements) => [...prevElements, newElement]);
+		}
+
+		dispatch({ type: "SET_IS_DRAWING", payload: false });
 	};
 
 	const onMouseMove = (e: MouseEvent<HTMLCanvasElement>) => {
-		if (!isDrawing) return;
-		if (state.editorMode !== "pencil") return;
+		if (!state.isDrawing || !canvasRef.current) return;
 
-		const rect = canvasRef.current?.getBoundingClientRect();
-		const x2 = e.clientX - (rect?.left || 0);
-		const y2 = e.clientY - (rect?.top || 0);
+		const rect = canvasRef.current.getBoundingClientRect();
+		const x2 = e.clientX - (rect.left || 0);
+		const y2 = e.clientY - (rect.top || 0);
 
-		drawElement(ctx, {
-			x: startX,
-			y: startY,
-			x2: x2,
-			y2: y2,
-			width: 1,
-			height: 1,
-			color: "red",
-			type: "pencil",
-		});
+		if (state.editorMode === "rectangle") {
+			clearCanvas(ctx, canvasRef, elements, drawElement);
 
-		setStartX(x2);
-		setStartY(y2);
+			//* Drow previous elements
+			for (const element of elements) drawElement(ctx, element);
+
+			const width = x2 - state.startX;
+			const height = y2 - state.startY;
+
+			drawElement(ctx, {
+				x: state.startX,
+				y: state.startY,
+				x2: x2,
+				y2: y2,
+				width: width,
+				height: height,
+				color: "white",
+				type: "rectangle",
+			});
+		}
 	};
 
-	const onUndo = () => {
-		console.log("Undoing");
-		// drawElement(ctx, {
-		// 	x: 10,
-		// 	y: 10,
-		// 	width: 100,
-		// 	height: 80,
-		// 	color: "red",
-		// 	type: "rect",
-		// });
-	};
+	const onUndo = () => {};
 
-	const onReundo = () => {
-		console.log("Reunindo");
-	};
+	const onReundo = () => {};
 
 	useEffect(() => {
 		dispatch({ type: "SET_CREATOR", payload: "John Smith" });
@@ -84,7 +94,7 @@ export const Presentation = () => {
 		dispatch({ type: "SET_TOTAL_SLIDES", payload: 10 });
 		dispatch({ type: "SET_ROLE", payload: "Creator" });
 		dispatch({ type: "SET_IS_LOADING", payload: false });
-		setSlidePreviews(slidePreviewsExample);
+		dispatch({ type: "SET_SLIDES_PREVIEWS", payload: slidePreviewsExample });
 		if (typeof window !== "undefined") {
 			if (canvasRef.current) {
 				canvasRef.current.width = window.innerWidth * 0.7;
@@ -112,7 +122,7 @@ export const Presentation = () => {
 			/>
 			<section className="flex w-full h-screen flex-grow">
 				{/* Sidebar */}
-				<div className="w-[15%] border-r-2 min-h-full h-auto overflow-y-auto scrollbar pb-32">
+				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">
 					<p className="text-center text-lg pt-2">Slides</p>
 					<div className="flex pb-2 justify-center pt-4">
 						<Button className="w-[80%]" color="primary" radius="sm">
@@ -124,11 +134,19 @@ export const Presentation = () => {
 						sensors={sensors}
 						collisionDetection={closestCenter}
 						onDragEnd={(e: DragEndEvent) =>
-							updateSlidesPositions(e, setSlidePreviews)
+							updateSlidesPositions(
+								e,
+								(updatedSlides) =>
+									dispatch({
+										type: "SET_SLIDES_PREVIEWS",
+										payload: updatedSlides,
+									}),
+								state.slidesPreviews,
+							)
 						}
 					>
-						<SortableContext items={slidePreviews}>
-							{slidePreviews.map((item) => (
+						<SortableContext items={state.slidesPreviews}>
+							{state.slidesPreviews.map((item) => (
 								<SlidePreview
 									isLoading={state.isLoading}
 									key={item.id}
@@ -141,7 +159,6 @@ export const Presentation = () => {
 				</div>
 
 				<canvas
-					style={{ backgroundColor: "white" }}
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={onMouseDown}
@@ -150,10 +167,10 @@ export const Presentation = () => {
 				/>
 
 				{/* User section */}
-				<div className="w-[15%] border-l-2 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
+				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
 					<p>{state.presentationCreator}</p>
 					<span className="text-sm text-gray-600">Creator</span>
-					<Divider className="my-4 bg-white h-1 w-full mx-auto" />
+					<Divider className="my-4 bg-gray-700 h-[2px] w-full mx-auto" />
 					{users.map((user) => (
 						<UserProfile
 							id={user.id}

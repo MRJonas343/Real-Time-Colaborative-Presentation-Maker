@@ -1,4 +1,4 @@
-import { EditorModes, Role } from ".";
+import { EditorModes, Role, SlideExample } from ".";
 
 export type Action =
 	| { type: "SET_EDITOR_MODE"; payload: EditorModes }
@@ -8,4 +8,8 @@ export type Action =
 	| { type: "SET_CURRENT_SLIDE"; payload: number }
 	| { type: "SET_TOTAL_SLIDES"; payload: number }
 	| { type: "SET_ROLE"; payload: Role }
-	| { type: "SET_IS_LOADING"; payload: boolean };
+	| { type: "SET_IS_LOADING"; payload: boolean }
+	| { type: "SET_START_X"; payload: number }
+	| { type: "SET_START_Y"; payload: number }
+	| { type: "SET_IS_DRAWING"; payload: boolean }
+	| { type: "SET_SLIDES_PREVIEWS"; payload: SlideExample[] };

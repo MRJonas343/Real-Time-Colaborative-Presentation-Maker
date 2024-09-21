@@ -34,7 +34,7 @@ export const UserProfile: FC<UserProfileProps> = ({
 					isSelected={isEditor}
 				/>
 			</div>
-			<Divider className="my-4 bg-white h-1 w-full mx-auto" />
+			<Divider className="my-4 bg-gray-700 h-[2px] w-full mx-auto" />
 		</div>
 	);
 };

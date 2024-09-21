@@ -6,14 +6,12 @@ export const drawElement = (
 ) => {
 	if (!ctx) return;
 
-	if (element.type === "pencil") {
-		console.log("Drawing pencil", element);
+	if (element.type === "rectangle") {
+		const width = element.x2 - element.x;
+		const height = element.y2 - element.y;
 		ctx.strokeStyle = element.color;
-		ctx.lineWidth = element.width;
-		ctx.beginPath(); // Inicia un nuevo trazo
-		ctx.moveTo(element.x, element.y); // Mueve a las coordenadas iniciales
-		ctx.lineTo(element.x2, element.y2); // Traza hasta las coordenadas finales
-		ctx.stroke(); // Realiza el trazo
-		ctx.closePath(); // Cierra
+		ctx.beginPath();
+		ctx.rect(element.x, element.y, width, height);
+		ctx.stroke();
 	}
 };
