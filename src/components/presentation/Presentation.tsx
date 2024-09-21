@@ -77,16 +77,20 @@ export const Presentation = () => {
 	};
 
 	useEffect(() => {
-		setTimeout(() => {
-			dispatch({ type: "SET_CREATOR", payload: "John Smith" });
-			dispatch({ type: "SET_ID", payload: "5242" });
-			dispatch({ type: "SET_TOPIC", payload: "Enviroment Care" });
-			dispatch({ type: "SET_CURRENT_SLIDE", payload: 1 });
-			dispatch({ type: "SET_TOTAL_SLIDES", payload: 10 });
-			dispatch({ type: "SET_ROLE", payload: "Creator" });
-			dispatch({ type: "SET_IS_LOADING", payload: false });
-			setSlidePreviews(slidePreviewsExample);
-		}, 1000);
+		dispatch({ type: "SET_CREATOR", payload: "John Smith" });
+		dispatch({ type: "SET_ID", payload: "5242" });
+		dispatch({ type: "SET_TOPIC", payload: "Enviroment Care" });
+		dispatch({ type: "SET_CURRENT_SLIDE", payload: 1 });
+		dispatch({ type: "SET_TOTAL_SLIDES", payload: 10 });
+		dispatch({ type: "SET_ROLE", payload: "Creator" });
+		dispatch({ type: "SET_IS_LOADING", payload: false });
+		setSlidePreviews(slidePreviewsExample);
+		if (typeof window !== "undefined") {
+			if (canvasRef.current) {
+				canvasRef.current.width = window.innerWidth * 0.7;
+				canvasRef.current.height = window.innerHeight * 0.9;
+			}
+		}
 	}, []);
 
 	return (
@@ -136,11 +140,8 @@ export const Presentation = () => {
 					</DndContext>
 				</div>
 
-				{/* Main content */}
 				<canvas
 					style={{ backgroundColor: "white" }}
-					width={window.innerWidth * 0.7 || 1}
-					height={window.innerHeight * 0.9 || 1}
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={onMouseDown}
