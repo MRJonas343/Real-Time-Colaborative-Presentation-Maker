@@ -27,6 +27,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, isDrawing: action.payload };
 		case "SET_SLIDES_PREVIEWS":
 			return { ...state, slidesPreviews: action.payload };
+		case "SET_DRAWN_ELEMENTS":
+			return { ...state, drawnElements: action.payload };
 
 		default:
 			return state;

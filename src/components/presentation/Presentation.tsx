@@ -4,7 +4,7 @@ import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { updateSlidesPositions, drawElement } from "@/Services";
 import { SlidePreview, Toolbar, UserProfile } from ".";
 import { users, slidePreviewsExample } from "@/constants";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
@@ -19,8 +19,6 @@ export const Presentation = () => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 	const sensors = useDndSensors();
-
-	const [elements, setElements] = useState<CanvasElement[]>([]);
 
 	const onMouseDown = (e: MouseEvent<HTMLCanvasElement>) => {
 		const rect = canvasRef.current?.getBoundingClientRect();
@@ -47,7 +45,10 @@ export const Presentation = () => {
 				type: state.editorMode,
 			};
 
-			setElements((prevElements) => [...prevElements, newElement]);
+			dispatch({
+				type: "SET_DRAWN_ELEMENTS",
+				payload: [...state.drawnElements, newElement],
+			});
 		}
 
 		dispatch({ type: "SET_IS_DRAWING", payload: false });
@@ -61,10 +62,10 @@ export const Presentation = () => {
 		const y2 = e.clientY - (rect.top || 0);
 
 		if (state.editorMode === "rectangle") {
-			clearCanvas(ctx, canvasRef, elements, drawElement);
+			clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
 
 			//* Drow previous elements
-			for (const element of elements) drawElement(ctx, element);
+			for (const element of state.drawnElements) drawElement(ctx, element);
 
 			const width = x2 - state.startX;
 			const height = y2 - state.startY;

@@ -1,4 +1,4 @@
-import { EditorModes, SlideExample } from "@/interfaces";
+import { CanvasElement, EditorModes, SlideExample } from "@/interfaces";
 
 export const initialState = {
 	editorMode: "cursor" as EditorModes,
@@ -13,4 +13,5 @@ export const initialState = {
 	startY: 0,
 	isDrawing: false,
 	slidesPreviews: [] as SlideExample[],
+	drawnElements: [] as CanvasElement[],
 };
