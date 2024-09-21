@@ -1,25 +1,15 @@
 "use client";
 
+import { onMouseDown, onMouseMove, onMouseUp, onReundo, onUndo } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
-import {
-	clearCanvas,
-	onMouseDown,
-	onMouseMove,
-	onMouseUp,
-	onReundo,
-	onUndo,
-} from "./utils";
-import { updateSlidesPositions, drawElement } from "@/Services";
+import { changeUserRole, updateSlidesPositions } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
 import { SlidePreview, Toolbar, UserProfile } from ".";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
-import { changeUserRole } from "@/Services";
 import { useDndSensors } from "@/hooks";
-import { MouseEvent } from "react";
-import { CanvasElement } from "@/interfaces";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);

@@ -1,7 +1,6 @@
 import { MouseEvent, RefObject } from "react";
+import { clearCanvas, drawElement } from ".";
 import { initialState } from "..";
-import { clearCanvas } from "./clearCanvas";
-import { drawElement } from "@/Services";
 
 export const onMouseMove = (
 	e: MouseEvent<HTMLCanvasElement>,
@@ -11,64 +10,24 @@ export const onMouseMove = (
 ) => {
 	if (!state.isDrawing || !canvasRef.current || !ctx) return;
 
-	if (state.editorMode === "rectangle") {
-		const rect = canvasRef.current.getBoundingClientRect();
-		const x2 = e.clientX - (rect.left || 0);
-		const y2 = e.clientY - (rect.top || 0);
-		clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
+	const rect = canvasRef.current.getBoundingClientRect();
+	const x2 = e.clientX - (rect.left || 0);
+	const y2 = e.clientY - (rect.top || 0);
+	const width = x2 - state.startX;
+	const height = y2 - state.startY;
+	const radius = Math.sqrt((x2 - state.startX) ** 2 + (y2 - state.startY) ** 2);
 
-		for (const element of state.drawnElements) drawElement(ctx, element);
+	clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
 
-		const width = x2 - state.startX;
-		const height = y2 - state.startY;
-
-		drawElement(ctx, {
-			x: state.startX,
-			y: state.startY,
-			x2: x2,
-			y2: y2,
-			width: width,
-			height: height,
-			color: "white",
-			type: "rectangle",
-		});
-	}
-
-	if (state.editorMode === "circle") {
-		const rect = canvasRef.current.getBoundingClientRect();
-		const x2 = e.clientX - (rect.left || 0);
-		const y2 = e.clientY - (rect.top || 0);
-
-		clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
-		const radius = Math.sqrt(
-			(x2 - state.startX) ** 2 + (y2 - state.startY) ** 2,
-		);
-
-		drawElement(ctx, {
-			x: state.startX,
-			y: state.startY,
-			radius: radius,
-			x2: x2,
-			y2: y2,
-			color: "white",
-			type: "circle",
-		});
-	}
-
-	if (state.editorMode === "arrow") {
-		const rect = canvasRef.current.getBoundingClientRect();
-		const x2 = e.clientX - (rect.left || 0);
-		const y2 = e.clientY - (rect.top || 0);
-
-		clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
-
-		drawElement(ctx, {
-			x: state.startX,
-			y: state.startY,
-			x2: x2,
-			y2: y2,
-			color: "white",
-			type: "arrow",
-		});
-	}
+	drawElement(ctx, {
+		x: state.startX,
+		y: state.startY,
+		x2: x2,
+		y2: y2,
+		radius: radius,
+		width: width,
+		height: height,
+		color: "white",
+		type: state.editorMode,
+	});
 };

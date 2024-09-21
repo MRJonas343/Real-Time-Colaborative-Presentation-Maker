@@ -1,8 +1,7 @@
-import { Action, CanvasElement } from "@/interfaces";
+import { clearCanvas, drawElement } from ".";
 import { initialState } from "../state";
+import { Action } from "@/interfaces";
 import { RefObject } from "react";
-import { clearCanvas } from "./clearCanvas";
-import { drawElement } from "@/Services";
 
 export const onUndo = (
 	state: typeof initialState,
@@ -12,15 +11,18 @@ export const onUndo = (
 ) => {
 	if (state.drawnElements.length > 0) {
 		const lastElement = state.drawnElements[state.drawnElements.length - 1];
+		const newDrawnElements = state.drawnElements.slice(0, -1);
+
 		dispatch({
 			type: "SET_DELETED_ELEMENTS",
 			payload: [...state.deletedElements, lastElement],
 		});
-		const newDrawnElements = state.drawnElements.slice(0, -1);
+
 		dispatch({
 			type: "SET_DRAWN_ELEMENTS",
 			payload: newDrawnElements,
 		});
+
 		clearCanvas(ctx, canvasRef, newDrawnElements, drawElement);
 	}
 };

@@ -1,4 +1,5 @@
 export * from "./clearCanvas";
+export * from "./DrawElements";
 export * from "./onMouseDown";
 export * from "./onMouseMove";
 export * from "./onMouseUp";
