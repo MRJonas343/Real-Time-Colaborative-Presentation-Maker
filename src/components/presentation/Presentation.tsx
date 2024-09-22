@@ -38,6 +38,9 @@ export const Presentation = () => {
 		<main className="min-h-screen flex flex-col h-auto">
 			<Toolbar
 				changeEditorMode={(mode) => {
+					if (mode === "cursor") {
+						dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
+					}
 					dispatch({ type: "SET_EDITOR_MODE", payload: mode });
 				}}
 				onUndo={() => onUndo(state, dispatch, ctx, canvasRef)}

@@ -17,8 +17,6 @@ export const onMouseDown = (
 	const y = e.clientY - (rect.top || 0);
 	const clickedElement = getClickedElement(state, x, y);
 
-	console.log("Clicked element:", clickedElement);
-
 	if (state.editorMode === "cursor") {
 		if (clickedElement) {
 			dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: true });

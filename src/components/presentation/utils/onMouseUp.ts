@@ -9,6 +9,8 @@ export const onMouseUp = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
+	if (state.editorMode === "cursor") return;
+
 	const rect = canvasRef.current?.getBoundingClientRect();
 	const x2 = e.clientX - (rect?.left || 0);
 	const y2 = e.clientY - (rect?.top || 0);
