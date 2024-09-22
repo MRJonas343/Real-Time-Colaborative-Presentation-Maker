@@ -127,6 +127,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				<Button
 					radius="sm"
 					color="danger"
+					variant="shadow"
 					startContent={<FaDownload size={20} />}
 				>
 					Export to PDF

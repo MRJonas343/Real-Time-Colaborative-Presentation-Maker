@@ -38,7 +38,8 @@ export const SlidePreview: FC<SlidePreviewType> = ({
 					alt="Next.js logo"
 				/>
 			</Skeleton>
-			<IoTrash color="#bf0a49" cursor="pointer" size={28} />
+
+			<IoTrash color="#f31260" cursor="pointer" size={28} />
 		</div>
 	);
 };

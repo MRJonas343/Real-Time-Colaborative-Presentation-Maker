@@ -57,7 +57,12 @@ export const Presentation = () => {
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">
 					<p className="text-center text-lg pt-2">Slides</p>
 					<div className="flex pb-2 justify-center pt-4">
-						<Button className="w-[80%]" color="primary" radius="sm">
+						<Button
+							className="w-[80%]"
+							color="primary"
+							variant="shadow"
+							radius="sm"
+						>
 							Add Slide
 						</Button>
 					</div>
