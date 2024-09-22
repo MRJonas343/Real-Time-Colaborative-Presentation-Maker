@@ -4,7 +4,7 @@ import { onMouseDown, onMouseMove, onMouseUp, onReundo, onUndo } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
-import { SlidePreview, Toolbar, UserProfile } from ".";
+import { Dropdown, SlidePreview, Toolbar, UserProfile } from ".";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
@@ -110,39 +110,7 @@ export const Presentation = () => {
 					))}
 				</div>
 			</section>
-			{/* Drop down menu */}
-			<div
-				className={`${state.isDropDownMenuOpen ? "block" : "hidden"} bg-[#18181b] w-40 h-auto p-2 rounded-xl absolute z-50`}
-				style={{
-					top: state.dropDownMenuY,
-					left: state.dropDownMenuX,
-				}}
-			>
-				<Button
-					radius="sm"
-					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-				>
-					Edit
-				</Button>
-				<Button
-					radius="sm"
-					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-				>
-					Delete
-				</Button>
-				<Button
-					radius="sm"
-					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-				>
-					Chage Border
-				</Button>
-				<Button
-					radius="sm"
-					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-				>
-					Chage Color
-				</Button>
-			</div>
+			<Dropdown state={state} />
 		</main>
 	);
 };

@@ -1,5 +1,6 @@
 export * from "./Action";
 export * from "./CanvasElement";
+export * from "./DrodownProps";
 export * from "./EditorModes";
 export * from "./GalleryProps";
 export * from "./ModalLobyProps";
