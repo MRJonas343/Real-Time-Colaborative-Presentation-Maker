@@ -7,18 +7,9 @@ import { users, slidePreviewsExample } from "@/constants";
 import { SlidePreview, Toolbar, UserProfile } from ".";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
-import {
-	Button,
-	Divider,
-	Dropdown,
-	DropdownItem,
-	DropdownMenu,
-	DropdownTrigger,
-} from "@nextui-org/react";
+import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
-import { MouseEvent } from "react";
-import React from "react";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
