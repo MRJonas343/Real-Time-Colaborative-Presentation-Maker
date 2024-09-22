@@ -1,6 +1,7 @@
 import { Action, CanvasElement } from "@/interfaces";
 import { MouseEvent, RefObject } from "react";
 import { initialState } from "..";
+import { v4 as uuid } from "uuid";
 
 export const onMouseUp = (
 	e: MouseEvent<HTMLCanvasElement>,
@@ -14,6 +15,7 @@ export const onMouseUp = (
 	const radius = Math.sqrt((x2 - state.startX) ** 2 + (y2 - state.startY) ** 2);
 
 	const newElement: CanvasElement = {
+		id: uuid(),
 		x: state.startX,
 		y: state.startY,
 		x2: x2,

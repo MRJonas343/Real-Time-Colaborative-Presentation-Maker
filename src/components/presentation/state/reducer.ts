@@ -31,6 +31,12 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, drawnElements: action.payload };
 		case "SET_DELETED_ELEMENTS":
 			return { ...state, deletedElements: action.payload };
+		case "SET_IS_DROP_DOWN_MENU_OPEN":
+			return { ...state, isDropDownMenuOpen: action.payload };
+		case "SET_DROP_DOWN_MENU_X":
+			return { ...state, dropDownMenuX: action.payload };
+		case "SET_DROP_DOWN_MENU_Y":
+			return { ...state, dropDownMenuY: action.payload };
 
 		default:
 			return state;

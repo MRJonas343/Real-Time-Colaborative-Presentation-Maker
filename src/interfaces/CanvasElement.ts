@@ -1,6 +1,7 @@
 import { EditorModes } from ".";
 
 export type CanvasElement = {
+	id: string;
 	x: number;
 	y: number;
 	x2: number;

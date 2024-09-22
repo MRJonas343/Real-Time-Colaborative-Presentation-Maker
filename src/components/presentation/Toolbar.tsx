@@ -10,7 +10,6 @@ import { FaDownload } from "react-icons/fa";
 import { Button } from "@nextui-org/react";
 import { FC } from "react";
 import { PresentationToolbarProps } from "@/interfaces";
-import { RiPencilFill } from "react-icons/ri";
 
 export const Toolbar: FC<PresentationToolbarProps> = ({
 	onUndo,
@@ -21,6 +20,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 	presentationId,
 	presentationCurrentSlide,
 	presentationTotalSlides,
+	editorMode,
 	role,
 }) => {
 	return (
@@ -54,8 +54,9 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					radius="sm"
 					isIconOnly
 					size="lg"
+					color={editorMode === "cursor" ? "primary" : "default"}
 					className="p-2"
-					variant="faded"
+					variant={editorMode === "cursor" ? "shadow" : "faded"}
 					onClick={() => changeEditorMode("cursor")}
 				>
 					<GiArrowCursor size={40} />
@@ -66,7 +67,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant="faded"
+					variant={editorMode === "text" ? "shadow" : "faded"}
+					color={editorMode === "text" ? "primary" : "default"}
 					onClick={() => changeEditorMode("text")}
 				>
 					<CiText size={40} />
@@ -77,7 +79,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant="faded"
+					variant={editorMode === "circle" ? "shadow" : "faded"}
+					color={editorMode === "circle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("circle")}
 				>
 					<FaCircle size={40} />
@@ -87,7 +90,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant="faded"
+					variant={editorMode === "arrow" ? "shadow" : "faded"}
+					color={editorMode === "arrow" ? "primary" : "default"}
 					onClick={() => changeEditorMode("arrow")}
 				>
 					<GoArrowDownRight size={40} />
@@ -97,7 +101,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant="faded"
+					variant={editorMode === "rectangle" ? "shadow" : "faded"}
+					color={editorMode === "rectangle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("rectangle")}
 				>
 					<FaSquare size={40} />

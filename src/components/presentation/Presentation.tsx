@@ -7,9 +7,18 @@ import { users, slidePreviewsExample } from "@/constants";
 import { SlidePreview, Toolbar, UserProfile } from ".";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
-import { Button, Divider } from "@nextui-org/react";
+import {
+	Button,
+	Divider,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
+} from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
+import { MouseEvent } from "react";
+import React from "react";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -90,7 +99,7 @@ export const Presentation = () => {
 				<canvas
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
-					onMouseDown={(e) => onMouseDown(e, dispatch, canvasRef)}
+					onMouseDown={(e) => onMouseDown(e, dispatch, canvasRef, state)}
 					onMouseUp={(e) => onMouseUp(e, state, dispatch, canvasRef)}
 					onMouseMove={(e) => onMouseMove(e, state, canvasRef, ctx)}
 				/>
@@ -110,6 +119,39 @@ export const Presentation = () => {
 					))}
 				</div>
 			</section>
+			{/* Drop down menu */}
+			<div
+				className={`${state.isDropDownMenuOpen ? "block" : "hidden"} bg-[#18181b] w-40 h-auto p-2 rounded-xl absolute z-50`}
+				style={{
+					top: state.dropDownMenuY,
+					left: state.dropDownMenuX,
+				}}
+			>
+				<Button
+					radius="sm"
+					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+				>
+					Edit
+				</Button>
+				<Button
+					radius="sm"
+					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+				>
+					Delete
+				</Button>
+				<Button
+					radius="sm"
+					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+				>
+					Chage Border
+				</Button>
+				<Button
+					radius="sm"
+					className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+				>
+					Chage Color
+				</Button>
+			</div>
 		</main>
 	);
 };

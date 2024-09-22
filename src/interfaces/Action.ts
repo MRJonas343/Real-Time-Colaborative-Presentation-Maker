@@ -14,4 +14,7 @@ export type Action =
 	| { type: "SET_IS_DRAWING"; payload: boolean }
 	| { type: "SET_SLIDES_PREVIEWS"; payload: SlideExample[] }
 	| { type: "SET_DRAWN_ELEMENTS"; payload: CanvasElement[] }
-	| { type: "SET_DELETED_ELEMENTS"; payload: CanvasElement[] };
+	| { type: "SET_DELETED_ELEMENTS"; payload: CanvasElement[] }
+	| { type: "SET_IS_DROP_DOWN_MENU_OPEN"; payload: boolean }
+	| { type: "SET_DROP_DOWN_MENU_X"; payload: number }
+	| { type: "SET_DROP_DOWN_MENU_Y"; payload: number };

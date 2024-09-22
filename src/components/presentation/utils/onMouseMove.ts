@@ -20,6 +20,7 @@ export const onMouseMove = (
 	clearCanvas(ctx, canvasRef, state.drawnElements, drawElement);
 
 	drawElement(ctx, {
+		id: "0",
 		x: state.startX,
 		y: state.startY,
 		x2: x2,

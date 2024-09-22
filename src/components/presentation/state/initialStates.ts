@@ -15,4 +15,7 @@ export const initialState = {
 	slidesPreviews: [] as SlideExample[],
 	drawnElements: [] as CanvasElement[],
 	deletedElements: [] as CanvasElement[],
+	isDropDownMenuOpen: false,
+	dropDownMenuX: 100,
+	dropDownMenuY: 100,
 };
