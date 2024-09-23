@@ -16,7 +16,5 @@ export const chageStrokeColor = (
 
 	const newColor = colorMap[color as keyof typeof colorMap];
 
-	console.log("Changing stroke color to:", newColor);
-
 	dispatch({ type: "SET_SELECTED_STROKE_COLOR", payload: newColor });
 };
