@@ -1,22 +1,22 @@
 import { Action, CanvasElement } from "@/interfaces";
-import { initialState } from "..";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { drawElement } from "./DrawElements";
 
 export const fillElement = (
+	selectedStrokeColor: string,
 	element: CanvasElement,
-	state: typeof initialState,
+	drawnElements: CanvasElement[],
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
 ) => {
 	const newElement = {
 		...element,
-		fillColor: state.selectedStrokeColor,
+		fillColor: selectedStrokeColor,
 	};
 
-	const newElements = state.drawnElements.map((element) => {
+	const newElements = drawnElements.map((element) => {
 		if (element.id === newElement.id) {
 			return newElement;
 		}

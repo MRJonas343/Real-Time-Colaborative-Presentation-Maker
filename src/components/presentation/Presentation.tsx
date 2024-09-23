@@ -1,23 +1,15 @@
 "use client";
 
-import {
-	chageStrokeColor,
-	fillElement,
-	onMouseDown,
-	onMouseMove,
-	onMouseUp,
-} from "./utils";
-import { onReundo, onUndo, changeStrokeColorOfElement } from "./utils";
-import { deleteElement, bringToFront, sendToBack } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
-import { users, slidePreviewsExample } from "@/constants";
 import { Dropdown, SlidePreview, Toolbar, UserProfile } from ".";
+import { users, slidePreviewsExample } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
+import * as tools from "./tools";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -45,23 +37,11 @@ export const Presentation = () => {
 	return (
 		<main className="min-h-screen flex flex-col h-auto">
 			<Toolbar
-				strokeColor={state.selectedStrokeColor}
-				chageStrokeColor={(color) => chageStrokeColor(color, dispatch)}
-				changeEditorMode={(mode) => {
-					if (mode === "cursor") {
-						dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
-					}
-					dispatch({ type: "SET_EDITOR_MODE", payload: mode });
-				}}
-				onUndo={() => onUndo(state, dispatch, ctx, canvasRef)}
-				onReundo={() => onReundo(state, dispatch, ctx, canvasRef)}
-				editorMode={state.editorMode}
-				presentationCreator={state.presentationCreator}
-				presentationCurrentSlide={state.currentSlide}
-				presentationId={state.presentationId}
-				presentationTopic={state.presentationTopic}
-				presentationTotalSlides={state.totalSlides}
-				role={state.role}
+				state={state}
+				chageStrokeColor={(color) => tools.chageStrokeColor(color, dispatch)}
+				changeEditorMode={(mode) => tools.changeEditorMode(mode, dispatch)}
+				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
+				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}
 			/>
 			<section className="flex w-full h-screen flex-grow">
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">
@@ -108,9 +88,9 @@ export const Presentation = () => {
 				<canvas
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
-					onMouseDown={(e) => onMouseDown(e, dispatch, canvasRef, state)}
-					onMouseUp={(e) => onMouseUp(e, state, dispatch, canvasRef)}
-					onMouseMove={(e) => onMouseMove(e, state, canvasRef, ctx)}
+					onMouseDown={(e) => tools.onMouseDown(e, dispatch, canvasRef, state)}
+					onMouseUp={(e) => tools.onMouseUp(e, state, dispatch, canvasRef)}
+					onMouseMove={(e) => tools.onMouseMove(e, state, canvasRef, ctx)}
 				/>
 
 				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
@@ -131,7 +111,7 @@ export const Presentation = () => {
 			<Dropdown
 				state={state}
 				bringToFront={() =>
-					bringToFront(
+					tools.bringToFront(
 						state.clickedCanvasElement,
 						state,
 						ctx,
@@ -140,7 +120,7 @@ export const Presentation = () => {
 					)
 				}
 				sendToBack={() =>
-					sendToBack(
+					tools.sendToBack(
 						state.clickedCanvasElement,
 						state,
 						ctx,
@@ -149,28 +129,30 @@ export const Presentation = () => {
 					)
 				}
 				changeStrokeColorOfElement={() =>
-					changeStrokeColorOfElement(
+					tools.changeStrokeColorOfElement(
 						state.clickedCanvasElement,
 						state.selectedStrokeColor,
-						state,
+						state.drawnElements,
 						ctx,
 						canvasRef,
 						dispatch,
 					)
 				}
 				fillElement={() =>
-					fillElement(
+					tools.fillElement(
+						state.selectedStrokeColor,
 						state.clickedCanvasElement,
-						state,
+						state.drawnElements,
 						ctx,
 						canvasRef,
 						dispatch,
 					)
 				}
 				deleteElement={() =>
-					deleteElement(
+					tools.deleteElement(
 						state.clickedCanvasElement,
-						state,
+						state.drawnElements,
+						state.deletedElements,
 						ctx,
 						canvasRef,
 						dispatch,

@@ -1,4 +1,5 @@
 export * from "./bringToFront";
+export * from "./changeEditorMode";
 export * from "./changeStrokeColor";
 export * from "./changeStrokeColorOfElement";
 export * from "./clearCanvas";

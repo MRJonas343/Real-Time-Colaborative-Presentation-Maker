@@ -1,27 +1,30 @@
 import { Action, CanvasElement } from "@/interfaces";
-import { initialState } from "..";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { drawElement } from "./DrawElements";
 
-export const bringToFront = (
+export const deleteElement = (
 	element: CanvasElement,
-	state: typeof initialState,
+	drawnElements: CanvasElement[],
+	deletedElements: CanvasElement[],
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
 ) => {
-	const newElements = state.drawnElements.filter(
+	const newElements = drawnElements.filter(
 		(elementDrawn) => elementDrawn.id !== element.id,
 	);
-	const newElementsWithElement = [...newElements, element];
+	const newDeletedElements = [...deletedElements, element];
 
 	dispatch({
 		type: "SET_DRAWN_ELEMENTS",
-		payload: newElementsWithElement,
+		payload: newElements,
 	});
 
-	clearCanvas(ctx, canvasRef, newElementsWithElement, drawElement);
+	dispatch({
+		type: "SET_DELETED_ELEMENTS",
+		payload: newDeletedElements,
+	});
 
-	//TODO : actualizar los elementos que esten en la misma colaboracion
+	clearCanvas(ctx, canvasRef, newElements, drawElement);
 };

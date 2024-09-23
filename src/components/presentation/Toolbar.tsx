@@ -1,30 +1,22 @@
 "use client";
 
-import { PiArrowCounterClockwiseBold } from "react-icons/pi";
-import { PiArrowClockwiseBold } from "react-icons/pi";
-import { GiArrowCursor } from "react-icons/gi";
-import { CiText } from "react-icons/ci";
-import { GoArrowDownRight } from "react-icons/go";
 import { FaSquare, FaCircle, FaRegQuestionCircle } from "react-icons/fa";
-import { FaDownload } from "react-icons/fa";
-import { Button, SelectItem } from "@nextui-org/react";
-import { FC } from "react";
+import { PiArrowCounterClockwiseBold } from "react-icons/pi";
 import { PresentationToolbarProps } from "@/interfaces";
-import { Select } from "@nextui-org/react";
+import { Button, SelectItem, Select } from "@nextui-org/react";
+import { PiArrowClockwiseBold } from "react-icons/pi";
+import { GoArrowDownRight } from "react-icons/go";
+import { GiArrowCursor } from "react-icons/gi";
+import { FaDownload } from "react-icons/fa";
+import { CiText } from "react-icons/ci";
+import { FC } from "react";
 
 export const Toolbar: FC<PresentationToolbarProps> = ({
 	onUndo,
 	onReundo,
 	changeEditorMode,
-	presentationTopic,
-	presentationCreator,
-	presentationId,
-	presentationCurrentSlide,
-	presentationTotalSlides,
-	editorMode,
-	strokeColor,
 	chageStrokeColor,
-	role,
+	state,
 }) => {
 	return (
 		<header className="w-full h-24 flex">
@@ -56,9 +48,9 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					radius="sm"
 					isIconOnly
 					size="lg"
-					color={editorMode === "cursor" ? "primary" : "default"}
+					color={state.editorMode === "cursor" ? "primary" : "default"}
 					className="p-2"
-					variant={editorMode === "cursor" ? "shadow" : "faded"}
+					variant={state.editorMode === "cursor" ? "shadow" : "faded"}
 					onClick={() => changeEditorMode("cursor")}
 				>
 					<GiArrowCursor size={40} />
@@ -69,8 +61,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant={editorMode === "text" ? "shadow" : "faded"}
-					color={editorMode === "text" ? "primary" : "default"}
+					variant={state.editorMode === "text" ? "shadow" : "faded"}
+					color={state.editorMode === "text" ? "primary" : "default"}
 					onClick={() => changeEditorMode("text")}
 				>
 					<CiText size={40} />
@@ -81,8 +73,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant={editorMode === "circle" ? "shadow" : "faded"}
-					color={editorMode === "circle" ? "primary" : "default"}
+					variant={state.editorMode === "circle" ? "shadow" : "faded"}
+					color={state.editorMode === "circle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("circle")}
 				>
 					<FaCircle size={40} />
@@ -92,8 +84,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant={editorMode === "arrow" ? "shadow" : "faded"}
-					color={editorMode === "arrow" ? "primary" : "default"}
+					variant={state.editorMode === "arrow" ? "shadow" : "faded"}
+					color={state.editorMode === "arrow" ? "primary" : "default"}
 					onClick={() => changeEditorMode("arrow")}
 				>
 					<GoArrowDownRight size={40} />
@@ -103,8 +95,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
-					variant={editorMode === "rectangle" ? "shadow" : "faded"}
-					color={editorMode === "rectangle" ? "primary" : "default"}
+					variant={state.editorMode === "rectangle" ? "shadow" : "faded"}
+					color={state.editorMode === "rectangle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("rectangle")}
 				>
 					<FaSquare size={40} />
@@ -120,7 +112,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 						<div
 							className="text-sm w-20 h-7 rounded-sm"
 							style={{
-								backgroundColor: strokeColor,
+								backgroundColor: state.selectedStrokeColor,
 							}}
 						/>
 					}
@@ -139,14 +131,14 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 
 			<div className="w-[30%] flex flex-col justify-center p-5 border-b-2 border-gray-700">
 				<div className="flex justify-around px-3">
-					<p>{presentationTopic}</p>
-					<p>ID # {presentationId}</p>
+					<p>{state.presentationTopic}</p>
+					<p>ID # {state.presentationId}</p>
 				</div>
 				<div className="flex justify-around px-3">
-					<div>By : {presentationCreator}</div>
+					<div>By : {state.presentationCreator}</div>
 
 					<div>
-						Slide : {presentationCurrentSlide}/{presentationTotalSlides}
+						Slide : {state.currentSlide}/{state.totalSlides}
 					</div>
 				</div>
 			</div>

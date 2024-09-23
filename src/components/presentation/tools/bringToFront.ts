@@ -4,7 +4,7 @@ import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { drawElement } from "./DrawElements";
 
-export const deleteElement = (
+export const bringToFront = (
 	element: CanvasElement,
 	state: typeof initialState,
 	ctx: CanvasRenderingContext2D | undefined | null,
@@ -14,17 +14,12 @@ export const deleteElement = (
 	const newElements = state.drawnElements.filter(
 		(elementDrawn) => elementDrawn.id !== element.id,
 	);
-	const newDeletedElements = [...state.deletedElements, element];
+	const newElementsWithElement = [...newElements, element];
 
 	dispatch({
 		type: "SET_DRAWN_ELEMENTS",
-		payload: newElements,
+		payload: newElementsWithElement,
 	});
 
-	dispatch({
-		type: "SET_DELETED_ELEMENTS",
-		payload: newDeletedElements,
-	});
-
-	clearCanvas(ctx, canvasRef, newElements, drawElement);
+	clearCanvas(ctx, canvasRef, newElementsWithElement, drawElement);
 };

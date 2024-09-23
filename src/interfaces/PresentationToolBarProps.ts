@@ -1,15 +1,9 @@
-import { Action, EditorModes } from "@/interfaces";
+import { initialState } from "@/components/presentation";
+import { EditorModes } from "@/interfaces";
 export interface PresentationToolbarProps {
+	state: typeof initialState;
 	onUndo: () => void;
 	onReundo: () => void;
-	presentationTopic: string;
-	presentationCreator: string;
-	presentationId: string;
-	presentationCurrentSlide: number;
-	presentationTotalSlides: number;
-	role: "Creator" | "Viewer" | "Editor";
-	editorMode: EditorModes;
-	strokeColor: string;
 	chageStrokeColor: (color: string) => void;
 	changeEditorMode: (mode: EditorModes) => void;
 }

@@ -22,6 +22,4 @@ export const sendToBack = (
 	});
 
 	clearCanvas(ctx, canvasRef, newElementsWithElement, drawElement);
-
-	//TODO : actualizar los elementos que esten en la misma colaboracion
 };

@@ -7,7 +7,7 @@ import { drawElement } from "./DrawElements";
 export const changeStrokeColorOfElement = (
 	element: CanvasElement,
 	color: string,
-	state: typeof initialState,
+	drawnElements: CanvasElement[],
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
@@ -17,7 +17,7 @@ export const changeStrokeColorOfElement = (
 		color: color,
 	};
 
-	const newElements = state.drawnElements.map((element) => {
+	const newElements = drawnElements.map((element) => {
 		if (element.id === newElement.id) {
 			return newElement;
 		}
