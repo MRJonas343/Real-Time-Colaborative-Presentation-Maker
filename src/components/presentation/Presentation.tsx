@@ -1,6 +1,12 @@
 "use client";
 
-import { chageStrokeColor, onMouseDown, onMouseMove, onMouseUp } from "./utils";
+import {
+	chageStrokeColor,
+	fillElement,
+	onMouseDown,
+	onMouseMove,
+	onMouseUp,
+} from "./utils";
 import { onReundo, onUndo, changeStrokeColorOfElement } from "./utils";
 import { deleteElement, bringToFront, sendToBack } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
@@ -146,6 +152,15 @@ export const Presentation = () => {
 					changeStrokeColorOfElement(
 						state.clickedCanvasElement,
 						state.selectedStrokeColor,
+						state,
+						ctx,
+						canvasRef,
+						dispatch,
+					)
+				}
+				fillElement={() =>
+					fillElement(
+						state.clickedCanvasElement,
 						state,
 						ctx,
 						canvasRef,

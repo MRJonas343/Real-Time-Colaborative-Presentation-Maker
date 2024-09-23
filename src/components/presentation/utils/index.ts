@@ -4,6 +4,7 @@ export * from "./changeStrokeColorOfElement";
 export * from "./clearCanvas";
 export * from "./deleteElement";
 export * from "./DrawElements";
+export * from "./fillElement";
 export * from "./getClikedElement";
 export * from "./onMouseDown";
 export * from "./onMouseMove";

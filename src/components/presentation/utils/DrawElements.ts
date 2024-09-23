@@ -6,12 +6,20 @@ export const drawElement = (
 ) => {
 	if (!ctx) return;
 
+	ctx.fillStyle = element.fillColor || "transparent";
+
 	if (element.type === "rectangle") {
 		const width = element.x2 - element.x;
 		const height = element.y2 - element.y;
+
 		ctx.strokeStyle = element.color;
 		ctx.beginPath();
 		ctx.rect(element.x, element.y, width, height);
+
+		if (element.fillColor) {
+			ctx.fill();
+		}
+
 		ctx.stroke();
 	}
 
@@ -21,6 +29,11 @@ export const drawElement = (
 		ctx.strokeStyle = element.color;
 		ctx.beginPath();
 		ctx.arc(element.x, element.y, element.radius, 0, Math.PI * 2);
+
+		if (element.fillColor) {
+			ctx.fill();
+		}
+
 		ctx.stroke();
 	}
 

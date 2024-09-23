@@ -9,6 +9,7 @@ export const Dropdown: FC<DropdownProps> = ({
 	deleteElement,
 	bringToFront,
 	sendToBack,
+	fillElement,
 }) => {
 	return (
 		<AnimatePresence>
@@ -49,20 +50,32 @@ export const Dropdown: FC<DropdownProps> = ({
 						Send to back
 					</Button>
 
-					<Button
-						onClick={changeStrokeColorOfElement}
-						radius="sm"
-						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-					>
-						Chage Color
-					</Button>
-					<Button
-						onClick={changeStrokeColorOfElement}
-						radius="sm"
-						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-					>
-						Fill with color
-					</Button>
+					{state.clickedCanvasElement.type === "arrow" ? (
+						<Button
+							onClick={changeStrokeColorOfElement}
+							radius="sm"
+							className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+						>
+							Chage Color
+						</Button>
+					) : (
+						<>
+							<Button
+								onClick={changeStrokeColorOfElement}
+								radius="sm"
+								className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+							>
+								Chage Border Color
+							</Button>
+							<Button
+								onClick={fillElement}
+								radius="sm"
+								className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+							>
+								Fill with color
+							</Button>
+						</>
+					)}
 
 					<Button
 						onClick={deleteElement}

@@ -6,4 +6,5 @@ export interface DropdownProps {
 	deleteElement: () => void;
 	bringToFront: () => void;
 	sendToBack: () => void;
+	fillElement: () => void;
 }
