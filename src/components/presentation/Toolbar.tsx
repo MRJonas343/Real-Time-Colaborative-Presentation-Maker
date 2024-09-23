@@ -110,6 +110,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					<FaSquare size={40} />
 				</Button>
 				<Select
+					aria-label="Stroke color"
 					radius="sm"
 					defaultSelectedKeys={["White"]}
 					onChange={(e) => chageStrokeColor(e.target.value)}
