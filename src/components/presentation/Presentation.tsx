@@ -1,6 +1,6 @@
 "use client";
 
-import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
+import { closestCenter, DndContext } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
 import { Dropdown, SlidePreview, Toolbar, UserProfile } from ".";
 import { users, slidePreviewsExample } from "@/constants";
@@ -60,17 +60,7 @@ export const Presentation = () => {
 						autoScroll={false}
 						sensors={sensors}
 						collisionDetection={closestCenter}
-						onDragEnd={(e: DragEndEvent) =>
-							updateSlidesPositions(
-								e,
-								(updatedSlides) =>
-									dispatch({
-										type: "SET_SLIDES_PREVIEWS",
-										payload: updatedSlides,
-									}),
-								state.slidesPreviews,
-							)
-						}
+						onDragEnd={(e) => updateSlidesPositions(e, dispatch, state)}
 					>
 						<SortableContext items={state.slidesPreviews}>
 							{state.slidesPreviews.map((item) => (
@@ -110,53 +100,14 @@ export const Presentation = () => {
 			</section>
 			<Dropdown
 				state={state}
-				bringToFront={() =>
-					tools.bringToFront(
-						state.clickedCanvasElement,
-						state,
-						ctx,
-						canvasRef,
-						dispatch,
-					)
+				bringToFront={() => tools.bringToFront(state, ctx, canvasRef, dispatch)}
+				sendToBack={() => tools.sendToBack(state, ctx, canvasRef, dispatch)}
+				changeStroke={() =>
+					tools.changeStrokeColorOfElement(state, ctx, canvasRef, dispatch)
 				}
-				sendToBack={() =>
-					tools.sendToBack(
-						state.clickedCanvasElement,
-						state,
-						ctx,
-						canvasRef,
-						dispatch,
-					)
-				}
-				changeStrokeColorOfElement={() =>
-					tools.changeStrokeColorOfElement(
-						state.clickedCanvasElement,
-						state.selectedStrokeColor,
-						state.drawnElements,
-						ctx,
-						canvasRef,
-						dispatch,
-					)
-				}
-				fillElement={() =>
-					tools.fillElement(
-						state.selectedStrokeColor,
-						state.clickedCanvasElement,
-						state.drawnElements,
-						ctx,
-						canvasRef,
-						dispatch,
-					)
-				}
+				fillElement={() => tools.fillElement(state, ctx, canvasRef, dispatch)}
 				deleteElement={() =>
-					tools.deleteElement(
-						state.clickedCanvasElement,
-						state.drawnElements,
-						state.deletedElements,
-						ctx,
-						canvasRef,
-						dispatch,
-					)
+					tools.deleteElement(state, ctx, canvasRef, dispatch)
 				}
 			/>
 		</main>

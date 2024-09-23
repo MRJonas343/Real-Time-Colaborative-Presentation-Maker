@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const Dropdown: FC<DropdownProps> = ({
 	state,
-	changeStrokeColorOfElement,
+	changeStroke,
 	deleteElement,
 	bringToFront,
 	sendToBack,
@@ -52,7 +52,7 @@ export const Dropdown: FC<DropdownProps> = ({
 
 					{state.clickedCanvasElement.type === "arrow" ? (
 						<Button
-							onClick={changeStrokeColorOfElement}
+							onClick={changeStroke}
 							radius="sm"
 							className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 						>
@@ -61,7 +61,7 @@ export const Dropdown: FC<DropdownProps> = ({
 					) : (
 						<>
 							<Button
-								onClick={changeStrokeColorOfElement}
+								onClick={changeStroke}
 								radius="sm"
 								className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 							>

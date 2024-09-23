@@ -1,20 +1,19 @@
-import { Action, CanvasElement } from "@/interfaces";
+import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { drawElement } from "./DrawElements";
 
 export const bringToFront = (
-	element: CanvasElement,
 	state: typeof initialState,
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
 ) => {
 	const newElements = state.drawnElements.filter(
-		(elementDrawn) => elementDrawn.id !== element.id,
+		(elementDrawn) => elementDrawn.id !== state.clickedCanvasElement.id,
 	);
-	const newElementsWithElement = [...newElements, element];
+	const newElementsWithElement = [...newElements, state.clickedCanvasElement];
 
 	dispatch({
 		type: "SET_DRAWN_ELEMENTS",

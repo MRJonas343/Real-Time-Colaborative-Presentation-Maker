@@ -2,7 +2,7 @@ import { initialState } from "@/components/presentation";
 
 export interface DropdownProps {
 	state: typeof initialState;
-	changeStrokeColorOfElement: () => void;
+	changeStroke: () => void;
 	deleteElement: () => void;
 	bringToFront: () => void;
 	sendToBack: () => void;
