@@ -1,3 +1,4 @@
+export * from "./changeStrokeColor";
 export * from "./clearCanvas";
 export * from "./DrawElements";
 export * from "./getClikedElement";

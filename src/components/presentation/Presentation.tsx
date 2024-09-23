@@ -1,6 +1,7 @@
 "use client";
 
-import { onMouseDown, onMouseMove, onMouseUp, onReundo, onUndo } from "./utils";
+import { chageStrokeColor, onMouseDown, onMouseMove, onMouseUp } from "./utils";
+import { onReundo, onUndo } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
@@ -34,9 +35,13 @@ export const Presentation = () => {
 		}
 	}, []);
 
+	console.log("State:", state.selectedStrokeColor);
+
 	return (
 		<main className="min-h-screen flex flex-col h-auto">
 			<Toolbar
+				strokeColor={state.selectedStrokeColor}
+				chageStrokeColor={(color) => chageStrokeColor(color, dispatch)}
 				changeEditorMode={(mode) => {
 					if (mode === "cursor") {
 						dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });

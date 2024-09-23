@@ -25,7 +25,7 @@ export const onMouseUp = (
 		radius: radius,
 		width: Math.abs(x2 - state.startX),
 		height: Math.abs(y2 - state.startY),
-		color: "white",
+		color: state.selectedStrokeColor,
 		type: state.editorMode,
 	};
 

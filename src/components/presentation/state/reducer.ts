@@ -37,6 +37,10 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, dropDownMenuX: action.payload };
 		case "SET_DROP_DOWN_MENU_Y":
 			return { ...state, dropDownMenuY: action.payload };
+		case "SET_CLICKED_CANVAS_ELEMENT":
+			return { ...state, clickedCanvasElement: action.payload };
+		case "SET_SELECTED_STROKE_COLOR":
+			return { ...state, selectedStrokeColor: action.payload };
 
 		default:
 			return state;

@@ -19,15 +19,13 @@ export const onMouseDown = (
 
 	if (state.editorMode === "cursor") {
 		if (clickedElement) {
+			dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: clickedElement });
 			dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: true });
 			dispatch({ type: "SET_DROP_DOWN_MENU_X", payload: e.clientX });
 			dispatch({ type: "SET_DROP_DOWN_MENU_Y", payload: e.clientY });
-			//*Con el elemento debo abrir un dropdown con las opciones de editar, borrar, etc.
-			//* Y para persistir ese elemento necesito un estado que guarde el elemento actualmente seleccionado
-			//* actualizar el estado de elementos con el nuevo elemento
-			//* y llamar a la funcion de update para repintar el canvas
 			return;
 		}
+
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
 
 		return;

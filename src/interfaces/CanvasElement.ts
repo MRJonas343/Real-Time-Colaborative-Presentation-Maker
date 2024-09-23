@@ -10,5 +10,6 @@ export type CanvasElement = {
 	width: number;
 	height: number;
 	color: string;
+	fillColor?: string;
 	type: EditorModes;
 };

@@ -28,7 +28,7 @@ export const onMouseMove = (
 		radius: radius,
 		width: width,
 		height: height,
-		color: "white",
+		color: state.selectedStrokeColor,
 		type: state.editorMode,
 	});
 };

@@ -7,9 +7,10 @@ import { CiText } from "react-icons/ci";
 import { GoArrowDownRight } from "react-icons/go";
 import { FaSquare, FaCircle, FaRegQuestionCircle } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
-import { Button } from "@nextui-org/react";
+import { Button, SelectItem } from "@nextui-org/react";
 import { FC } from "react";
 import { PresentationToolbarProps } from "@/interfaces";
+import { Select } from "@nextui-org/react";
 
 export const Toolbar: FC<PresentationToolbarProps> = ({
 	onUndo,
@@ -21,6 +22,8 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 	presentationCurrentSlide,
 	presentationTotalSlides,
 	editorMode,
+	strokeColor,
+	chageStrokeColor,
 	role,
 }) => {
 	return (
@@ -48,7 +51,6 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					<PiArrowClockwiseBold size={40} />
 				</Button>
 			</div>
-
 			<div className="w-[35%] border-b-2 border-gray-700 flex justify-center gap-3 items-center">
 				<Button
 					radius="sm"
@@ -107,6 +109,31 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				>
 					<FaSquare size={40} />
 				</Button>
+				<Select
+					radius="sm"
+					defaultSelectedKeys={["white"]}
+					onChange={(e) => chageStrokeColor(e.target.value)}
+					style={{ height: 48 }}
+					className={"w-32"}
+					endContent={
+						<div
+							className="text-sm w-20 h-7 rounded-sm"
+							style={{
+								backgroundColor: strokeColor,
+							}}
+						/>
+					}
+					labelPlacement="inside"
+					variant="faded"
+				>
+					<SelectItem key="white">White</SelectItem>
+					<SelectItem key="Green">Green</SelectItem>
+					<SelectItem key="Red">Red</SelectItem>
+					<SelectItem key="Blue">Blue</SelectItem>
+					<SelectItem key="Orange">Orange</SelectItem>
+					<SelectItem key="Purple">Purple</SelectItem>
+					<SelectItem key="Yellow">Yellow</SelectItem>
+				</Select>
 			</div>
 
 			<div className="w-[30%] flex flex-col justify-center p-5 border-b-2 border-gray-700">
@@ -122,7 +149,6 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					</div>
 				</div>
 			</div>
-
 			<div className="w-[20%] flex justify-around items-center border-b-2 border-gray-700">
 				<Button
 					radius="sm"

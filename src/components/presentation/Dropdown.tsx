@@ -32,7 +32,13 @@ export const Dropdown: FC<DropdownProps> = ({ state }) => {
 						radius="sm"
 						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>
-						Edit
+						Bring to front
+					</Button>
+					<Button
+						radius="sm"
+						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+					>
+						Send to back
 					</Button>
 
 					<Button
@@ -49,7 +55,7 @@ export const Dropdown: FC<DropdownProps> = ({ state }) => {
 					</Button>
 					<Button
 						radius="sm"
-						className="w-full text-red-600 bg-[#18181b] justify-start hover:border-1 border-gray-700"
+						className="w-full text-red-500 bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>
 						Delete
 					</Button>
