@@ -1,7 +1,8 @@
 "use client";
 
 import { chageStrokeColor, onMouseDown, onMouseMove, onMouseUp } from "./utils";
-import { onReundo, onUndo } from "./utils";
+import { onReundo, onUndo, changeStrokeColorOfElement } from "./utils";
+import { deleteElement, bringToFront, sendToBack } from "./utils";
 import { closestCenter, DndContext, DragEndEvent } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
 import { users, slidePreviewsExample } from "@/constants";
@@ -121,7 +122,46 @@ export const Presentation = () => {
 					))}
 				</div>
 			</section>
-			<Dropdown state={state} />
+			<Dropdown
+				state={state}
+				bringToFront={() =>
+					bringToFront(
+						state.clickedCanvasElement,
+						state,
+						ctx,
+						canvasRef,
+						dispatch,
+					)
+				}
+				sendToBack={() =>
+					sendToBack(
+						state.clickedCanvasElement,
+						state,
+						ctx,
+						canvasRef,
+						dispatch,
+					)
+				}
+				changeStrokeColorOfElement={() =>
+					changeStrokeColorOfElement(
+						state.clickedCanvasElement,
+						state.selectedStrokeColor,
+						state,
+						ctx,
+						canvasRef,
+						dispatch,
+					)
+				}
+				deleteElement={() =>
+					deleteElement(
+						state.clickedCanvasElement,
+						state,
+						ctx,
+						canvasRef,
+						dispatch,
+					)
+				}
+			/>
 		</main>
 	);
 };

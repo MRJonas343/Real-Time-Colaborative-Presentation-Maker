@@ -8,7 +8,13 @@ export const onMouseMove = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
-	if (!state.isDrawing || !canvasRef.current || !ctx) return;
+	if (
+		!state.isDrawing ||
+		!canvasRef.current ||
+		!ctx ||
+		state.editorMode === "cursor"
+	)
+		return;
 
 	const rect = canvasRef.current.getBoundingClientRect();
 	const x2 = e.clientX - (rect.left || 0);

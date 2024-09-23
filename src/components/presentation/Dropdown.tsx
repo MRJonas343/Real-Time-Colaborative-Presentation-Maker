@@ -3,7 +3,13 @@ import { FC } from "react";
 import { DropdownProps } from "@/interfaces";
 import { motion, AnimatePresence } from "framer-motion";
 
-export const Dropdown: FC<DropdownProps> = ({ state }) => {
+export const Dropdown: FC<DropdownProps> = ({
+	state,
+	changeStrokeColorOfElement,
+	deleteElement,
+	bringToFront,
+	sendToBack,
+}) => {
 	return (
 		<AnimatePresence>
 			{state.isDropDownMenuOpen && state.editorMode === "cursor" && (
@@ -29,12 +35,14 @@ export const Dropdown: FC<DropdownProps> = ({ state }) => {
 					className="bg-[#18181b] w-40 h-auto p-2 rounded-xl absolute z-50"
 				>
 					<Button
+						onClick={bringToFront}
 						radius="sm"
 						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>
 						Bring to front
 					</Button>
 					<Button
+						onClick={sendToBack}
 						radius="sm"
 						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>
@@ -42,18 +50,22 @@ export const Dropdown: FC<DropdownProps> = ({ state }) => {
 					</Button>
 
 					<Button
-						radius="sm"
-						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
-					>
-						Chage Border
-					</Button>
-					<Button
+						onClick={changeStrokeColorOfElement}
 						radius="sm"
 						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>
 						Chage Color
 					</Button>
 					<Button
+						onClick={changeStrokeColorOfElement}
+						radius="sm"
+						className="w-full bg-[#18181b] justify-start hover:border-1 border-gray-700"
+					>
+						Fill with color
+					</Button>
+
+					<Button
+						onClick={deleteElement}
 						radius="sm"
 						className="w-full text-red-500 bg-[#18181b] justify-start hover:border-1 border-gray-700"
 					>

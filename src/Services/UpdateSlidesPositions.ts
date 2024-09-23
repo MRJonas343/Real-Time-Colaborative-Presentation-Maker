@@ -14,7 +14,6 @@ export const updateSlidesPositions = (
 	}
 
 	if (active.id !== over.id) {
-		console.log("dragging slide", active, "over", over);
 		const oldIndex = slides.findIndex((slide) => slide.id === active.id);
 		const newIndex = slides.findIndex((slide) => slide.id === over.id);
 		const updatedSlides = arrayMove(slides, oldIndex, newIndex);
