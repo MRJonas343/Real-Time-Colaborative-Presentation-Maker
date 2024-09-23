@@ -1,7 +1,6 @@
 import { Action } from "@/interfaces";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
-import { drawElement } from "./DrawElements";
 import { initialState } from "../state";
 
 export const fillElement = (
@@ -27,5 +26,5 @@ export const fillElement = (
 		payload: newElements,
 	});
 
-	clearCanvas(ctx, canvasRef, newElements, drawElement);
+	clearCanvas(ctx, canvasRef, newElements);
 };

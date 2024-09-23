@@ -2,7 +2,6 @@ import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
-import { drawElement } from "./DrawElements";
 
 export const bringToFront = (
 	state: typeof initialState,
@@ -20,5 +19,5 @@ export const bringToFront = (
 		payload: newElementsWithElement,
 	});
 
-	clearCanvas(ctx, canvasRef, newElementsWithElement, drawElement);
+	clearCanvas(ctx, canvasRef, newElementsWithElement);
 };

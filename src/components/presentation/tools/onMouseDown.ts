@@ -20,15 +20,12 @@ export const onMouseDown = (
 	if (state.editorMode === "cursor") {
 		if (clickedElement) {
 			dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: clickedElement });
-			dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: true });
-			dispatch({ type: "SET_DROP_DOWN_MENU_X", payload: e.clientX });
-			dispatch({ type: "SET_DROP_DOWN_MENU_Y", payload: e.clientY });
+			dispatch({ type: "SET_START_X", payload: x });
+			dispatch({ type: "SET_START_Y", payload: y });
 			return;
 		}
 
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
-
-		return;
 	}
 
 	dispatch({ type: "SET_IS_DRAWING", payload: true });

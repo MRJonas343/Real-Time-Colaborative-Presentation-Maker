@@ -1,4 +1,4 @@
-import { clearCanvas, drawElement } from ".";
+import { clearCanvas } from ".";
 import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
@@ -25,6 +25,6 @@ export const onReundo = (
 			payload: newDeletedElements,
 		});
 
-		clearCanvas(ctx, canvasRef, newDrawnElements, drawElement);
+		clearCanvas(ctx, canvasRef, newDrawnElements);
 	}
 };

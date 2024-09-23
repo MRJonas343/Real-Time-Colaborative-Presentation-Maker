@@ -1,14 +1,11 @@
 import { CanvasElement } from "@/interfaces";
 import { RefObject } from "react";
+import { drawElement } from "./DrawElements";
 
 export const clearCanvas = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	elements: CanvasElement[],
-	drawElement: (
-		ctx: CanvasRenderingContext2D | undefined | null,
-		element: CanvasElement,
-	) => void,
 ) => {
 	if (!ctx || !canvasRef.current) return;
 

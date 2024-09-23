@@ -19,5 +19,6 @@ export const initialState = {
 	dropDownMenuX: 100,
 	dropDownMenuY: 100,
 	selectedStrokeColor: "#FFFFFF",
-	clickedCanvasElement: {} as CanvasElement,
+	clickedCanvasElement: {} as CanvasElement | null,
+	draggableElement: {} as CanvasElement,
 };

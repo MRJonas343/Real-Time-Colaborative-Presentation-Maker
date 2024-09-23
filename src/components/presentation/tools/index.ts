@@ -7,6 +7,7 @@ export * from "./deleteElement";
 export * from "./DrawElements";
 export * from "./fillElement";
 export * from "./getClikedElement";
+export * from "./onRightClick";
 export * from "./onMouseDown";
 export * from "./onMouseMove";
 export * from "./onMouseUp";

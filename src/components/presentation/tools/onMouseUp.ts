@@ -9,7 +9,26 @@ export const onMouseUp = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
-	if (state.editorMode === "cursor") return;
+	if (state.editorMode === "cursor" && state.clickedCanvasElement) {
+		const updatedElement = state.drawnElements.find(
+			(el) => el.id === state.clickedCanvasElement?.id,
+		);
+
+		if (updatedElement) {
+			const updatedElements = state.drawnElements.map((el) =>
+				el.id === updatedElement.id ? updatedElement : el,
+			);
+
+			dispatch({
+				type: "SET_DRAWN_ELEMENTS",
+				payload: updatedElements,
+			});
+		}
+
+		dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: null });
+
+		return;
+	}
 
 	const rect = canvasRef.current?.getBoundingClientRect();
 	const x2 = e.clientX - (rect?.left || 0);

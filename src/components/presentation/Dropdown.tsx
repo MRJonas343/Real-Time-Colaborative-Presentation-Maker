@@ -50,7 +50,7 @@ export const Dropdown: FC<DropdownProps> = ({
 						Send to back
 					</Button>
 
-					{state.clickedCanvasElement.type === "arrow" ? (
+					{state.clickedCanvasElement?.type === "arrow" ? (
 						<Button
 							onClick={changeStroke}
 							radius="sm"

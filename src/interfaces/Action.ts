@@ -18,5 +18,6 @@ export type Action =
 	| { type: "SET_IS_DROP_DOWN_MENU_OPEN"; payload: boolean }
 	| { type: "SET_DROP_DOWN_MENU_X"; payload: number }
 	| { type: "SET_DROP_DOWN_MENU_Y"; payload: number }
-	| { type: "SET_CLICKED_CANVAS_ELEMENT"; payload: CanvasElement }
-	| { type: "SET_SELECTED_STROKE_COLOR"; payload: string };
+	| { type: "SET_CLICKED_CANVAS_ELEMENT"; payload: CanvasElement | null }
+	| { type: "SET_SELECTED_STROKE_COLOR"; payload: string }
+	| { type: "SET_DRAGGING_ELEMENT"; payload: CanvasElement };

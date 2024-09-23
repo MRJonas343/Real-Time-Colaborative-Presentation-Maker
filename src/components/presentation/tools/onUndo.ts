@@ -1,4 +1,4 @@
-import { clearCanvas, drawElement } from ".";
+import { clearCanvas } from ".";
 import { initialState } from "../state";
 import { Action } from "@/interfaces";
 import { RefObject } from "react";
@@ -23,6 +23,6 @@ export const onUndo = (
 			payload: newDrawnElements,
 		});
 
-		clearCanvas(ctx, canvasRef, newDrawnElements, drawElement);
+		clearCanvas(ctx, canvasRef, newDrawnElements);
 	}
 };

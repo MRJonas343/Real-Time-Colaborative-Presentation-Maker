@@ -80,7 +80,12 @@ export const Presentation = () => {
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={(e) => tools.onMouseDown(e, dispatch, canvasRef, state)}
 					onMouseUp={(e) => tools.onMouseUp(e, state, dispatch, canvasRef)}
-					onMouseMove={(e) => tools.onMouseMove(e, state, canvasRef, ctx)}
+					onMouseMove={(e) =>
+						tools.onMouseMove(e, state, canvasRef, ctx, dispatch)
+					}
+					onContextMenu={(e) =>
+						tools.onRightClick(e, dispatch, canvasRef, state)
+					}
 				/>
 
 				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
