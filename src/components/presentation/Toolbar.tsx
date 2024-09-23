@@ -111,7 +111,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</Button>
 				<Select
 					radius="sm"
-					defaultSelectedKeys={["white"]}
+					defaultSelectedKeys={["White"]}
 					onChange={(e) => chageStrokeColor(e.target.value)}
 					style={{ height: 48 }}
 					className={"w-36"}
