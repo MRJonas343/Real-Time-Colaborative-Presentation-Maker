@@ -1,6 +1,4 @@
 import { Action } from "@/interfaces";
-import { initialState } from "..";
-import { s } from "framer-motion/client";
 
 export const chageStrokeColor = (
 	color: string,
