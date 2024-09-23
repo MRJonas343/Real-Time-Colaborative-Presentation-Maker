@@ -35,8 +35,6 @@ export const Presentation = () => {
 		}
 	}, []);
 
-	console.log("State:", state.selectedStrokeColor);
-
 	return (
 		<main className="min-h-screen flex flex-col h-auto">
 			<Toolbar

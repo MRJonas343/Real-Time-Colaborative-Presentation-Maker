@@ -114,7 +114,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					defaultSelectedKeys={["white"]}
 					onChange={(e) => chageStrokeColor(e.target.value)}
 					style={{ height: 48 }}
-					className={"w-32"}
+					className={"w-36"}
 					endContent={
 						<div
 							className="text-sm w-20 h-7 rounded-sm"
@@ -126,7 +126,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					labelPlacement="inside"
 					variant="faded"
 				>
-					<SelectItem key="white">White</SelectItem>
+					<SelectItem key="White">White</SelectItem>
 					<SelectItem key="Green">Green</SelectItem>
 					<SelectItem key="Red">Red</SelectItem>
 					<SelectItem key="Blue">Blue</SelectItem>
