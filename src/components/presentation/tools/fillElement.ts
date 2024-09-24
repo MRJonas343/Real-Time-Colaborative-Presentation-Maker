@@ -9,6 +9,7 @@ export const fillElement = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
 ) => {
+	if (!state.clickedCanvasElement) return;
 	const newElement = {
 		...state.clickedCanvasElement,
 		fillColor: state.selectedStrokeColor,
