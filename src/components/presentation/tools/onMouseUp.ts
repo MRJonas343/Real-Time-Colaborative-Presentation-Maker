@@ -1,6 +1,6 @@
 import { Action, CanvasElement } from "@/interfaces";
 import { MouseEvent, RefObject } from "react";
-import { initialState } from "..";
+import { clearCanvas, initialState } from "..";
 import { v4 as uuid } from "uuid";
 
 export const onMouseUp = (
@@ -28,6 +28,19 @@ export const onMouseUp = (
 		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 
 		dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: null });
+		return;
+	}
+
+	//*Logic to rotate the element
+	if (e.altKey && state.editorMode === "cursor" && state.clickedCanvasElement) {
+		const newElements = state.drawnElements.map((el) =>
+			el.id === state.rotatedElement.id ? state.rotatedElement : el,
+		);
+
+		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
+
+		dispatch({ type: "SET_ROTATED_ELEMENT", payload: null });
+
 		return;
 	}
 

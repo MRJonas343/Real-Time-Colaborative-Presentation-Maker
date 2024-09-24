@@ -21,4 +21,5 @@ export type Action =
 	| { type: "SET_CLICKED_CANVAS_ELEMENT"; payload: CanvasElement | null }
 	| { type: "SET_SELECTED_STROKE_COLOR"; payload: string }
 	| { type: "SET_DRAGGING_ELEMENT"; payload: CanvasElement }
-	| { type: "SET_RESIZED_ELEMENT"; payload: CanvasElement };
+	| { type: "SET_RESIZED_ELEMENT"; payload: CanvasElement }
+	| { type: "SET_ROTATED_ELEMENT"; payload: CanvasElement | null };

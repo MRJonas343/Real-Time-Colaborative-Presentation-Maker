@@ -49,8 +49,44 @@ export const onMouseMove = (
 		return;
 	}
 
+	//*Logic to rotate the element
+	if (e.altKey && state.editorMode === "cursor" && state.clickedCanvasElement) {
+		const dx =
+			x2 -
+			(state.clickedCanvasElement.x + state.clickedCanvasElement.width / 2);
+		const dy =
+			y2 -
+			(state.clickedCanvasElement.y + state.clickedCanvasElement.height / 2);
+
+		// Calculate the angle in radians
+		const angle = Math.atan2(dy, dx);
+
+		const updatedElement = {
+			...state.clickedCanvasElement,
+			rotation: angle, // Store the rotation angle
+		};
+
+		const updatedElements = state.drawnElements.map((el) =>
+			el.id === updatedElement.id ? updatedElement : el,
+		);
+
+		clearCanvas(ctx, canvasRef, updatedElements);
+		for (const element of updatedElements) drawElement(ctx, element);
+
+		console.log("updatedElements:", updatedElements);
+
+		dispatch({ type: "SET_ROTATED_ELEMENT", payload: updatedElement });
+
+		return;
+	}
+
 	//*Logic to move the element
-	if (state.editorMode === "cursor" && state.clickedCanvasElement) {
+	if (
+		state.editorMode === "cursor" &&
+		state.clickedCanvasElement &&
+		e.shiftKey
+	) {
+		console.log("Moving element");
 		const dx = x2 - state.startX;
 		const dy = y2 - state.startY;
 

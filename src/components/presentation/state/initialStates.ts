@@ -22,4 +22,5 @@ export const initialState = {
 	clickedCanvasElement: {} as CanvasElement | null,
 	draggableElement: {} as CanvasElement,
 	resizedElement: {} as CanvasElement,
+	rotatedElement: {} as CanvasElement,
 };

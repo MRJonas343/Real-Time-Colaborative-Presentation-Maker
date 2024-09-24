@@ -11,5 +11,6 @@ export type CanvasElement = {
 	height: number;
 	color: string;
 	fillColor?: string;
+	rotation?: number;
 	type: EditorModes;
 };
