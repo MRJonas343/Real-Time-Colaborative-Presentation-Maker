@@ -9,11 +9,13 @@ export const onMouseUp = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
-	if (!canvasRef.current) return;
+	if (!canvasRef.current || !state) return;
 
 	if (state.editorMode === "cursor" && state.clickedCanvasElement) {
 		const newElements = state.drawnElements.map((element) =>
-			element.id === state.modifiedElement.id ? state.modifiedElement : element,
+			element.id === state.modifiedElement?.id
+				? state.modifiedElement
+				: element,
 		);
 
 		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
