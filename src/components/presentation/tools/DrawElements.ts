@@ -12,10 +12,8 @@ export const drawElement = (
 		const width = element.x2 - element.x;
 		const height = element.y2 - element.y;
 
-		// Aplicar la rotación solo para rectángulos
 		if (element.rotation) {
 			ctx.save();
-			// Trasladar al centro del rectángulo antes de rotar
 			const centerX = element.x + width / 2;
 			const centerY = element.y + height / 2;
 			ctx.translate(centerX, centerY);
@@ -33,16 +31,12 @@ export const drawElement = (
 
 		ctx.stroke();
 
-		// Restaurar el contexto si se aplicó rotación
 		if (element.rotation) {
 			ctx.restore();
 		}
 	}
 
 	if (element.type === "circle") {
-		// Los círculos no rotan, se dibujan normalmente
-		if (!element.radius) return;
-
 		ctx.strokeStyle = element.color;
 		ctx.beginPath();
 		ctx.arc(element.x, element.y, element.radius, 0, Math.PI * 2);
@@ -55,10 +49,9 @@ export const drawElement = (
 	}
 
 	if (element.type === "arrow") {
-		// Aplicar rotación solo para flechas
 		if (element.rotation) {
 			ctx.save();
-			// Trasladar al punto medio de la flecha antes de rotar
+
 			const midX = (element.x + element.x2) / 2;
 			const midY = (element.y + element.y2) / 2;
 			ctx.translate(midX, midY);
@@ -66,14 +59,12 @@ export const drawElement = (
 			ctx.translate(-midX, -midY);
 		}
 
-		// Dibuja la línea de la flecha
 		ctx.strokeStyle = element.color;
 		ctx.beginPath();
 		ctx.moveTo(element.x, element.y);
 		ctx.lineTo(element.x2, element.y2);
 		ctx.stroke();
 
-		// Dibuja la punta de la flecha
 		const headLength = 10;
 		const angle = Math.atan2(element.y2 - element.y, element.x2 - element.x);
 
@@ -91,7 +82,6 @@ export const drawElement = (
 		);
 		ctx.stroke();
 
-		// Restaurar el contexto si se aplicó rotación
 		if (element.rotation) {
 			ctx.restore();
 		}

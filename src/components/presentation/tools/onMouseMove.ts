@@ -23,13 +23,23 @@ export const onMouseMove = (
 
 		if (e.ctrlKey) {
 			//* Resizing element
-			updatedElement = {
-				...updatedElement,
-				width: updatedElement.width + dx,
-				height: updatedElement.height + dy,
-				x2: updatedElement.x + updatedElement.width + dx,
-				y2: updatedElement.y + updatedElement.height + dy,
-			};
+			if (updatedElement.type === "circle") {
+				const newRadius = Math.sqrt(dx * dx + dy * dy);
+				updatedElement = {
+					...updatedElement,
+					radius: newRadius,
+					x2: updatedElement.x + newRadius,
+					y2: updatedElement.y + newRadius,
+				};
+			} else {
+				updatedElement = {
+					...updatedElement,
+					width: updatedElement.width + dx,
+					height: updatedElement.height + dy,
+					x2: updatedElement.x + updatedElement.width + dx,
+					y2: updatedElement.y + updatedElement.height + dy,
+				};
+			}
 		} else if (e.altKey) {
 			//* Rotating element
 			const centerX = updatedElement.x + updatedElement.width / 2;
@@ -58,8 +68,9 @@ export const onMouseMove = (
 	}
 
 	//*Logic to draw the element
-	if (!state.isDrawing) return;
 
+	if (!state.isDrawing) return;
+	console.log("Drawing element");
 	const width = x2 - state.startX;
 	const height = y2 - state.startY;
 	const radius = Math.sqrt((x2 - state.startX) ** 2 + (y2 - state.startY) ** 2);
