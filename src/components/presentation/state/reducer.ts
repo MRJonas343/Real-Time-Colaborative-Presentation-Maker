@@ -41,12 +41,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, clickedCanvasElement: action.payload };
 		case "SET_SELECTED_STROKE_COLOR":
 			return { ...state, selectedStrokeColor: action.payload };
-		case "SET_DRAGGING_ELEMENT":
-			return { ...state, draggableElement: action.payload };
-		case "SET_RESIZED_ELEMENT":
-			return { ...state, resizedElement: action.payload };
-		case "SET_ROTATED_ELEMENT":
-			return { ...state, rotatedElement: action.payload };
+		case "SET_MODIFIED_ELEMENT":
+			return { ...state, modifiedElement: action.payload };
 
 		default:
 			return state;
