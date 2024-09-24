@@ -43,6 +43,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, selectedStrokeColor: action.payload };
 		case "SET_DRAGGING_ELEMENT":
 			return { ...state, draggableElement: action.payload };
+		case "SET_RESIZED_ELEMENT":
+			return { ...state, resizedElement: action.payload };
 
 		default:
 			return state;

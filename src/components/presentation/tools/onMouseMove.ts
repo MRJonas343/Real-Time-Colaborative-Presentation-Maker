@@ -16,6 +16,39 @@ export const onMouseMove = (
 	const x2 = e.clientX - (rect.left || 0);
 	const y2 = e.clientY - (rect.top || 0);
 
+	//* Logic to scale the element
+	if (
+		e.ctrlKey &&
+		state.editorMode === "cursor" &&
+		state.clickedCanvasElement
+	) {
+		const dx = x2 - state.startX;
+		const dy = y2 - state.startY;
+
+		const updatedElement = {
+			...state.clickedCanvasElement,
+			width: state.clickedCanvasElement.width + dx,
+			height: state.clickedCanvasElement.height + dy,
+			x2:
+				state.clickedCanvasElement.x + (state.clickedCanvasElement.width + dx),
+			y2:
+				state.clickedCanvasElement.y + (state.clickedCanvasElement.height + dy),
+		};
+
+		const updatedElements = state.drawnElements.map((el) =>
+			el.id === updatedElement.id ? updatedElement : el,
+		);
+
+		console.log("updatedElements:", updatedElements);
+
+		clearCanvas(ctx, canvasRef, updatedElements);
+		for (const element of updatedElements) drawElement(ctx, element);
+
+		dispatch({ type: "SET_RESIZED_ELEMENT", payload: updatedElement });
+
+		return;
+	}
+
 	//*Logic to move the element
 	if (state.editorMode === "cursor" && state.clickedCanvasElement) {
 		const dx = x2 - state.startX;

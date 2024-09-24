@@ -21,4 +21,5 @@ export const initialState = {
 	selectedStrokeColor: "#FFFFFF",
 	clickedCanvasElement: {} as CanvasElement | null,
 	draggableElement: {} as CanvasElement,
+	resizedElement: {} as CanvasElement,
 };
