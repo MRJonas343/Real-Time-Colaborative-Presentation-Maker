@@ -9,8 +9,10 @@ export const bringToFront = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	dispatch: (value: Action) => void,
 ) => {
+	if (!state.clickedCanvasElement) return;
+
 	const newElements = state.drawnElements.filter(
-		(elementDrawn) => elementDrawn.id !== state.clickedCanvasElement.id,
+		(elementDrawn) => elementDrawn.id !== state.clickedCanvasElement?.id,
 	);
 	const newElementsWithElement = [...newElements, state.clickedCanvasElement];
 
