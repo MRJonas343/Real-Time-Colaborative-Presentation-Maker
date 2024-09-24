@@ -20,6 +20,8 @@ export const onMouseUp = (
 		dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: null });
 		dispatch({ type: "SET_MODIFIED_ELEMENT", payload: null });
 
+		//TODO: actualizar el estado de los elementos que esten en la misma colaboracion
+
 		return;
 	}
 
@@ -48,4 +50,6 @@ export const onMouseUp = (
 	});
 
 	dispatch({ type: "SET_IS_DRAWING", payload: false });
+
+	//TODO: actualizar el estado de los elementos que esten en la misma colaboracion
 };

@@ -18,7 +18,7 @@ export const initialState = {
 	isDropDownMenuOpen: false,
 	dropDownMenuX: 100,
 	dropDownMenuY: 100,
-	selectedStrokeColor: "#FFFFFF",
 	clickedCanvasElement: {} as CanvasElement | null,
-	modifiedElement: {} as CanvasElement,
+	selectedStrokeColor: "#FFFFFF",
+	modifiedElement: {} as CanvasElement | null,
 };

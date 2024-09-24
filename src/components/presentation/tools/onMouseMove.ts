@@ -17,87 +17,44 @@ export const onMouseMove = (
 	const y2 = e.clientY - (rect.top || 0);
 
 	if (state.editorMode === "cursor" && state.clickedCanvasElement) {
-		//*Fist scaliling
+		let updatedElement = { ...state.clickedCanvasElement };
+		const dx = x2 - state.startX;
+		const dy = y2 - state.startY;
+
 		if (e.ctrlKey) {
-			const dx = x2 - state.startX;
-			const dy = y2 - state.startY;
-
-			const updatedElement = {
-				...state.clickedCanvasElement,
-				width: state.clickedCanvasElement.width + dx,
-				height: state.clickedCanvasElement.height + dy,
-				x2:
-					state.clickedCanvasElement.x +
-					(state.clickedCanvasElement.width + dx),
-				y2:
-					state.clickedCanvasElement.y +
-					(state.clickedCanvasElement.height + dy),
+			//* Resizing element
+			updatedElement = {
+				...updatedElement,
+				width: updatedElement.width + dx,
+				height: updatedElement.height + dy,
+				x2: updatedElement.x + updatedElement.width + dx,
+				y2: updatedElement.y + updatedElement.height + dy,
 			};
-
-			const newElements = state.drawnElements.map((element) =>
-				element.id === updatedElement.id ? updatedElement : element,
-			);
-
-			dispatch({ type: "SET_MODIFIED_ELEMENT", payload: updatedElement });
-			dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
-
-			clearCanvas(ctx, canvasRef, newElements);
-
+		} else if (e.altKey) {
+			//* Rotating element
+			const centerX = updatedElement.x + updatedElement.width / 2;
+			const centerY = updatedElement.y + updatedElement.height / 2;
+			updatedElement.rotation = Math.atan2(y2 - centerY, x2 - centerX);
+		} else if (e.shiftKey) {
+			//* Moving element
+			updatedElement = {
+				...updatedElement,
+				x: updatedElement.x + dx,
+				y: updatedElement.y + dy,
+				x2: updatedElement.x2 + dx,
+				y2: updatedElement.y2 + dy,
+			};
+		} else {
 			return;
 		}
 
-		//*Rotating element
-		if (e.altKey) {
-			const dx =
-				x2 -
-				(state.clickedCanvasElement.x + state.clickedCanvasElement.width / 2);
-			const dy =
-				y2 -
-				(state.clickedCanvasElement.y + state.clickedCanvasElement.height / 2);
+		const newElements = state.drawnElements.map((el) =>
+			el.id === updatedElement.id ? updatedElement : el,
+		);
+		dispatch({ type: "SET_MODIFIED_ELEMENT", payload: updatedElement });
+		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 
-			const angle = Math.atan2(dy, dx);
-
-			const updatedElement = {
-				...state.clickedCanvasElement,
-				rotation: angle,
-			};
-
-			const newElements = state.drawnElements.map((element) =>
-				element.id === updatedElement.id ? updatedElement : element,
-			);
-
-			dispatch({ type: "SET_MODIFIED_ELEMENT", payload: updatedElement });
-			dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
-
-			clearCanvas(ctx, canvasRef, newElements);
-
-			return;
-		}
-
-		//*Move eleemnt
-		if (e.shiftKey) {
-			const dx = x2 - state.startX;
-			const dy = y2 - state.startY;
-
-			const updatedElement = {
-				...state.clickedCanvasElement,
-				x: state.clickedCanvasElement.x + dx,
-				y: state.clickedCanvasElement.y + dy,
-				x2: state.clickedCanvasElement.x2 + dx,
-				y2: state.clickedCanvasElement.y2 + dy,
-			};
-
-			const newElements = state.drawnElements.map((element) =>
-				element.id === updatedElement.id ? updatedElement : element,
-			);
-
-			dispatch({ type: "SET_MODIFIED_ELEMENT", payload: updatedElement });
-			dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
-
-			clearCanvas(ctx, canvasRef, newElements);
-
-			return;
-		}
+		clearCanvas(ctx, canvasRef, newElements);
 	}
 
 	//*Logic to draw the element
