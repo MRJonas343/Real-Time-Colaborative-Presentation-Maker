@@ -10,6 +10,7 @@ import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
 import * as tools from "./tools";
+import { s } from "framer-motion/client";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);

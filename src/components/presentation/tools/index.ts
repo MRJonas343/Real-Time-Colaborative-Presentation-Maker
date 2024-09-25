@@ -14,5 +14,5 @@ export * from "./onMouseUp";
 export * from "./onReundo";
 export * from "./onRightClick";
 export * from "./onUndo";
-
+export * from "./resizeTextArea";
 export * from "./sendToBack";

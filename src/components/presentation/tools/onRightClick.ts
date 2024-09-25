@@ -28,5 +28,8 @@ export const onRightClick = (
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: true });
 		dispatch({ type: "SET_DROP_DOWN_MENU_X", payload: e.clientX });
 		dispatch({ type: "SET_DROP_DOWN_MENU_Y", payload: e.clientY });
+		dispatch({ type: "SET_TEXT_FIELD_X", payload: e.clientX });
+		dispatch({ type: "SET_TEXT_FIELD_Y", payload: e.clientY });
+		dispatch({ type: "SET_IS_EDITING", payload: false });
 	}
 };

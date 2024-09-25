@@ -1,6 +1,7 @@
 import { Action } from "@/interfaces";
 import { initialState } from ".";
 import { RefObject } from "react";
+import { FocusEvent } from "react";
 
 interface TextAreaProps {
 	state: typeof initialState;
@@ -17,7 +18,7 @@ export const TextArea = ({
 }: TextAreaProps) => {
 	return (
 		<>
-			{state.editorMode === "text" && state.isEditing && (
+			{state.isEditing && (
 				<textarea
 					ref={textAreRef}
 					className="min-w-60 p-2 rounded-md absolute z-50 bg-transparent"
@@ -30,6 +31,7 @@ export const TextArea = ({
 						fontFamily: "Arial",
 						resize: "both",
 					}}
+					value={state.textFieldValue}
 					onChange={(e) => {
 						dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: e.target.value });
 						//*How can I add  line break to the render content in the canvas?

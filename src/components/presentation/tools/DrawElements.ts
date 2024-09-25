@@ -10,6 +10,7 @@ export const drawElement = (
 
 	if (element.type === "text" && element.content) {
 		ctx.fillStyle = element.color;
+
 		const defaultFontSize = 16;
 		const lineHeight = 20;
 

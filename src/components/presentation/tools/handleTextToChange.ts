@@ -16,6 +16,7 @@ export const handleTextChange = (
 		if (element.id === state.editedTextElement?.id) {
 			return {
 				...element,
+				color: state.selectedStrokeColor,
 				content: state.textFieldValue,
 			};
 		}
