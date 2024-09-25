@@ -8,6 +8,54 @@ export const drawElement = (
 
 	ctx.fillStyle = element.fillColor || "transparent";
 
+	if (element.type === "text" && element.content) {
+		ctx.fillStyle = element.color;
+		const defaultFontSize = 16;
+
+		if (element.content.includes("###")) {
+			ctx.font = "bold 16px Arial";
+			ctx.fillText(element.content.replace("###", ""), element.x, element.y);
+			return;
+		}
+
+		if (element.content.includes("##")) {
+			ctx.font = "bold 20px Arial";
+			ctx.fillText(element.content.replace("##", ""), element.x, element.y);
+			return;
+		}
+
+		if (element.content.includes("#")) {
+			ctx.font = "bold 30px Arial";
+			ctx.fillText(element.content.replace("#", ""), element.x, element.y);
+			return;
+		}
+
+		if (element.content.startsWith("*") && element.content.endsWith("*")) {
+			ctx.font = "italic 16px Arial";
+			ctx.fillText(
+				element.content.replace("*", "").replace("*", ""),
+				element.x,
+				element.y,
+			);
+			return;
+		}
+
+		if (element.content.startsWith("-")) {
+			ctx.font = "16px Arial";
+			ctx.fillText(
+				`⚪${element.content.replace("-", "")}`,
+				element.x,
+				element.y,
+			);
+			return;
+		}
+
+		ctx.font = `${defaultFontSize}px Arial`;
+
+		ctx.fillText(element.content, element.x, element.y);
+		return;
+	}
+
 	if (element.type === "rectangle") {
 		const width = element.x2 - element.x;
 		const height = element.y2 - element.y;
@@ -39,7 +87,7 @@ export const drawElement = (
 	if (element.type === "circle") {
 		ctx.strokeStyle = element.color;
 		ctx.beginPath();
-		ctx.arc(element.x, element.y, element.radius, 0, Math.PI * 2);
+		ctx.arc(element.x, element.y, element.radius ?? 0, 0, Math.PI * 2);
 
 		if (element.fillColor) {
 			ctx.fill();

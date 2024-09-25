@@ -14,6 +14,7 @@ import * as tools from "./tools";
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const textAreRef = useRef<HTMLTextAreaElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 	const sensors = useDndSensors();
 
@@ -79,7 +80,9 @@ export const Presentation = () => {
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
 					onMouseDown={(e) => tools.onMouseDown(e, dispatch, canvasRef, state)}
-					onMouseUp={(e) => tools.onMouseUp(e, state, dispatch, canvasRef)}
+					onMouseUp={(e) =>
+						tools.onMouseUp(e, state, dispatch, canvasRef, ctx, textAreRef)
+					}
 					onMouseMove={(e) =>
 						tools.onMouseMove(e, state, canvasRef, ctx, dispatch)
 					}
@@ -115,6 +118,28 @@ export const Presentation = () => {
 					tools.deleteElement(state, ctx, canvasRef, dispatch)
 				}
 			/>
+			{state.editorMode === "text" && state.isEditing && (
+				<textarea
+					ref={textAreRef}
+					className="w-auto h-auto p-2 rounded-md absolute z-50 bg-transparent"
+					style={{
+						position: "absolute",
+						left: state.textFieldX - 8,
+						top: state.textFieldY - 26,
+						fontSize: "16",
+						color: "white",
+						fontFamily: "Arial",
+
+						resize: "both",
+					}}
+					onChange={(e) =>
+						//*if is empty, dont update the state
+						e.target.value !== "" &&
+						dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: e.target.value })
+					}
+					onBlur={() => tools.handleTextChange(state, dispatch, ctx, canvasRef)}
+				/>
+			)}
 		</main>
 	);
 };

@@ -20,4 +20,9 @@ export type Action =
 	| { type: "SET_DROP_DOWN_MENU_Y"; payload: number }
 	| { type: "SET_CLICKED_CANVAS_ELEMENT"; payload: CanvasElement | null }
 	| { type: "SET_SELECTED_STROKE_COLOR"; payload: string }
-	| { type: "SET_MODIFIED_ELEMENT"; payload: CanvasElement | null };
+	| { type: "SET_MODIFIED_ELEMENT"; payload: CanvasElement | null }
+	| { type: "SET_IS_EDITING"; payload: boolean }
+	| { type: "SET_TEXT_FIELD_X"; payload: number }
+	| { type: "SET_TEXT_FIELD_Y"; payload: number }
+	| { type: "SET_EDITED_TEXT_ELEMENT"; payload: CanvasElement | null }
+	| { type: "SET_TEXT_FIELD_VALUE"; payload: string };

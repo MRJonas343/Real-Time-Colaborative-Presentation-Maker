@@ -11,6 +11,7 @@ export const onMouseMove = (
 	dispatch: (value: Action) => void,
 ) => {
 	if (!canvasRef.current || !ctx || state.isDropDownMenuOpen) return;
+	if (state.editorMode === "text") return;
 
 	const rect = canvasRef.current.getBoundingClientRect();
 	const x2 = e.clientX - (rect.left || 0);
@@ -34,16 +35,17 @@ export const onMouseMove = (
 			} else {
 				updatedElement = {
 					...updatedElement,
-					width: updatedElement.width + dx,
-					height: updatedElement.height + dy,
-					x2: updatedElement.x + updatedElement.width + dx,
-					y2: updatedElement.y + updatedElement.height + dy,
+					width: (updatedElement.width ?? 0) + dx,
+					height: (updatedElement.height ?? 0) + dy,
+					x2: (updatedElement.x ?? 0) + ((updatedElement.width ?? 0) + dx),
+					y2: (updatedElement.y ?? 0) + ((updatedElement.height ?? 0) + dy),
 				};
 			}
 		} else if (e.altKey) {
 			//* Rotating element
-			const centerX = updatedElement.x + updatedElement.width / 2;
-			const centerY = updatedElement.y + updatedElement.height / 2;
+			const centerX = (updatedElement.x ?? 0) + (updatedElement.width ?? 0) / 2;
+			const centerY =
+				(updatedElement.y ?? 0) + (updatedElement.height ?? 0) / 2;
 			updatedElement.rotation = Math.atan2(y2 - centerY, x2 - centerX);
 		} else if (e.shiftKey) {
 			//* Moving element
@@ -51,8 +53,8 @@ export const onMouseMove = (
 				...updatedElement,
 				x: updatedElement.x + dx,
 				y: updatedElement.y + dy,
-				x2: updatedElement.x2 + dx,
-				y2: updatedElement.y2 + dy,
+				x2: (updatedElement.x2 ?? 0) + dx,
+				y2: (updatedElement.y2 ?? 0) + dy,
 			};
 		} else {
 			return;
@@ -65,12 +67,12 @@ export const onMouseMove = (
 		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 
 		clearCanvas(ctx, canvasRef, newElements);
+		return;
 	}
 
 	//*Logic to draw the element
 
 	if (!state.isDrawing) return;
-	console.log("Drawing element");
 	const width = x2 - state.startX;
 	const height = y2 - state.startY;
 	const radius = Math.sqrt((x2 - state.startX) ** 2 + (y2 - state.startY) ** 2);

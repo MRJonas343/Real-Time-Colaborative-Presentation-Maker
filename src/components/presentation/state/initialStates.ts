@@ -21,4 +21,9 @@ export const initialState = {
 	clickedCanvasElement: {} as CanvasElement | null,
 	selectedStrokeColor: "#FFFFFF",
 	modifiedElement: {} as CanvasElement | null,
+	isEditing: false,
+	textFieldX: 0,
+	textFieldY: 0,
+	editedTextElement: {} as CanvasElement | null,
+	textFieldValue: "",
 };

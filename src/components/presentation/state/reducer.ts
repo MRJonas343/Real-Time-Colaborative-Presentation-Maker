@@ -43,6 +43,16 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, selectedStrokeColor: action.payload };
 		case "SET_MODIFIED_ELEMENT":
 			return { ...state, modifiedElement: action.payload };
+		case "SET_IS_EDITING":
+			return { ...state, isEditing: action.payload };
+		case "SET_TEXT_FIELD_X":
+			return { ...state, textFieldX: action.payload };
+		case "SET_TEXT_FIELD_Y":
+			return { ...state, textFieldY: action.payload };
+		case "SET_EDITED_TEXT_ELEMENT":
+			return { ...state, editedTextElement: action.payload };
+		case "SET_TEXT_FIELD_VALUE":
+			return { ...state, textFieldValue: action.payload };
 
 		default:
 			return state;
