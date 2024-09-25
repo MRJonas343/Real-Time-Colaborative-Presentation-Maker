@@ -129,15 +129,14 @@ export const Presentation = () => {
 						fontSize: "16",
 						color: "white",
 						fontFamily: "Arial",
-
 						resize: "both",
 					}}
-					onChange={(e) =>
-						//*if is empty, dont update the state
-						e.target.value !== "" &&
-						dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: e.target.value })
-					}
-					onBlur={() => tools.handleTextChange(state, dispatch, ctx, canvasRef)}
+					onChange={(e) => {
+						dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: e.target.value });
+					}}
+					onBlur={() => {
+						tools.handleTextChange(state, dispatch, ctx, canvasRef);
+					}}
 				/>
 			)}
 		</main>

@@ -9,15 +9,15 @@ export const getClickedElement = (
 		if (element.type === "rectangle") {
 			return (
 				x >= element.x &&
-				x <= element.x + element.width &&
+				x <= element.x + (element.width ?? 0) &&
 				y >= element.y &&
-				y <= element.y + element.height
+				y <= element.y + (element.height ?? 0)
 			);
 		}
 
 		if (element.type === "circle") {
 			const distance = Math.sqrt((x - element.x) ** 2 + (y - element.y) ** 2);
-			return distance <= element.radius;
+			return distance <= (element.radius ?? 0);
 		}
 
 		if (element.type === "arrow") {

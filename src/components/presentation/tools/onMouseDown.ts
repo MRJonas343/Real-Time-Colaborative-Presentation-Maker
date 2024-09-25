@@ -17,6 +17,8 @@ export const onMouseDown = (
 	const y = e.clientY - (rect.top || 0);
 	const clickedElement = getClickedElement(state, x, y);
 
+	if (state.editorMode === "text") return;
+
 	if (state.editorMode === "cursor") {
 		if (clickedElement) {
 			dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: clickedElement });

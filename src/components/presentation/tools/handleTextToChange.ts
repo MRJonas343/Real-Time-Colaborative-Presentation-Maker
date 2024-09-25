@@ -3,7 +3,7 @@ import { initialState } from "../state";
 import { clearCanvas } from "./clearCanvas";
 import { RefObject } from "react";
 
-export const handleTextChange = async (
+export const handleTextChange = (
 	state: typeof initialState,
 	dispatch: (value: Action) => void,
 	ctx: CanvasRenderingContext2D | undefined | null,
@@ -27,10 +27,14 @@ export const handleTextChange = async (
 		(element) => element.content !== "",
 	);
 
+	console.log("updatedElements:", newElements);
+
 	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 	dispatch({ type: "SET_IS_EDITING", payload: false });
 
 	clearCanvas(ctx, canvasRef, newElements);
 	dispatch({ type: "SET_EDITED_TEXT_ELEMENT", payload: null });
 	dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: "" });
+
+	//TODO: there is a wird bug, it basically dont update the drawnelement state to the new one without the text  elements without contents
 };
