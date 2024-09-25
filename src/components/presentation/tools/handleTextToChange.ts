@@ -22,17 +22,10 @@ export const handleTextChange = (
 		return element;
 	});
 
-	//*if there are text elements witout content, delete them
-	const newElements = updatedElements.filter(
-		(element) => element.content !== "",
-	);
-
-	console.log("updatedElements:", newElements);
-
-	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
+	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: updatedElements });
 	dispatch({ type: "SET_IS_EDITING", payload: false });
 
-	clearCanvas(ctx, canvasRef, newElements);
+	clearCanvas(ctx, canvasRef, updatedElements);
 	dispatch({ type: "SET_EDITED_TEXT_ELEMENT", payload: null });
 	dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: "" });
 
