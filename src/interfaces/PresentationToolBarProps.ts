@@ -6,4 +6,5 @@ export interface PresentationToolbarProps {
 	onReundo: () => void;
 	chageStrokeColor: (color: string) => void;
 	changeEditorMode: (mode: EditorModes) => void;
+	exportToPDF: () => void;
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import { closestCenter, DndContext } from "@dnd-kit/core";
-import { changeUserRole, updateSlidesPositions } from "@/Services";
+import {
+	changeUserRole,
+	createThumbnailImageInJPG,
+	updateSlidesPositions,
+} from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
 import { users, slidePreviewsExample } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
@@ -46,6 +50,7 @@ export const Presentation = () => {
 				}
 				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
 				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}
+				exportToPDF={() => createThumbnailImageInJPG(canvasRef, ctx)}
 			/>
 			<section className="flex w-full h-screen flex-grow">
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">

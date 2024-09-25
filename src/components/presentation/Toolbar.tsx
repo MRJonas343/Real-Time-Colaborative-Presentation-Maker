@@ -17,6 +17,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 	changeEditorMode,
 	chageStrokeColor,
 	state,
+	exportToPDF,
 }) => {
 	return (
 		<header className="w-full h-24 flex">
@@ -147,6 +148,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					radius="sm"
 					color="danger"
 					variant="shadow"
+					onClick={exportToPDF}
 					startContent={<FaDownload size={20} />}
 				>
 					Export to PDF
