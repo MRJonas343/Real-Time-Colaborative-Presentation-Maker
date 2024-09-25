@@ -10,7 +10,7 @@ export const onMouseMove = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	dispatch: (value: Action) => void,
 ) => {
-	if (!canvasRef.current || !ctx || state.isDropDownMenuOpen) return;
+	if (!canvasRef.current || !ctx) return;
 	if (state.editorMode === "text") return;
 
 	const rect = canvasRef.current.getBoundingClientRect();

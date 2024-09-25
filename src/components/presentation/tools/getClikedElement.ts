@@ -1,6 +1,7 @@
 import { initialState } from "..";
 
 export const getClickedElement = (
+	ctx: CanvasRenderingContext2D | undefined | null,
 	state: typeof initialState,
 	x: number,
 	y: number,
@@ -34,6 +35,43 @@ export const getClickedElement = (
 
 			const threshold = 5;
 			return distance <= threshold;
+		}
+
+		if (element.type === "text" && ctx) {
+			let fontSize = element.fontSize ?? 16;
+			let fontStyle = "normal";
+
+			if (element.content?.includes("###")) {
+				fontSize = 16;
+				fontStyle = "bold";
+			} else if (element.content?.includes("##")) {
+				fontSize = 20;
+				fontStyle = "bold";
+			} else if (element.content?.includes("#")) {
+				fontSize = 30;
+				fontStyle = "bold";
+			}
+
+			ctx.font = `${fontStyle} ${fontSize}px Arial`;
+			const lines = (element.content ?? "").split("\n");
+
+			const lineHeight = fontSize * 1.2;
+			const margin = 5;
+
+			for (let i = 0; i < lines.length; i++) {
+				const textWidth = ctx.measureText(lines[i]).width + margin;
+				const textY = element.y + i * lineHeight;
+
+				if (
+					x >= element.x - margin &&
+					x <= element.x + textWidth &&
+					y >= textY - lineHeight &&
+					y <= textY + margin
+				) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		return false;

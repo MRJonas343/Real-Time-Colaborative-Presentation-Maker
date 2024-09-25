@@ -11,48 +11,35 @@ export const drawElement = (
 	if (element.type === "text" && element.content) {
 		ctx.fillStyle = element.color;
 		const defaultFontSize = 16;
+		const lineHeight = 20;
 
-		if (element.content.includes("###")) {
-			ctx.font = "bold 16px Arial";
-			ctx.fillText(element.content.replace("###", ""), element.x, element.y);
-			return;
-		}
+		const lines = element.content.split("\n");
 
-		if (element.content.includes("##")) {
-			ctx.font = "bold 20px Arial";
-			ctx.fillText(element.content.replace("##", ""), element.x, element.y);
-			return;
-		}
+		lines.forEach((line, index) => {
+			let font = `${defaultFontSize}px Arial`;
+			let text = line;
 
-		if (element.content.includes("#")) {
-			ctx.font = "bold 30px Arial";
-			ctx.fillText(element.content.replace("#", ""), element.x, element.y);
-			return;
-		}
+			if (line.includes("###")) {
+				font = "bold 16px Arial";
+				text = line.replace("###", "");
+			} else if (line.includes("##")) {
+				font = "bold 20px Arial";
+				text = line.replace("##", "");
+			} else if (line.includes("#")) {
+				font = "bold 30px Arial";
+				text = line.replace("#", "");
+			} else if (line.startsWith("*") && line.endsWith("*")) {
+				font = "italic 16px Arial";
+				text = line.replace(/\*/g, "");
+			} else if (line.startsWith("-")) {
+				font = "16px Arial";
+				text = `⚪${line.replace("-", "")}`;
+			}
 
-		if (element.content.startsWith("*") && element.content.endsWith("*")) {
-			ctx.font = "italic 16px Arial";
-			ctx.fillText(
-				element.content.replace("*", "").replace("*", ""),
-				element.x,
-				element.y,
-			);
-			return;
-		}
+			ctx.font = font;
+			ctx.fillText(text, element.x, element.y + index * lineHeight);
+		});
 
-		if (element.content.startsWith("-")) {
-			ctx.font = "16px Arial";
-			ctx.fillText(
-				`⚪${element.content.replace("-", "")}`,
-				element.x,
-				element.y,
-			);
-			return;
-		}
-
-		ctx.font = `${defaultFontSize}px Arial`;
-
-		ctx.fillText(element.content, element.x, element.y);
 		return;
 	}
 

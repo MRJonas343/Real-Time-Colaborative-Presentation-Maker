@@ -2,7 +2,7 @@
 
 import { closestCenter, DndContext } from "@dnd-kit/core";
 import { changeUserRole, updateSlidesPositions } from "@/Services";
-import { Dropdown, SlidePreview, Toolbar, UserProfile } from ".";
+import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
 import { users, slidePreviewsExample } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
@@ -40,7 +40,9 @@ export const Presentation = () => {
 			<Toolbar
 				state={state}
 				chageStrokeColor={(color) => tools.chageStrokeColor(color, dispatch)}
-				changeEditorMode={(mode) => tools.changeEditorMode(mode, dispatch)}
+				changeEditorMode={(mode) =>
+					tools.changeEditorMode(state, mode, dispatch)
+				}
 				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
 				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}
 			/>
@@ -79,7 +81,9 @@ export const Presentation = () => {
 				<canvas
 					ref={canvasRef}
 					className="w-[70%] border-b-3 max-h-[90vh]"
-					onMouseDown={(e) => tools.onMouseDown(e, dispatch, canvasRef, state)}
+					onMouseDown={(e) =>
+						tools.onMouseDown(e, state, dispatch, canvasRef, ctx)
+					}
 					onMouseUp={(e) =>
 						tools.onMouseUp(e, state, dispatch, canvasRef, ctx, textAreRef)
 					}
@@ -87,7 +91,7 @@ export const Presentation = () => {
 						tools.onMouseMove(e, state, canvasRef, ctx, dispatch)
 					}
 					onContextMenu={(e) =>
-						tools.onRightClick(e, dispatch, canvasRef, state)
+						tools.onRightClick(e, dispatch, canvasRef, state, ctx)
 					}
 				/>
 
@@ -118,27 +122,14 @@ export const Presentation = () => {
 					tools.deleteElement(state, ctx, canvasRef, dispatch)
 				}
 			/>
-			{state.editorMode === "text" && state.isEditing && (
-				<textarea
-					ref={textAreRef}
-					className="w-auto h-auto p-2 rounded-md absolute z-50 bg-transparent"
-					style={{
-						position: "absolute",
-						left: state.textFieldX - 8,
-						top: state.textFieldY - 26,
-						fontSize: "16",
-						color: "white",
-						fontFamily: "Arial",
-						resize: "both",
-					}}
-					onChange={(e) => {
-						dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: e.target.value });
-					}}
-					onBlur={() => {
-						tools.handleTextChange(state, dispatch, ctx, canvasRef);
-					}}
-				/>
-			)}
+			<TextArea
+				state={state}
+				dispatch={dispatch}
+				textAreRef={textAreRef}
+				handleTextChange={() =>
+					tools.handleTextChange(state, dispatch, ctx, canvasRef)
+				}
+			/>
 		</main>
 	);
 };

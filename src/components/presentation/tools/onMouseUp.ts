@@ -65,6 +65,8 @@ export const onMouseUp = (
 		return;
 	}
 
+	if (state.editorMode === "cursor") return;
+
 	const newElement: CanvasElement = {
 		id: uuid(),
 		x: state.startX,

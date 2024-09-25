@@ -7,6 +7,7 @@ export const onRightClick = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	state: typeof initialState,
+	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
 	e.preventDefault();
 	if (!canvasRef.current) return;
@@ -15,7 +16,7 @@ export const onRightClick = (
 
 	const x = e.clientX - (rect.left || 0);
 	const y = e.clientY - (rect.top || 0);
-	const clickedElement = getClickedElement(state, x, y);
+	const clickedElement = getClickedElement(ctx, state, x, y);
 
 	if (!clickedElement) {
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });

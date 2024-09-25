@@ -5,9 +5,10 @@ import { getClickedElement } from ".";
 
 export const onMouseDown = (
 	e: MouseEvent<HTMLCanvasElement>,
+	state: typeof initialState,
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
-	state: typeof initialState,
+	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
 	if (!canvasRef.current) return;
 
@@ -15,7 +16,7 @@ export const onMouseDown = (
 
 	const x = e.clientX - (rect.left || 0);
 	const y = e.clientY - (rect.top || 0);
-	const clickedElement = getClickedElement(state, x, y);
+	const clickedElement = getClickedElement(ctx, state, x, y);
 
 	if (state.editorMode === "text") return;
 
@@ -28,6 +29,8 @@ export const onMouseDown = (
 		}
 
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
+		dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: null });
+		return;
 	}
 
 	dispatch({ type: "SET_IS_DRAWING", payload: true });
