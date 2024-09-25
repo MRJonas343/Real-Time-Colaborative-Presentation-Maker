@@ -3,7 +3,7 @@
 import { FaSquare, FaCircle, FaRegQuestionCircle } from "react-icons/fa";
 import { PiArrowCounterClockwiseBold } from "react-icons/pi";
 import { PresentationToolbarProps } from "@/interfaces";
-import { Button, SelectItem, Select } from "@nextui-org/react";
+import { Button, SelectItem, Select, Tooltip, Kbd } from "@nextui-org/react";
 import { PiArrowClockwiseBold } from "react-icons/pi";
 import { GoArrowDownRight } from "react-icons/go";
 import { GiArrowCursor } from "react-icons/gi";
@@ -151,9 +151,57 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				>
 					Export to PDF
 				</Button>
-				<Button isIconOnly radius="sm" size="lg" variant="faded">
-					<FaRegQuestionCircle size={30} />
-				</Button>
+
+				<Tooltip
+					content={
+						<div className="px-1 py-2">
+							<div className="text-medium pb-1 font-bold">Hints</div>
+							<div className="text-tiny font-light pb-1">
+								<span className="font-bold">Move Elements : </span>
+								Keep pressed the key{" "}
+								<span className="font-extrabold">shift</span>
+								<span className="pl-2">
+									<Kbd keys={["shift"]} />
+								</span>{" "}
+								, hold the mouse over the element and move it
+							</div>
+
+							<div className="text-tiny font-light pb-1">
+								<span className="font-bold">Rotate Elements : </span>
+								Keep pressed the key
+								<span className="pl-2 font-extrabold">alt</span> , hold the
+								mouse over the element and rotate it.
+							</div>
+
+							<div className="text-tiny font-light pb-1">
+								<span className="font-bold">Rezise Elements : </span>
+								Keep pressed the key
+								<span className="pl-1 font-extrabold">ctrl </span> or
+								<span className="pl-1 font-extrabold">cmd</span>
+								<span>
+									<Kbd className="ml-1" keys={["command"]} />
+								</span>
+								, hold the mouse over the element and resize it.
+							</div>
+
+							<div className="text-tiny font-light">
+								<span className="font-bold">Modified Elements : </span>
+								Right click on the element and select what would you like to
+								change, the current options are:
+								<div className="pl-3 pt-1">
+									<li>Color</li>
+									<li>Stroke color</li>
+									<li>Z-index</li>
+									<li>Remove</li>
+								</div>
+							</div>
+						</div>
+					}
+				>
+					<Button isIconOnly radius="sm" size="lg" variant="faded">
+						<FaRegQuestionCircle size={30} />
+					</Button>
+				</Tooltip>
 			</div>
 		</header>
 	);
