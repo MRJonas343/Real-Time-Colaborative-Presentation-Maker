@@ -7,7 +7,7 @@ export const initialState = {
 	presentationTopic: "",
 	currentSlide: 1,
 	totalSlides: 10,
-	role: "Viewer" as "Viewer" | "Creator" | "Editor",
+	role: "viewer" as "viewer" | "creator" | "editor",
 	isLoading: true,
 	startX: 0,
 	startY: 0,

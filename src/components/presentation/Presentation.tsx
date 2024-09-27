@@ -7,7 +7,7 @@ import {
 	updateSlidesPositions,
 } from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
-import { users, slidePreviewsExample, socket } from "@/constants";
+import { users, socket } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
@@ -15,31 +15,25 @@ import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
 import { createPresentationListener } from "@/sockets";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import * as tools from "./tools";
 import { SlideDropDown } from "./SlideDropDown";
 import { setInitialData } from "./tools/setInitialData";
-import type { LocalStoragePresentation } from "@/interfaces/LocalStoragePresentation";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const textAreRef = useRef<HTMLTextAreaElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
-	const { id } = useParams();
+	const { id, name } = useParams();
 	const ID = id.toString();
-	const router = useRouter();
 	const sensors = useDndSensors();
 
-	console.log(state.currentSlide);
+	console.log(state.role);
 
 	useEffect(() => {
 		dispatch({ type: "SET_IS_LOADING", payload: true });
-		const elements = localStorage.getItem("presentationes");
-		if (!elements) return router.push("/loby");
-		const parsedElements: LocalStoragePresentation[] = JSON.parse(elements);
 
-		setInitialData(dispatch, parsedElements, ID);
+		setInitialData(dispatch, String(name), ID);
 		createPresentationListener(dispatch);
 
 		if (typeof window !== "undefined" && canvasRef.current) {
@@ -74,7 +68,10 @@ export const Presentation = () => {
 							color="primary"
 							variant="shadow"
 							radius="sm"
-							disabled={state.role === "Viewer" || state.role === "Editor"}
+							style={{
+								display: state.role !== "creator" ? "none" : "block",
+							}}
+							disabled={state.role === "viewer" || state.role === "editor"}
 						>
 							Add Slide
 						</Button>
@@ -86,7 +83,7 @@ export const Presentation = () => {
 						onDragEnd={(e) => updateSlidesPositions(e, dispatch, state)}
 					>
 						<SortableContext
-							disabled={state.role === "Viewer" || state.role === "Editor"}
+							disabled={state.role === "viewer" || state.role === "editor"}
 							items={state.slidesPreviews}
 						>
 							{state.slidesPreviews.map((item) => (

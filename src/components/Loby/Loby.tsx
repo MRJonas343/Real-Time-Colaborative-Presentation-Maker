@@ -62,32 +62,7 @@ export const Loby = () => {
 					title ?? "Untitled Presentation",
 				);
 
-				//*Get the previus elements in the local Storage
-				const elements = localStorage.getItem("presentationes");
-
-				if (!elements) {
-					const newPresentation = [
-						{
-							presentationId: result.presentationId,
-							userName: name,
-						},
-					];
-
-					localStorage.setItem(
-						"presentationes",
-						JSON.stringify(newPresentation),
-					);
-					return router.push(`/presentation/${result.presentationId}`);
-				}
-
-				const parsedElements = JSON.parse(elements);
-				parsedElements.push({
-					presentationId: result.presentationId,
-					userName: name,
-				});
-				localStorage.setItem("presentationes", JSON.stringify(parsedElements));
-
-				router.push(`/presentation/${result.presentationId}`);
+				router.push(`/presentation/${result.presentationId}/${result.creator}`);
 			} catch (error) {
 				console.log("Error creating presentation:", error);
 			}
@@ -111,29 +86,8 @@ export const Loby = () => {
 
 		if (!data) return;
 
-		const elements = localStorage.getItem("presentationes");
-
-		if (!elements) {
-			const newPresentation = [
-				{
-					presentationId: id,
-					userName: name,
-				},
-			];
-
-			localStorage.setItem("presentationes", JSON.stringify(newPresentation));
-			return router.push(`/presentation/${id}`);
-		}
-
-		const parsedElements = JSON.parse(elements);
-
-		parsedElements.push({
-			presentationId: data.presentationId,
-			userName: name,
-		});
-		localStorage.setItem("presentationes", JSON.stringify(parsedElements));
 		onClose();
-		return router.push(`/presentation/${id}`);
+		return router.push(`/presentation/${id}/${name}`);
 	};
 
 	const onSortBy = (value: string) => {

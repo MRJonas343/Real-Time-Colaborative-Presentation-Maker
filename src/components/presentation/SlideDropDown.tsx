@@ -10,7 +10,7 @@ export const SlideDropDown: FC<SlideDropDownProps> = ({
 }) => {
 	return (
 		<AnimatePresence>
-			{state.isSlideMenuOpen && (
+			{state.isSlideMenuOpen && state.role === "creator" && (
 				<motion.div
 					initial={{
 						opacity: 0,

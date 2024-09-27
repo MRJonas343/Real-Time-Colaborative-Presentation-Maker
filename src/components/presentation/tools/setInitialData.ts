@@ -5,16 +5,9 @@ import { joinPresentation } from "@/Services/joinPresentation";
 
 export const setInitialData = async (
 	dispatch: (value: Action) => void,
-	parsedElements: LocalStoragePresentation[],
+	userName: string,
 	id: string,
 ) => {
-	const userName = parsedElements.find(
-		(element) => element.presentationId === id,
-	)?.userName;
-
-	console.log(id);
-	console.log("userName:", userName);
-
 	const data = await joinPresentation(id, userName ?? "Anonymous");
 
 	dispatch({ type: "SET_TOPIC", payload: data.topic });
