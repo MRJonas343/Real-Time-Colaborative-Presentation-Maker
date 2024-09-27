@@ -12,6 +12,9 @@ export const setInitialData = async (
 		(element) => element.presentationId === id,
 	)?.userName;
 
+	console.log(id);
+	console.log("userName:", userName);
+
 	const data = await joinPresentation(id, userName ?? "Anonymous");
 
 	dispatch({ type: "SET_TOPIC", payload: data.topic });

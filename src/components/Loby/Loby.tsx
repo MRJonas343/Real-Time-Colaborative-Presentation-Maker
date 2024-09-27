@@ -55,12 +55,7 @@ export const Loby = () => {
 		id?: string,
 		title?: string,
 	) => {
-		//TODO : If we dont have the id, we should create a new presentation
-		//TODO : If we have the id, we should join the presentation
-
 		if (!id) {
-			console.log("Creating new presentation:", name, title);
-
 			try {
 				const result = await createPresentation(
 					name,
@@ -100,9 +95,45 @@ export const Loby = () => {
 			return onClose();
 		}
 
-		console.log("Joining presentation:", name, id);
+		//*Join the presentation, before joining save the userName and the presentationId
+		const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+		const response = await fetch(
+			`${BASE_URL}/loby/joinPresentation/${id}/${name}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			},
+		);
 
+		const data = await response.json();
+
+		if (!data) return;
+
+		const elements = localStorage.getItem("presentationes");
+
+		if (!elements) {
+			const newPresentation = [
+				{
+					presentationId: id,
+					userName: name,
+				},
+			];
+
+			localStorage.setItem("presentationes", JSON.stringify(newPresentation));
+			return router.push(`/presentation/${id}`);
+		}
+
+		const parsedElements = JSON.parse(elements);
+
+		parsedElements.push({
+			presentationId: data.presentationId,
+			userName: name,
+		});
+		localStorage.setItem("presentationes", JSON.stringify(parsedElements));
 		onClose();
+		return router.push(`/presentation/${id}`);
 	};
 
 	const onSortBy = (value: string) => {
