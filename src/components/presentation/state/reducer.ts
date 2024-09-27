@@ -53,6 +53,16 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, editedTextElement: action.payload };
 		case "SET_TEXT_FIELD_VALUE":
 			return { ...state, textFieldValue: action.payload };
+		case "SET_PREVIOUS_ELEMENTS":
+			return { ...state, previousElements: action.payload };
+		case "SET_IS_SLIDE_MENU_OPEN":
+			return { ...state, isSlideMenuOpen: action.payload };
+		case "SET_SLIDE_MENU_X":
+			return { ...state, slideMenuX: action.payload };
+		case "SET_SLIDE_MENU_Y":
+			return { ...state, slideMenuY: action.payload };
+		case "SET_CLICKED_SLIDE_ID":
+			return { ...state, clikedSlideId: action.payload };
 
 		default:
 			return state;

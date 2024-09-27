@@ -25,4 +25,9 @@ export type Action =
 	| { type: "SET_TEXT_FIELD_X"; payload: number }
 	| { type: "SET_TEXT_FIELD_Y"; payload: number }
 	| { type: "SET_EDITED_TEXT_ELEMENT"; payload: CanvasElement | null }
-	| { type: "SET_TEXT_FIELD_VALUE"; payload: string };
+	| { type: "SET_TEXT_FIELD_VALUE"; payload: string }
+	| { type: "SET_PREVIOUS_ELEMENTS"; payload: string }
+	| { type: "SET_IS_SLIDE_MENU_OPEN"; payload: boolean }
+	| { type: "SET_SLIDE_MENU_X"; payload: number }
+	| { type: "SET_SLIDE_MENU_Y"; payload: number }
+	| { type: "SET_CLICKED_SLIDE_ID"; payload: string };

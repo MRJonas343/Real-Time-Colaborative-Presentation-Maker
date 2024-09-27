@@ -7,13 +7,15 @@ export const clearCanvas = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	elements: CanvasElement[],
 ) => {
-	if (!ctx || !canvasRef.current) return;
+	console.log(canvasRef.current);
+	if (!ctx) return;
+	console.log("Drawing elements:", elements);
 
 	ctx.clearRect(
 		0,
 		0,
-		canvasRef.current.width || 0,
-		canvasRef.current.height || 0,
+		canvasRef.current?.width || 0,
+		canvasRef.current?.height || 0,
 	);
 
 	for (const element of elements) drawElement(ctx, element);

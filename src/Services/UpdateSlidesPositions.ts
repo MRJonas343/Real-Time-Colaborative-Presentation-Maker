@@ -21,6 +21,9 @@ export const updateSlidesPositions = (
 		const newIndex = state.slidesPreviews.findIndex(
 			(slide) => slide.id === over.id,
 		);
+
+		console.log("oldIndex:", oldIndex);
+		console.log("newIndex:", newIndex);
 		const updatedSlides = arrayMove(state.slidesPreviews, oldIndex, newIndex);
 
 		dispatch({

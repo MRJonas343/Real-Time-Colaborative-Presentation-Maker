@@ -1,4 +1,5 @@
 export * from "./bringToFront";
+export * from "./changeCurrentSlide";
 export * from "./changeEditorMode";
 export * from "./changeStrokeColor";
 export * from "./changeStrokeColorOfElement";
@@ -14,5 +15,7 @@ export * from "./onMouseUp";
 export * from "./onReundo";
 export * from "./onRightClick";
 export * from "./onUndo";
+export * from "./openSlideMenu";
 export * from "./resizeTextArea";
 export * from "./sendToBack";
+export * from "./setInitialData";

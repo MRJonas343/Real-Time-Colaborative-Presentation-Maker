@@ -17,10 +17,12 @@ export const ModalLoby: FC<ModalLobyProps> = ({
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const form = new FormData(e.target as HTMLFormElement);
-		const name = form.get("name");
-		const title = form.get("title");
+		const userName = form.get("name")?.toString();
+		const title = form.get("title")?.toString();
 
-		if (!name) {
+		console.log("userName:", userName);
+
+		if (!userName) {
 			return setIsNameInvalid(true);
 		}
 		if (!presentationId && !title) {
@@ -29,7 +31,7 @@ export const ModalLoby: FC<ModalLobyProps> = ({
 
 		setIsNameInvalid(false);
 		setIsTitleInvalid(false);
-		onSubmitForm(presentationId);
+		onSubmitForm(userName, title, presentationId);
 	};
 
 	return (

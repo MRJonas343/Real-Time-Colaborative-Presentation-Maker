@@ -7,37 +7,50 @@ import {
 	updateSlidesPositions,
 } from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
-import { users, slidePreviewsExample } from "@/constants";
+import { users, slidePreviewsExample, socket } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
+import { createPresentationListener } from "@/sockets";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import * as tools from "./tools";
-import { s } from "framer-motion/client";
+import { SlideDropDown } from "./SlideDropDown";
+import { setInitialData } from "./tools/setInitialData";
+import type { LocalStoragePresentation } from "@/interfaces/LocalStoragePresentation";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const textAreRef = useRef<HTMLTextAreaElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
+	const { id } = useParams();
+	const ID = id.toString();
+	const router = useRouter();
 	const sensors = useDndSensors();
 
+	console.log(state.currentSlide);
+
 	useEffect(() => {
-		dispatch({ type: "SET_CREATOR", payload: "John Smith" });
-		dispatch({ type: "SET_ID", payload: "5242" });
-		dispatch({ type: "SET_TOPIC", payload: "Enviroment Care" });
-		dispatch({ type: "SET_CURRENT_SLIDE", payload: 1 });
-		dispatch({ type: "SET_TOTAL_SLIDES", payload: 10 });
-		dispatch({ type: "SET_ROLE", payload: "Creator" });
-		dispatch({ type: "SET_IS_LOADING", payload: false });
-		dispatch({ type: "SET_SLIDES_PREVIEWS", payload: slidePreviewsExample });
-		if (typeof window !== "undefined") {
-			if (canvasRef.current) {
-				canvasRef.current.width = window.innerWidth * 0.7;
-				canvasRef.current.height = window.innerHeight * 0.9;
-			}
+		dispatch({ type: "SET_IS_LOADING", payload: true });
+		const elements = localStorage.getItem("presentationes");
+		if (!elements) return router.push("/loby");
+		const parsedElements: LocalStoragePresentation[] = JSON.parse(elements);
+
+		setInitialData(dispatch, parsedElements, ID);
+		createPresentationListener(dispatch);
+
+		if (typeof window !== "undefined" && canvasRef.current) {
+			canvasRef.current.width = window.innerWidth * 0.7;
+			canvasRef.current.height = window.innerHeight * 0.9;
 		}
+
+		return () => {
+			socket.off("newElements");
+			socket.off("presentationCreated");
+		};
 	}, []);
 
 	return (
@@ -61,6 +74,7 @@ export const Presentation = () => {
 							color="primary"
 							variant="shadow"
 							radius="sm"
+							disabled={state.role === "Viewer" || state.role === "Editor"}
 						>
 							Add Slide
 						</Button>
@@ -71,13 +85,22 @@ export const Presentation = () => {
 						collisionDetection={closestCenter}
 						onDragEnd={(e) => updateSlidesPositions(e, dispatch, state)}
 					>
-						<SortableContext items={state.slidesPreviews}>
+						<SortableContext
+							disabled={state.role === "Viewer" || state.role === "Editor"}
+							items={state.slidesPreviews}
+						>
 							{state.slidesPreviews.map((item) => (
 								<SlidePreview
 									isLoading={state.isLoading}
 									key={item.id}
 									slideId={item.id}
 									slidePreview={item.slidePreview}
+									openSlideMenu={(e, id) =>
+										tools.openSlideMenu(e, id, dispatch)
+									}
+									changeCurrentSlides={(id) =>
+										tools.changeCurrentSlide(state, dispatch, id)
+									}
 								/>
 							))}
 						</SortableContext>
@@ -134,6 +157,13 @@ export const Presentation = () => {
 				textAreRef={textAreRef}
 				handleTextChange={() =>
 					tools.handleTextChange(state, dispatch, ctx, canvasRef)
+				}
+			/>
+			<SlideDropDown
+				state={state}
+				dispatch={dispatch}
+				deleteElement={() =>
+					tools.deleteElement(state, ctx, canvasRef, dispatch)
 				}
 			/>
 		</main>

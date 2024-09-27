@@ -21,7 +21,7 @@ export const ToolbarHome: FC<ToolbarHomeProps> = ({
 			>
 				New Presentation
 			</Button>
-			<label className="text-sm text-gray-500 self-center">Sort by</label>
+			{/* <label className="text-sm text-gray-500 self-center">Sort by</label>
 			<Select
 				aria-label="Sort by"
 				defaultSelectedKeys={["Nothing"]}
@@ -34,7 +34,7 @@ export const ToolbarHome: FC<ToolbarHomeProps> = ({
 				<SelectItem key="Oldest">Oldest</SelectItem>
 				<SelectItem key="MoreSlides">More Slides</SelectItem>
 				<SelectItem key="LessSlides">Less Slides</SelectItem>
-			</Select>
+			</Select> */}
 			<Input
 				onChange={(e) => onSearch(e.target.value)}
 				className="w-56"

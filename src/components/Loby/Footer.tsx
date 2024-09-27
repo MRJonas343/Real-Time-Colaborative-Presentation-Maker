@@ -3,10 +3,11 @@ import { FC } from "react";
 
 interface FooterProps {
 	total: number;
-	onPageChange: (page: number) => void;
+	page: number;
+	setPage: (page: number) => void;
 }
 
-export const Footer: FC<FooterProps> = ({ total, onPageChange }) => {
+export const Footer: FC<FooterProps> = ({ total, page, setPage }) => {
 	return (
 		<footer className="flex justify-center w-[85%] mx-auto">
 			<Pagination
@@ -14,10 +15,8 @@ export const Footer: FC<FooterProps> = ({ total, onPageChange }) => {
 				showControls
 				showShadow
 				total={total}
-				initialPage={1}
-				onChange={(page) => {
-					onPageChange(page);
-				}}
+				page={page}
+				onChange={(newPage) => setPage(newPage)}
 			/>
 		</footer>
 	);

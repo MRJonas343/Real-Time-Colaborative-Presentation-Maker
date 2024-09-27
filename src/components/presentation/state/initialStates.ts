@@ -26,4 +26,9 @@ export const initialState = {
 	textFieldY: 0,
 	editedTextElement: {} as CanvasElement | null,
 	textFieldValue: "",
+	previousElements: "",
+	slideMenuX: 0,
+	slideMenuY: 0,
+	isSlideMenuOpen: false,
+	clikedSlideId: "",
 };
