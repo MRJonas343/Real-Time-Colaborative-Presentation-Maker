@@ -10,7 +10,7 @@ export const onMouseDown = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
-	if (!canvasRef.current) return;
+	if (!canvasRef.current || state.role === "viewer") return;
 
 	const rect = canvasRef.current.getBoundingClientRect();
 

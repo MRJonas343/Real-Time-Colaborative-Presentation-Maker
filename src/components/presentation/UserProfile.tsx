@@ -9,30 +9,37 @@ export const UserProfile: FC<UserProfileProps> = ({
 	role,
 	changeRole,
 	id,
+	state,
 }) => {
 	let isEditor = false;
 
-	if (role === "Editor") {
+	if (role === "editor") {
 		isEditor = true;
 	}
 
 	const onChangeRole = (value: string) => {
-		if (role === "Viewer") {
-			changeRole(value, "Editor");
+		if (role === "viewer") {
+			changeRole(value, "editor");
 			return;
 		}
-		changeRole(value, "Viewer");
+		changeRole(value, "viewer");
 	};
 
 	return (
 		<div className="">
-			<p>{userName}</p>
+			{state.participanName === userName ? (
+				<p className="text-blue-600">You</p>
+			) : (
+				<p>{userName}</p>
+			)}
 			<div className="flex gap-4">
-				<p>Editor mode</p>
-				<Checkbox
-					onClick={() => onChangeRole(userName)}
-					isSelected={isEditor}
-				/>
+				<p>{role} mode</p>
+				{state.role === "creator" && (
+					<Checkbox
+						onClick={() => onChangeRole(userName)}
+						isSelected={isEditor}
+					/>
+				)}
 			</div>
 			<Divider className="my-4 bg-gray-700 h-[2px] w-full mx-auto" />
 		</div>

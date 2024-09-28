@@ -63,6 +63,10 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, slideMenuY: action.payload };
 		case "SET_CLICKED_SLIDE_ID":
 			return { ...state, clikedSlideId: action.payload };
+		case "SET_PARTICIPANTS":
+			return { ...state, participants: action.payload };
+		case "SET_PARTICIPANT_NAME":
+			return { ...state, participanName: action.payload };
 
 		default:
 			return state;

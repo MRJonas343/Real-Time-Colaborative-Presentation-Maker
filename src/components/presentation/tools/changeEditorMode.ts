@@ -6,6 +6,7 @@ export const changeEditorMode = (
 	mode: EditorModes,
 	dispatch: (value: Action) => void,
 ) => {
+	if (state.role === "viewer") return;
 	if (state.editorMode !== "cursor") {
 		dispatch({ type: "SET_IS_DROP_DOWN_MENU_OPEN", payload: false });
 		dispatch({ type: "SET_CLICKED_CANVAS_ELEMENT", payload: null });

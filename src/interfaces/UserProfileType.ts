@@ -1,3 +1,4 @@
+import { initialState } from "@/components/presentation";
 import { Role } from ".";
 
 export interface UserProfileProps {
@@ -5,4 +6,5 @@ export interface UserProfileProps {
 	userName: string;
 	role: string;
 	changeRole: (userName: string, role: Role) => void;
+	state: typeof initialState;
 }

@@ -10,7 +10,7 @@ export const onRightClick = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
 	e.preventDefault();
-	if (!canvasRef.current) return;
+	if (!canvasRef.current || state.role === "viewer") return;
 
 	const rect = canvasRef.current.getBoundingClientRect();
 

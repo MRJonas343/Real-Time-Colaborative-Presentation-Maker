@@ -1,23 +1,19 @@
 "use client";
 
 import { closestCenter, DndContext } from "@dnd-kit/core";
-import {
-	changeUserRole,
-	createThumbnailImageInJPG,
-	updateSlidesPositions,
-} from "@/Services";
+import { createThumbnailImageInJPG, updateSlidesPositions } from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
-import { users, socket } from "@/constants";
+import { socket } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
 import { useDndSensors } from "@/hooks";
-import { createPresentationListener } from "@/sockets";
 import { useParams } from "next/navigation";
 import * as tools from "./tools";
 import { SlideDropDown } from "./SlideDropDown";
 import { setInitialData } from "./tools/setInitialData";
+import * as sockets from "@/sockets";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -25,16 +21,15 @@ export const Presentation = () => {
 	const textAreRef = useRef<HTMLTextAreaElement>(null);
 	const ctx = canvasRef.current?.getContext("2d");
 	const { id, name } = useParams();
-	const ID = id.toString();
 	const sensors = useDndSensors();
-
-	console.log(state.role);
 
 	useEffect(() => {
 		dispatch({ type: "SET_IS_LOADING", payload: true });
+		setInitialData(dispatch, String(name), String(id));
 
-		setInitialData(dispatch, String(name), ID);
-		createPresentationListener(dispatch);
+		sockets.joinPresentation(String(id), String(name));
+		sockets.participantsListeners(dispatch, String(name));
+		sockets.updateSlidesListener(dispatch);
 
 		if (typeof window !== "undefined" && canvasRef.current) {
 			canvasRef.current.width = window.innerWidth * 0.7;
@@ -42,8 +37,9 @@ export const Presentation = () => {
 		}
 
 		return () => {
-			socket.off("newElements");
-			socket.off("presentationCreated");
+			//*Turn off the listeners
+			socket.off("newSlides");
+			socket.off("participants");
 		};
 	}, []);
 
@@ -64,14 +60,12 @@ export const Presentation = () => {
 					<p className="text-center text-lg pt-2">Slides</p>
 					<div className="flex pb-2 justify-center pt-4">
 						<Button
-							className="w-[80%]"
+							className="w-[66%]"
 							color="primary"
 							variant="shadow"
 							radius="sm"
-							style={{
-								display: state.role !== "creator" ? "none" : "block",
-							}}
-							disabled={state.role === "viewer" || state.role === "editor"}
+							onClick={() => sockets.createSlide(state.presentationId)}
+							isDisabled={state.role === "viewer" || state.role === "editor"}
 						>
 							Add Slide
 						</Button>
@@ -111,7 +105,7 @@ export const Presentation = () => {
 						tools.onMouseDown(e, state, dispatch, canvasRef, ctx)
 					}
 					onMouseUp={(e) =>
-						tools.onMouseUp(e, state, dispatch, canvasRef, ctx, textAreRef)
+						tools.onMouseUp(e, state, dispatch, canvasRef, textAreRef)
 					}
 					onMouseMove={(e) =>
 						tools.onMouseMove(e, state, canvasRef, ctx, dispatch)
@@ -122,16 +116,27 @@ export const Presentation = () => {
 				/>
 
 				<div className="w-[15%] border-l-2 border-gray-700 p-4 min-h-full h-auto scrollbar overflow-y-auto pb-32">
-					<p>{state.presentationCreator}</p>
+					{state.participanName === state.presentationCreator ? (
+						<p className="text-blue-600">You</p>
+					) : (
+						<p>{state.presentationCreator}</p>
+					)}
 					<span className="text-sm text-gray-600">Creator</span>
 					<Divider className="my-4 bg-gray-700 h-[2px] w-full mx-auto" />
-					{users.map((user) => (
+					{state.participants.map((user) => (
 						<UserProfile
 							id={user.id}
 							key={user.id}
 							userName={user.userName}
 							role={user.role}
-							changeRole={changeUserRole}
+							changeRole={() =>
+								sockets.changeUserRole(
+									state.presentationId,
+									user.userName,
+									user.role,
+								)
+							}
+							state={state}
 						/>
 					))}
 				</div>
@@ -160,7 +165,11 @@ export const Presentation = () => {
 				state={state}
 				dispatch={dispatch}
 				deleteElement={() =>
-					tools.deleteElement(state, ctx, canvasRef, dispatch)
+					sockets.deleteSlide(
+						state.presentationId,
+						state.clikedSlideId,
+						dispatch,
+					)
 				}
 			/>
 		</main>

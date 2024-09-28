@@ -9,6 +9,7 @@ export const onReundo = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
+	if (state.role === "viewer") return;
 	if (state.deletedElements.length > 0) {
 		const newDrawnElements = [
 			...state.drawnElements,

@@ -1,6 +1,6 @@
 import { Action, CanvasElement } from "@/interfaces";
 import { MouseEvent, RefObject } from "react";
-import { clearCanvas, drawElement, initialState } from "..";
+import { initialState } from "..";
 import { v4 as uuid } from "uuid";
 
 export const onMouseUp = (
@@ -8,10 +8,9 @@ export const onMouseUp = (
 	state: typeof initialState,
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
-	ctx: CanvasRenderingContext2D | undefined | null,
 	textAreRef: RefObject<HTMLTextAreaElement>,
 ) => {
-	if (!canvasRef.current || !state) return;
+	if (!canvasRef.current || !state || state.role === "viewer") return;
 
 	//*Logic to draw the element
 	const rect = canvasRef.current.getBoundingClientRect();

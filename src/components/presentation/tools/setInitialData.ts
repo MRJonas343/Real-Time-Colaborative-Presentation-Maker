@@ -16,6 +16,7 @@ export const setInitialData = async (
 	dispatch({ type: "SET_TOTAL_SLIDES", payload: data.totalOfSlides });
 	dispatch({ type: "SET_ROLE", payload: data.role });
 	dispatch({ type: "SET_IS_LOADING", payload: false });
+	dispatch({ type: "SET_PARTICIPANT_NAME", payload: String(userName) });
 
 	const newSlides = data.slidesData.map((slide) => {
 		return {

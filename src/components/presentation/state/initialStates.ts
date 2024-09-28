@@ -1,4 +1,5 @@
 import { CanvasElement, EditorModes, SlideExample } from "@/interfaces";
+import { Participant } from "@/interfaces/Participants";
 
 export const initialState = {
 	editorMode: "cursor" as EditorModes,
@@ -7,7 +8,7 @@ export const initialState = {
 	presentationTopic: "",
 	currentSlide: 1,
 	totalSlides: 10,
-	role: "viewer" as "viewer" | "creator" | "editor",
+	role: "viewer" as string,
 	isLoading: true,
 	startX: 0,
 	startY: 0,
@@ -31,4 +32,6 @@ export const initialState = {
 	slideMenuY: 0,
 	isSlideMenuOpen: false,
 	clikedSlideId: "",
+	participants: [] as Participant[],
+	participanName: "",
 };

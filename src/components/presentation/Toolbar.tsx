@@ -28,6 +28,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					size="lg"
 					className="p-2"
 					variant="faded"
+					isDisabled={state.role === "viewer"}
 					onClick={onUndo}
 				>
 					<PiArrowCounterClockwiseBold size={40} />
@@ -39,6 +40,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					size="lg"
 					className="p-2"
 					variant="faded"
+					isDisabled={state.role === "viewer"}
 					onClick={onReundo}
 				>
 					<PiArrowClockwiseBold size={40} />
@@ -49,6 +51,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					radius="sm"
 					isIconOnly
 					size="lg"
+					isDisabled={state.role === "viewer"}
 					color={state.editorMode === "cursor" ? "primary" : "default"}
 					className="p-2"
 					variant={state.editorMode === "cursor" ? "shadow" : "faded"}
@@ -62,6 +65,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
+					isDisabled={state.role === "viewer"}
 					variant={state.editorMode === "text" ? "shadow" : "faded"}
 					color={state.editorMode === "text" ? "primary" : "default"}
 					onClick={() => changeEditorMode("text")}
@@ -74,6 +78,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
+					isDisabled={state.role === "viewer"}
 					variant={state.editorMode === "circle" ? "shadow" : "faded"}
 					color={state.editorMode === "circle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("circle")}
@@ -85,6 +90,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
+					isDisabled={state.role === "viewer"}
 					variant={state.editorMode === "arrow" ? "shadow" : "faded"}
 					color={state.editorMode === "arrow" ? "primary" : "default"}
 					onClick={() => changeEditorMode("arrow")}
@@ -96,6 +102,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					isIconOnly
 					size="lg"
 					className="p-2"
+					isDisabled={state.role === "viewer"}
 					variant={state.editorMode === "rectangle" ? "shadow" : "faded"}
 					color={state.editorMode === "rectangle" ? "primary" : "default"}
 					onClick={() => changeEditorMode("rectangle")}
@@ -103,6 +110,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					<FaSquare size={40} />
 				</Button>
 				<Select
+					isDisabled={state.role === "viewer"}
 					aria-label="Stroke color"
 					radius="sm"
 					defaultSelectedKeys={["White"]}
@@ -130,17 +138,15 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</Select>
 			</div>
 
-			<div className="w-[30%] flex flex-col justify-center p-5 border-b-2 border-gray-700">
-				<div className="flex justify-around px-3">
+			<div className="w-[30%] flex px-14 flex-col justify-center p-5 border-b-2 border-gray-700">
+				<div className="flex justify-between items-start">
 					<p>{state.presentationTopic}</p>
-					<p>ID # {state.presentationId}</p>
+					<p>Presentation ID # {state.presentationId}</p>
 				</div>
-				<div className="flex justify-around px-3">
+				<div className="flex justify-between">
 					<div>By : {state.presentationCreator}</div>
 
-					<div>
-						Slide : {state.currentSlide}/{state.totalSlides}
-					</div>
+					<div />
 				</div>
 			</div>
 			<div className="w-[20%] flex justify-around items-center border-b-2 border-gray-700">

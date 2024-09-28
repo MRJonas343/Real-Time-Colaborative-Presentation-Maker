@@ -9,6 +9,7 @@ export const onUndo = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
+	if (state.role === "viewer") return;
 	if (state.drawnElements.length > 0) {
 		const lastElement = state.drawnElements[state.drawnElements.length - 1];
 		const newDrawnElements = state.drawnElements.slice(0, -1);
