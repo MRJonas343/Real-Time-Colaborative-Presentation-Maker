@@ -4,11 +4,7 @@ export const drawElement = (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	element: CanvasElement,
 ) => {
-	if (!ctx) {
-		//*Aqui es donde lo toma como nullo cuando el evento viene de un socket
-		console.log("no ctx");
-		return;
-	}
+	if (!ctx) return;
 
 	ctx.fillStyle = element.fillColor || "transparent";
 

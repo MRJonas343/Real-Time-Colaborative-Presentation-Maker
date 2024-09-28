@@ -2,6 +2,7 @@ import { Action } from "@/interfaces";
 import { initialState } from "../state";
 import { clearCanvas } from "./clearCanvas";
 import { RefObject } from "react";
+import { updateCanvasElements } from "@/sockets";
 
 export const handleTextChange = (
 	state: typeof initialState,
@@ -23,6 +24,10 @@ export const handleTextChange = (
 		return element;
 	});
 
+	const newElement = updatedElements.find(
+		(element) => element.id === state.editedTextElement?.id,
+	);
+
 	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: updatedElements });
 	dispatch({ type: "SET_IS_EDITING", payload: false });
 
@@ -30,5 +35,6 @@ export const handleTextChange = (
 	dispatch({ type: "SET_EDITED_TEXT_ELEMENT", payload: null });
 	dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: "" });
 
-	//TODO: there is a wird bug, it basically dont update the drawnelement state to the new one without the text  elements without contents
+	if (!newElement) return;
+	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
 };
