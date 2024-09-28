@@ -1,3 +1,4 @@
+import { deleteCanvasElement } from "@/sockets/deleteElement";
 import { clearCanvas } from ".";
 import { initialState } from "../state";
 import { Action } from "@/interfaces";
@@ -28,6 +29,12 @@ export const onUndo = (
 			type: "SET_DRAWN_ELEMENTS",
 			payload: updatedElements,
 		});
+
+		deleteCanvasElement(
+			state.presentationId,
+			lastElement.id,
+			state.currentSlide,
+		);
 
 		clearCanvas(ctx, canvasRef, updatedElements);
 	}

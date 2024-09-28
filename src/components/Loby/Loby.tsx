@@ -63,9 +63,7 @@ export const Loby = () => {
 				);
 
 				router.push(`/presentation/${result.presentationId}/${result.creator}`);
-			} catch (error) {
-				console.log("Error creating presentation:", error);
-			}
+			} catch (error) {}
 
 			return onClose();
 		}
@@ -90,9 +88,7 @@ export const Loby = () => {
 		return router.push(`/presentation/${id}/${name}`);
 	};
 
-	const onSortBy = (value: string) => {
-		console.log("Sorting by:", value);
-	};
+	const onSortBy = (value: string) => {};
 
 	const onPageChange = (page: number) => {
 		//*Ask the server for the slides of the page

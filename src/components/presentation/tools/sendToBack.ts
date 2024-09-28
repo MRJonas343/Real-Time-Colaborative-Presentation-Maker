@@ -2,6 +2,7 @@ import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
+import { updateZindex } from "@/sockets/updateZindex";
 
 export const sendToBack = (
 	state: typeof initialState,
@@ -20,6 +21,12 @@ export const sendToBack = (
 		type: "SET_DRAWN_ELEMENTS",
 		payload: newElementsWithElement,
 	});
+
+	updateZindex(
+		newElementsWithElement,
+		state.currentSlide,
+		state.presentationId,
+	);
 
 	clearCanvas(ctx, canvasRef, newElementsWithElement);
 };

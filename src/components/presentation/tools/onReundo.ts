@@ -2,6 +2,7 @@ import { clearCanvas } from ".";
 import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
+import { updateCanvasElements } from "@/sockets";
 
 export const onReundo = (
 	state: typeof initialState,
@@ -25,6 +26,13 @@ export const onReundo = (
 			type: "SET_DELETED_ELEMENTS",
 			payload: newDeletedElements,
 		});
+
+		//*If I have a reundo I need to add a new element
+		updateCanvasElements(
+			state.currentSlide,
+			state.deletedElements[state.deletedElements.length - 1],
+			state.presentationId,
+		);
 
 		clearCanvas(ctx, canvasRef, newDrawnElements);
 	}

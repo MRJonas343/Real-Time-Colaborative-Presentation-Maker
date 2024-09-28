@@ -2,6 +2,7 @@ import { Action } from "@/interfaces";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { initialState } from "../state";
+import { updateCanvasElements } from "@/sockets";
 
 export const fillElement = (
 	state: typeof initialState,
@@ -26,6 +27,8 @@ export const fillElement = (
 		type: "SET_DRAWN_ELEMENTS",
 		payload: newElements,
 	});
+
+	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
 
 	clearCanvas(ctx, canvasRef, newElements);
 };

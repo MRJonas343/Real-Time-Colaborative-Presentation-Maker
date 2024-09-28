@@ -2,6 +2,7 @@ import { Action } from "@/interfaces";
 import { clearCanvas } from "./clearCanvas";
 import { initialState } from "../state";
 import { RefObject } from "react";
+import { updateCanvasElements } from "@/sockets";
 
 export const changeStrokeColorOfElement = (
 	state: typeof initialState,
@@ -28,7 +29,6 @@ export const changeStrokeColorOfElement = (
 		payload: newElements,
 	});
 
+	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
 	clearCanvas(ctx, canvasRef, newElements);
-
-	//TODO : actualizar los elementos que esten en la misma colaboracion
 };

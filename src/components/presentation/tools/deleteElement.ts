@@ -2,6 +2,7 @@ import { Action } from "@/interfaces";
 import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { initialState } from "../state";
+import { deleteCanvasElement } from "@/sockets/deleteElement";
 
 export const deleteElement = (
 	state: typeof initialState,
@@ -28,6 +29,12 @@ export const deleteElement = (
 		type: "SET_DELETED_ELEMENTS",
 		payload: newDeletedElements,
 	});
+
+	deleteCanvasElement(
+		state.presentationId,
+		state.clickedCanvasElement?.id,
+		state.currentSlide,
+	);
 
 	clearCanvas(ctx, canvasRef, newElements);
 };
