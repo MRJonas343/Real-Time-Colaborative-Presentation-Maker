@@ -19,29 +19,36 @@ export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const textAreRef = useRef<HTMLTextAreaElement>(null);
+	const stateRef = useRef<typeof initialState>(state);
 	const ctx = canvasRef.current?.getContext("2d");
+	const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
 	const { id, name } = useParams();
 	const sensors = useDndSensors();
 
 	useEffect(() => {
-		dispatch({ type: "SET_IS_LOADING", payload: true });
-		setInitialData(dispatch, String(name), String(id));
-
-		sockets.joinPresentation(String(id), String(name));
-		sockets.participantsListeners(dispatch, String(name));
-		sockets.updateSlidesListener(dispatch);
-
 		if (typeof window !== "undefined" && canvasRef.current) {
 			canvasRef.current.width = window.innerWidth * 0.7;
 			canvasRef.current.height = window.innerHeight * 0.9;
+			ctxRef.current = canvasRef.current.getContext("2d");
 		}
+
+		setInitialData(dispatch, String(name), String(id));
+		sockets.joinPresentation(String(id), String(name));
+		sockets.participantsListeners(dispatch, String(name));
+		sockets.updateSlidesListener(dispatch);
+		sockets.updateElementsListeners(dispatch, stateRef, ctxRef.current);
 
 		return () => {
 			//*Turn off the listeners
 			socket.off("newSlides");
 			socket.off("participants");
+			socket.off("newElements");
 		};
 	}, []);
+
+	useEffect(() => {
+		stateRef.current = state;
+	}, [state]);
 
 	return (
 		<main className="min-h-screen flex flex-col h-auto">

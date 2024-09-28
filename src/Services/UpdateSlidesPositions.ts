@@ -1,7 +1,8 @@
 import { initialState } from "@/components/presentation";
-import { Action, SlideExample } from "@/interfaces";
+import { Action } from "@/interfaces";
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import { updateSlidesOders } from "@/sockets";
 
 export const updateSlidesPositions = (
 	e: DragEndEvent,
@@ -15,6 +16,7 @@ export const updateSlidesPositions = (
 	}
 
 	if (active.id !== over.id) {
+		updateSlidesOders(String(active.id), String(over.id), state.presentationId);
 		const oldIndex = state.slidesPreviews.findIndex(
 			(slide) => slide.id === active.id,
 		);
@@ -22,8 +24,6 @@ export const updateSlidesPositions = (
 			(slide) => slide.id === over.id,
 		);
 
-		console.log("oldIndex:", oldIndex);
-		console.log("newIndex:", newIndex);
 		const updatedSlides = arrayMove(state.slidesPreviews, oldIndex, newIndex);
 
 		dispatch({
@@ -31,6 +31,4 @@ export const updateSlidesPositions = (
 			payload: updatedSlides,
 		});
 	}
-
-	// TODO: actualizar las previsualizaciones de otros colaboradores y la BD con el nuevo orden
 };

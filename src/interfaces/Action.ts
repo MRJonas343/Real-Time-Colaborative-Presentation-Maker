@@ -1,4 +1,4 @@
-import { CanvasElement, EditorModes, Role, SlideExample } from ".";
+import { CanvasElement, EditorModes, SlideExample } from ".";
 import { Participant } from "./Participants";
 
 export type Action =

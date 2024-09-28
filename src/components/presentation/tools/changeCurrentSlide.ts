@@ -6,5 +6,10 @@ export const changeCurrentSlide = (
 	dispatch: (value: Action) => void,
 	id: string,
 ) => {
-	dispatch({ type: "SET_CURRENT_SLIDE", payload: Number(id) });
+	const slidePosition = state.slidesPreviews.find((slide) => slide.id === id);
+
+	dispatch({
+		type: "SET_CURRENT_SLIDE",
+		payload: Number(slidePosition?.position),
+	});
 };

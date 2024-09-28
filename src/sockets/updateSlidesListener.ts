@@ -11,10 +11,10 @@ export interface NewSlides {
 
 export const updateSlidesListener = (dispatch: (value: Action) => void) => {
 	socket.on("newSlides", (slides: NewSlides[]) => {
-		console.log("Slides updated:", slides);
 		const newSlides = slides.map((slide) => {
 			return {
 				id: String(slide.id),
+				position: slide.position,
 				slidePreview: slide.previewImage,
 			};
 		});

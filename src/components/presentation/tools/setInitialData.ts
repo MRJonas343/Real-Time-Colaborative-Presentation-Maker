@@ -21,9 +21,12 @@ export const setInitialData = async (
 	const newSlides = data.slidesData.map((slide) => {
 		return {
 			id: slide.id.toString(),
+			position: slide.position,
 			slidePreview: slide.previewImage,
 		};
 	});
+
+	dispatch({ type: "SET_CURRENT_SLIDE", payload: newSlides[0].position });
 
 	dispatch({ type: "SET_SLIDES_PREVIEWS", payload: newSlides });
 };

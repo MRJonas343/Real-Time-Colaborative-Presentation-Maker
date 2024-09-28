@@ -146,7 +146,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				<div className="flex justify-between">
 					<div>By : {state.presentationCreator}</div>
 
-					<div />
+					<div> Slide : {state.currentSlide}</div>
 				</div>
 			</div>
 			<div className="w-[20%] flex justify-around items-center border-b-2 border-gray-700">

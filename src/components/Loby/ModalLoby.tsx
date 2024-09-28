@@ -20,8 +20,6 @@ export const ModalLoby: FC<ModalLobyProps> = ({
 		const userName = form.get("name")?.toString();
 		const title = form.get("title")?.toString();
 
-		console.log("userName:", userName);
-
 		if (!userName) {
 			return setIsNameInvalid(true);
 		}

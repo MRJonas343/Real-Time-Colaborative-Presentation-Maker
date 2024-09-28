@@ -3,4 +3,7 @@ export * from "./createSlide";
 export * from "./deleteSlide";
 export * from "./joinPresentation";
 export * from "./participantsListeners";
+export * from "./updateCanvasElements";
+export * from "./updateElementsListeners";
 export * from "./updateSlidesListener";
+export * from "./updateSlidesOrder";

@@ -2,6 +2,8 @@ import { Action, CanvasElement } from "@/interfaces";
 import { MouseEvent, RefObject } from "react";
 import { initialState } from "..";
 import { v4 as uuid } from "uuid";
+import { socket } from "@/constants";
+import { updateCanvasElements } from "@/sockets";
 
 export const onMouseUp = (
 	e: MouseEvent<HTMLCanvasElement>,
@@ -87,4 +89,6 @@ export const onMouseUp = (
 	dispatch({ type: "SET_IS_DRAWING", payload: false });
 
 	//TODO: actualizar el estado de los elementos que esten en la misma colaboracion
+
+	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
 };
