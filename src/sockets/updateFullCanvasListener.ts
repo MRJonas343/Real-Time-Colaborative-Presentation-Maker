@@ -2,9 +2,10 @@ import { initialState } from "@/components/presentation";
 import { socket } from "@/constants";
 import { Action, CanvasElement } from "@/interfaces";
 import { clearCanvas } from "@/components/presentation";
-import { RefObject } from "react";
+import { MutableRefObject, RefObject } from "react";
 
 export const updateFullCanvasListener = (
+	stateRef: MutableRefObject<typeof initialState>,
 	dispatch: (value: Action) => void,
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
@@ -21,6 +22,6 @@ export const updateFullCanvasListener = (
 				canvasRef.current?.height || 0,
 			);
 		}
-		clearCanvas(ctx, canvasRef, newElements);
+		clearCanvas(stateRef.current, ctx, canvasRef, newElements);
 	});
 };

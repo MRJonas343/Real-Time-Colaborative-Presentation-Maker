@@ -34,7 +34,8 @@ export const updateElementsListeners = (
 
 		if (ctx) ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-		for (const element of finalElements) drawElement(ctx, element);
+		for (const element of finalElements)
+			drawElement(stateRef.current, ctx, element);
 	});
 
 	socket.on("updateZindexServer", (data: UpdateCanvasElementsResponse) => {
@@ -44,6 +45,7 @@ export const updateElementsListeners = (
 
 		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 		if (ctx) ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-		for (const element of newElements) drawElement(ctx, element);
+		for (const element of newElements)
+			drawElement(stateRef.current, ctx, element);
 	});
 };

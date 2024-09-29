@@ -42,7 +42,12 @@ export const Presentation = () => {
 		sockets.participantsListeners(dispatch, String(name));
 		sockets.updateSlidesListener(dispatch);
 		sockets.updateElementsListeners(dispatch, stateRef, ctxRef.current);
-		sockets.updateFullCanvasListener(dispatch, ctxRef.current, canvasRef);
+		sockets.updateFullCanvasListener(
+			stateRef,
+			dispatch,
+			ctxRef.current,
+			canvasRef,
+		);
 
 		return () => {
 			socket.off("newSlides");
