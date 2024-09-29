@@ -1,7 +1,7 @@
 "use client";
 
 import { closestCenter, DndContext } from "@dnd-kit/core";
-import { createThumbnailImageInJPG, updateSlidesPositions } from "@/Services";
+import { updateSlidesPositions } from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
 import { socket } from "@/constants";
 import { useEffect, useReducer, useRef } from "react";
@@ -14,6 +14,7 @@ import * as tools from "./tools";
 import { SlideDropDown } from "./SlideDropDown";
 import { setInitialData } from "./tools/setInitialData";
 import * as sockets from "@/sockets";
+import { exportToPdf } from "@/Services/exportToPdf";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -30,19 +31,27 @@ export const Presentation = () => {
 			canvasRef.current.width = window.innerWidth * 0.7;
 			canvasRef.current.height = window.innerHeight * 0.9;
 			ctxRef.current = canvasRef.current.getContext("2d");
+			setInitialData(
+				dispatch,
+				String(name),
+				String(id),
+				ctxRef.current,
+				canvasRef,
+			);
 		}
-
-		setInitialData(dispatch, String(name), String(id));
 		sockets.joinPresentation(String(id), String(name));
+
 		sockets.participantsListeners(dispatch, String(name));
 		sockets.updateSlidesListener(dispatch);
 		sockets.updateElementsListeners(dispatch, stateRef, ctxRef.current);
+		sockets.updateFullCanvasListener(dispatch, ctxRef.current, canvasRef);
 
 		return () => {
 			//*Turn off the listeners
 			socket.off("newSlides");
 			socket.off("participants");
 			socket.off("newElements");
+			socket.off("updateFullCanvas");
 		};
 	}, []);
 
@@ -60,7 +69,7 @@ export const Presentation = () => {
 				}
 				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
 				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}
-				exportToPDF={() => createThumbnailImageInJPG(canvasRef, ctx)}
+				exportToPDF={() => exportToPdf(ctx, canvasRef, dispatch, state)}
 			/>
 			<section className="flex w-full h-screen flex-grow">
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">

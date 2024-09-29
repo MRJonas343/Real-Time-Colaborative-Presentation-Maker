@@ -1,5 +1,6 @@
 import { Action } from "@/interfaces";
 import { initialState } from "../state";
+import { changeCurrentSlideSocket } from "@/sockets/changeCurrentSlide";
 
 export const changeCurrentSlide = (
 	state: typeof initialState,
@@ -12,4 +13,9 @@ export const changeCurrentSlide = (
 		type: "SET_CURRENT_SLIDE",
 		payload: Number(slidePosition?.position),
 	});
+
+	changeCurrentSlideSocket(
+		state.presentationId,
+		Number(slidePosition?.position),
+	);
 };

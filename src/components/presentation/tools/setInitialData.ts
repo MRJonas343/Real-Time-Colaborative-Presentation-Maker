@@ -1,12 +1,16 @@
-import { Action } from "@/interfaces";
+import { Action, CanvasElement } from "@/interfaces";
 
 import { LocalStoragePresentation } from "@/interfaces/LocalStoragePresentation";
 import { joinPresentation } from "@/Services/joinPresentation";
+import { clearCanvas } from "./clearCanvas";
+import { RefObject } from "react";
 
 export const setInitialData = async (
 	dispatch: (value: Action) => void,
 	userName: string,
 	id: string,
+	ctx: CanvasRenderingContext2D | undefined | null,
+	canvasRef: RefObject<HTMLCanvasElement>,
 ) => {
 	const data = await joinPresentation(id, userName ?? "Anonymous");
 
@@ -26,7 +30,12 @@ export const setInitialData = async (
 		};
 	});
 
-	dispatch({ type: "SET_CURRENT_SLIDE", payload: newSlides[0].position });
+	if (data.slidesData[0].canvasElements === null) return;
+	const canvasElements = data.slidesData[0].canvasElements as CanvasElement[];
 
+	dispatch({ type: "SET_CURRENT_SLIDE", payload: newSlides[0].position });
+	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: canvasElements });
 	dispatch({ type: "SET_SLIDES_PREVIEWS", payload: newSlides });
+
+	clearCanvas(ctx, canvasRef, canvasElements);
 };
