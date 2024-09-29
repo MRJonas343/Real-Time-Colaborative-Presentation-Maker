@@ -1,3 +1,5 @@
+"use client";
+
 import { initialState } from "@/components/presentation";
 import { Action } from "@/interfaces";
 import { DragEndEvent } from "@dnd-kit/core";
