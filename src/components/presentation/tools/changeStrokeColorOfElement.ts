@@ -3,6 +3,7 @@ import { clearCanvas } from "./clearCanvas";
 import { initialState } from "../state";
 import { RefObject } from "react";
 import { updateCanvasElements } from "@/sockets";
+import { createThumbnailImageInJPG } from "@/Services";
 
 export const changeStrokeColorOfElement = (
 	state: typeof initialState,
@@ -28,7 +29,15 @@ export const changeStrokeColorOfElement = (
 		type: "SET_DRAWN_ELEMENTS",
 		payload: newElements,
 	});
+	const image = createThumbnailImageInJPG(canvasRef, ctx);
 
-	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
+	if (!image) return;
+
+	updateCanvasElements(
+		state.currentSlide,
+		newElement,
+		state.presentationId,
+		image,
+	);
 	clearCanvas(ctx, canvasRef, newElements);
 };

@@ -3,6 +3,7 @@ import { RefObject } from "react";
 import { clearCanvas } from "./clearCanvas";
 import { initialState } from "../state";
 import { updateCanvasElements } from "@/sockets";
+import { createThumbnailImageInJPG } from "@/Services";
 
 export const fillElement = (
 	state: typeof initialState,
@@ -27,8 +28,15 @@ export const fillElement = (
 		type: "SET_DRAWN_ELEMENTS",
 		payload: newElements,
 	});
+	const image = createThumbnailImageInJPG(canvasRef, ctx);
+	if (!image) return;
 
-	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
+	updateCanvasElements(
+		state.currentSlide,
+		newElement,
+		state.presentationId,
+		image,
+	);
 
 	clearCanvas(ctx, canvasRef, newElements);
 };

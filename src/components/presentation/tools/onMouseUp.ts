@@ -2,7 +2,7 @@ import { Action, CanvasElement } from "@/interfaces";
 import { MouseEvent, RefObject } from "react";
 import { initialState } from "..";
 import { v4 as uuid } from "uuid";
-import { socket } from "@/constants";
+import { createThumbnailImageInJPG } from "@/Services";
 import { updateCanvasElements } from "@/sockets";
 
 export const onMouseUp = (
@@ -11,6 +11,7 @@ export const onMouseUp = (
 	dispatch: (value: Action) => void,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	textAreRef: RefObject<HTMLTextAreaElement>,
+	ctx: CanvasRenderingContext2D | undefined | null,
 ) => {
 	if (!canvasRef.current || !state || state.role === "viewer") return;
 
@@ -47,10 +48,14 @@ export const onMouseUp = (
 			textAreRef.current?.focus();
 		}, 100);
 
+		const image = createThumbnailImageInJPG(canvasRef, ctx);
+		if (!image) return;
+
 		updateCanvasElements(
 			state.currentSlide,
 			newTextElement,
 			state.presentationId,
+			image,
 		);
 
 		return;
@@ -72,7 +77,14 @@ export const onMouseUp = (
 			(element) => element.id === state.modifiedElement?.id,
 		);
 		if (!newElement) return;
-		updateCanvasElements(state.currentSlide, newElement, state.presentationId);
+		const image = createThumbnailImageInJPG(canvasRef, ctx);
+		if (!image) return;
+		updateCanvasElements(
+			state.currentSlide,
+			newElement,
+			state.presentationId,
+			image,
+		);
 
 		return;
 	}
@@ -99,5 +111,14 @@ export const onMouseUp = (
 
 	dispatch({ type: "SET_IS_DRAWING", payload: false });
 
-	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
+	//*Creare th thumbnail image
+	const image = createThumbnailImageInJPG(canvasRef, ctx);
+	if (!image) return;
+
+	updateCanvasElements(
+		state.currentSlide,
+		newElement,
+		state.presentationId,
+		image,
+	);
 };

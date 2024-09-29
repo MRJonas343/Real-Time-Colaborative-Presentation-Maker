@@ -3,6 +3,7 @@ import { Action } from "@/interfaces";
 import { initialState } from "..";
 import { RefObject } from "react";
 import { updateCanvasElements } from "@/sockets";
+import { createThumbnailImageInJPG } from "@/Services";
 
 export const onReundo = (
 	state: typeof initialState,
@@ -27,11 +28,15 @@ export const onReundo = (
 			payload: newDeletedElements,
 		});
 
+		const image = createThumbnailImageInJPG(canvasRef, ctx);
+		if (!image) return;
+
 		//*If I have a reundo I need to add a new element
 		updateCanvasElements(
 			state.currentSlide,
 			state.deletedElements[state.deletedElements.length - 1],
 			state.presentationId,
+			image,
 		);
 
 		clearCanvas(ctx, canvasRef, newDrawnElements);

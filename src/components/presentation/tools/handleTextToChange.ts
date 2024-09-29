@@ -3,6 +3,7 @@ import { initialState } from "../state";
 import { clearCanvas } from "./clearCanvas";
 import { RefObject } from "react";
 import { updateCanvasElements } from "@/sockets";
+import { createThumbnailImageInJPG } from "@/Services";
 
 export const handleTextChange = (
 	state: typeof initialState,
@@ -36,5 +37,12 @@ export const handleTextChange = (
 	dispatch({ type: "SET_TEXT_FIELD_VALUE", payload: "" });
 
 	if (!newElement) return;
-	updateCanvasElements(state.currentSlide, newElement, state.presentationId);
+	const image = createThumbnailImageInJPG(canvasRef, ctx);
+	if (!image) return;
+	updateCanvasElements(
+		state.currentSlide,
+		newElement,
+		state.presentationId,
+		image,
+	);
 };

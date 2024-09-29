@@ -1,7 +1,8 @@
+"use client";
+
 import { Action } from "@/interfaces";
 import { initialState } from ".";
 import { RefObject } from "react";
-import { FocusEvent } from "react";
 
 interface TextAreaProps {
 	state: typeof initialState;

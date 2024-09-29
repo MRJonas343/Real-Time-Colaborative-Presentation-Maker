@@ -1,20 +1,18 @@
 "use client";
 
-import { closestCenter, DndContext } from "@dnd-kit/core";
-import { updateSlidesPositions } from "@/Services";
 import { Dropdown, SlidePreview, TextArea, Toolbar, UserProfile } from ".";
-import { socket } from "@/constants";
+import { updateSlidesPositions, exportToPdf } from "@/Services";
 import { useEffect, useReducer, useRef } from "react";
 import { SortableContext } from "@dnd-kit/sortable";
 import { Button, Divider } from "@nextui-org/react";
 import { reducer, initialState } from "./state";
-import { useDndSensors } from "@/hooks";
-import { useParams } from "next/navigation";
-import * as tools from "./tools";
 import { SlideDropDown } from "./SlideDropDown";
-import { setInitialData } from "./tools/setInitialData";
+import { useParams } from "next/navigation";
+import { DndContext } from "@dnd-kit/core";
+import { useDndSensors } from "@/hooks";
+import { socket } from "@/constants";
 import * as sockets from "@/sockets";
-import { exportToPdf } from "@/Services/exportToPdf";
+import * as tools from "./tools";
 
 export const Presentation = () => {
 	const [state, dispatch] = useReducer(reducer, initialState);
@@ -31,7 +29,7 @@ export const Presentation = () => {
 			canvasRef.current.width = window.innerWidth * 0.7;
 			canvasRef.current.height = window.innerHeight * 0.9;
 			ctxRef.current = canvasRef.current.getContext("2d");
-			setInitialData(
+			tools.setInitialData(
 				dispatch,
 				String(name),
 				String(id),
@@ -40,14 +38,12 @@ export const Presentation = () => {
 			);
 		}
 		sockets.joinPresentation(String(id), String(name));
-
 		sockets.participantsListeners(dispatch, String(name));
 		sockets.updateSlidesListener(dispatch);
 		sockets.updateElementsListeners(dispatch, stateRef, ctxRef.current);
 		sockets.updateFullCanvasListener(dispatch, ctxRef.current, canvasRef);
 
 		return () => {
-			//*Turn off the listeners
 			socket.off("newSlides");
 			socket.off("participants");
 			socket.off("newElements");
@@ -89,11 +85,10 @@ export const Presentation = () => {
 					<DndContext
 						autoScroll={false}
 						sensors={sensors}
-						collisionDetection={closestCenter}
 						onDragEnd={(e) => updateSlidesPositions(e, dispatch, state)}
 					>
 						<SortableContext
-							disabled={state.role === "viewer" || state.role === "editor"}
+							disabled={state.role === "viewer"}
 							items={state.slidesPreviews}
 						>
 							{state.slidesPreviews.map((item) => (
@@ -121,7 +116,7 @@ export const Presentation = () => {
 						tools.onMouseDown(e, state, dispatch, canvasRef, ctx)
 					}
 					onMouseUp={(e) =>
-						tools.onMouseUp(e, state, dispatch, canvasRef, textAreRef)
+						tools.onMouseUp(e, state, dispatch, canvasRef, textAreRef, ctx)
 					}
 					onMouseMove={(e) =>
 						tools.onMouseMove(e, state, canvasRef, ctx, dispatch)

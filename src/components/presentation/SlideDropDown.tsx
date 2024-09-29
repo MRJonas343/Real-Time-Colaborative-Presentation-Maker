@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@nextui-org/react";
 import { FC } from "react";
 import { SlideDropDownProps } from "@/interfaces";
