@@ -1,5 +1,5 @@
 import { initialState } from "@/components/presentation";
-import { Action, CanvasElement } from "@/interfaces";
+import { CanvasElement } from "@/interfaces";
 import jsPDF from "jspdf";
 import { RefObject } from "react";
 import { clearCanvas } from "@/components/presentation";
@@ -27,9 +27,9 @@ export const exportToPdf = async (
 	});
 
 	for (let i = 0; i < slides.length; i++) {
-		clearCanvas(ctx, canvasRef, []);
+		clearCanvas(state, ctx, canvasRef, []);
 
-		clearCanvas(ctx, canvasRef, slides[i]);
+		clearCanvas(state, ctx, canvasRef, slides[i]);
 
 		const imgData = canvasRef.current?.toDataURL("image/jpeg", 1.0);
 
@@ -47,7 +47,7 @@ export const exportToPdf = async (
 			);
 		}
 
-		clearCanvas(ctx, canvasRef, state.drawnElements);
+		clearCanvas(state, ctx, canvasRef, state.drawnElements);
 	}
 
 	//* Save the PDF
