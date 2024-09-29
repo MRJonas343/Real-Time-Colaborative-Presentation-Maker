@@ -7,7 +7,7 @@ import { clearCanvas } from "@/components/presentation";
 export const exportToPdf = async (
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
-	dispatch: (value: Action) => void,
+
 	state: typeof initialState,
 ) => {
 	const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

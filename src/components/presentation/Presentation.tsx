@@ -69,7 +69,7 @@ export const Presentation = () => {
 				}
 				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
 				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}
-				exportToPDF={() => exportToPdf(ctx, canvasRef, dispatch, state)}
+				exportToPDF={() => exportToPdf(ctx, canvasRef, state)}
 			/>
 			<section className="flex w-full h-screen flex-grow">
 				<div className="w-[15%] border-r-2 border-gray-700 min-h-full h-auto overflow-y-auto scrollbar pb-32">
