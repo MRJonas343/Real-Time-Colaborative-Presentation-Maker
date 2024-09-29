@@ -39,7 +39,7 @@ export const Gallery: FC<GalleryProps> = ({
 							<h4 className="font-bold text-large">{item.topic}</h4>
 						</Skeleton>
 					</CardHeader>
-					<CardBody className="py-2">
+					<CardBody className="py-2 flex justify-center items-center">
 						<Image
 							isLoading={isLoading}
 							alt="Card background"
