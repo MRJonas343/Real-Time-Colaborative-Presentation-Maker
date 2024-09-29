@@ -12,7 +12,7 @@ export const Loby = () => {
 	const router = useRouter();
 
 	const [presentationId, setPresentationId] = useState("");
-	const [totalPages, setTotalPages] = useState(3);
+	const [totalPages, setTotalPages] = useState(4);
 	const [isGalleryLoading, setIsGalleryLoading] = useState(true);
 	const [slides, setSlides] = useState<ResponseGetSlidesLoby[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
