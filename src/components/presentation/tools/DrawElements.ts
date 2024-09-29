@@ -1,10 +1,16 @@
 import { CanvasElement } from "@/interfaces";
+import { initialState } from "../state";
 
 export const drawElement = (
+	state: typeof initialState,
 	ctx: CanvasRenderingContext2D | undefined | null,
 	element: CanvasElement,
 ) => {
 	if (!ctx) return;
+
+	ctx.save();
+
+	ctx.scale(state.scale, state.scale);
 
 	ctx.fillStyle = element.fillColor || "transparent";
 
@@ -41,6 +47,7 @@ export const drawElement = (
 			ctx.fillText(text, element.x, element.y + index * lineHeight);
 		});
 
+		ctx.restore();
 		return;
 	}
 
@@ -122,4 +129,6 @@ export const drawElement = (
 			ctx.restore();
 		}
 	}
+
+	ctx.restore();
 };

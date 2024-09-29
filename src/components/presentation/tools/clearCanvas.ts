@@ -1,8 +1,10 @@
 import { CanvasElement } from "@/interfaces";
 import { RefObject } from "react";
 import { drawElement } from "./DrawElements";
+import { initialState } from "../state";
 
 export const clearCanvas = (
+	state: typeof initialState,
 	ctx: CanvasRenderingContext2D | undefined | null,
 	canvasRef: RefObject<HTMLCanvasElement>,
 	elements: CanvasElement[],
@@ -16,5 +18,5 @@ export const clearCanvas = (
 		canvasRef.current?.height || 0,
 	);
 
-	for (const element of elements) drawElement(ctx, element);
+	for (const element of elements) drawElement(state, ctx, element);
 };

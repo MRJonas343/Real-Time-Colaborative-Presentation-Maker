@@ -39,5 +39,5 @@ export const changeStrokeColorOfElement = (
 		state.presentationId,
 		image,
 	);
-	clearCanvas(ctx, canvasRef, newElements);
+	clearCanvas(state, ctx, canvasRef, newElements);
 };

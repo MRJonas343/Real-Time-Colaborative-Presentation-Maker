@@ -30,6 +30,7 @@ export const Presentation = () => {
 			canvasRef.current.height = window.innerHeight * 0.9;
 			ctxRef.current = canvasRef.current.getContext("2d");
 			tools.setInitialData(
+				stateRef.current,
 				dispatch,
 				String(name),
 				String(id),
@@ -61,7 +62,7 @@ export const Presentation = () => {
 				state={state}
 				chageStrokeColor={(color) => tools.chageStrokeColor(color, dispatch)}
 				changeEditorMode={(mode) =>
-					tools.changeEditorMode(state, mode, dispatch)
+					tools.changeEditorMode(ctx, state, mode, dispatch)
 				}
 				onUndo={() => tools.onUndo(state, dispatch, ctx, canvasRef)}
 				onReundo={() => tools.onReundo(state, dispatch, ctx, canvasRef)}

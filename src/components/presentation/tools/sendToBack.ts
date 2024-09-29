@@ -28,5 +28,5 @@ export const sendToBack = (
 		state.presentationId,
 	);
 
-	clearCanvas(ctx, canvasRef, newElementsWithElement);
+	clearCanvas(state, ctx, canvasRef, newElementsWithElement);
 };

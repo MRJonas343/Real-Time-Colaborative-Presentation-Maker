@@ -36,5 +36,5 @@ export const deleteElement = (
 		state.currentSlide,
 	);
 
-	clearCanvas(ctx, canvasRef, newElements);
+	clearCanvas(state, ctx, canvasRef, newElements);
 };

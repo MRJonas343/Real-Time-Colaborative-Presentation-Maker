@@ -38,5 +38,5 @@ export const fillElement = (
 		image,
 	);
 
-	clearCanvas(ctx, canvasRef, newElements);
+	clearCanvas(state, ctx, canvasRef, newElements);
 };

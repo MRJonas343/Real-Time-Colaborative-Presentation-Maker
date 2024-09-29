@@ -34,4 +34,5 @@ export const initialState = {
 	clikedSlideId: "",
 	participants: [] as Participant[],
 	participanName: "",
+	scale: 1,
 };

@@ -39,6 +39,6 @@ export const onReundo = (
 			image,
 		);
 
-		clearCanvas(ctx, canvasRef, newDrawnElements);
+		clearCanvas(state, ctx, canvasRef, newDrawnElements);
 	}
 };

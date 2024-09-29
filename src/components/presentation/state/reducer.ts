@@ -67,6 +67,8 @@ export const reducer = (state: typeof initialState, action: Action) => {
 			return { ...state, participants: action.payload };
 		case "SET_PARTICIPANT_NAME":
 			return { ...state, participanName: action.payload };
+		case "SET_SCALE":
+			return { ...state, scale: action.payload };
 
 		default:
 			return state;

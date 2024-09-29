@@ -1,6 +1,8 @@
 "use client";
 
 import { FaSquare, FaCircle, FaRegQuestionCircle } from "react-icons/fa";
+import { HiOutlineMagnifyingGlassPlus } from "react-icons/hi2";
+import { HiMagnifyingGlassMinus } from "react-icons/hi2";
 import { PiArrowCounterClockwiseBold } from "react-icons/pi";
 import { PresentationToolbarProps } from "@/interfaces";
 import { Button, SelectItem, Select, Tooltip, Kbd } from "@nextui-org/react";
@@ -46,7 +48,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 					<PiArrowClockwiseBold size={40} />
 				</Button>
 			</div>
-			<div className="w-[35%] border-b-2 border-gray-700 flex justify-center gap-3 items-center">
+			<div className="w-[40%] border-b-2 border-gray-700 flex justify-center gap-3 items-center">
 				<Button
 					radius="sm"
 					isIconOnly
@@ -109,6 +111,28 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				>
 					<FaSquare size={40} />
 				</Button>
+				<Button
+					radius="sm"
+					isIconOnly
+					size="lg"
+					className="p-2"
+					variant={state.editorMode === "zoomin" ? "shadow" : "faded"}
+					color={state.editorMode === "zoomin" ? "primary" : "default"}
+					onClick={() => changeEditorMode("zoomin")}
+				>
+					<HiOutlineMagnifyingGlassPlus size={40} />
+				</Button>
+				<Button
+					radius="sm"
+					isIconOnly
+					size="lg"
+					className="p-2"
+					variant={state.editorMode === "zoomout" ? "shadow" : "faded"}
+					color={state.editorMode === "zoomout" ? "primary" : "default"}
+					onClick={() => changeEditorMode("zoomout")}
+				>
+					<HiMagnifyingGlassMinus size={40} />
+				</Button>
 				<Select
 					isDisabled={state.role === "viewer"}
 					aria-label="Stroke color"
@@ -138,7 +162,7 @@ export const Toolbar: FC<PresentationToolbarProps> = ({
 				</Select>
 			</div>
 
-			<div className="w-[30%] flex px-14 flex-col justify-center p-5 border-b-2 border-gray-700">
+			<div className="w-[25%] flex px-14 flex-col justify-center p-5 border-b-2 border-gray-700">
 				<div className="flex justify-between items-start">
 					<p>{state.presentationTopic}</p>
 					<p>Presentation ID # {state.presentationId}</p>

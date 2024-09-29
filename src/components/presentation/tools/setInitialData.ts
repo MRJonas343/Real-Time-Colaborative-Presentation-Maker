@@ -4,8 +4,10 @@ import { LocalStoragePresentation } from "@/interfaces/LocalStoragePresentation"
 import { joinPresentation } from "@/Services/joinPresentation";
 import { clearCanvas } from "./clearCanvas";
 import { RefObject } from "react";
+import { initialState } from "../state";
 
 export const setInitialData = async (
+	state: typeof initialState,
 	dispatch: (value: Action) => void,
 	userName: string,
 	id: string,
@@ -37,5 +39,5 @@ export const setInitialData = async (
 	dispatch({ type: "SET_DRAWN_ELEMENTS", payload: canvasElements });
 	dispatch({ type: "SET_SLIDES_PREVIEWS", payload: newSlides });
 
-	clearCanvas(ctx, canvasRef, canvasElements);
+	clearCanvas(state, ctx, canvasRef, canvasElements);
 };

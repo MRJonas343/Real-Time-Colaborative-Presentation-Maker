@@ -33,4 +33,5 @@ export type Action =
 	| { type: "SET_SLIDE_MENU_Y"; payload: number }
 	| { type: "SET_CLICKED_SLIDE_ID"; payload: string }
 	| { type: "SET_PARTICIPANTS"; payload: Participant[] }
-	| { type: "SET_PARTICIPANT_NAME"; payload: string };
+	| { type: "SET_PARTICIPANT_NAME"; payload: string }
+	| { type: "SET_SCALE"; payload: number };

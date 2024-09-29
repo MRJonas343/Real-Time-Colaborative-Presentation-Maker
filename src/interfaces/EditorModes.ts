@@ -1,1 +1,8 @@
-export type EditorModes = "text" | "circle" | "arrow" | "cursor" | "rectangle";
+export type EditorModes =
+	| "text"
+	| "circle"
+	| "arrow"
+	| "cursor"
+	| "rectangle"
+	| "zoomin"
+	| "zoomout";

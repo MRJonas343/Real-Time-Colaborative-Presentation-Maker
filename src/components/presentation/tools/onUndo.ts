@@ -36,6 +36,6 @@ export const onUndo = (
 			state.currentSlide,
 		);
 
-		clearCanvas(ctx, canvasRef, updatedElements);
+		clearCanvas(state, ctx, canvasRef, updatedElements);
 	}
 };

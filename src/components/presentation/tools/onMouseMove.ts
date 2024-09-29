@@ -66,7 +66,7 @@ export const onMouseMove = (
 		dispatch({ type: "SET_MODIFIED_ELEMENT", payload: updatedElement });
 		dispatch({ type: "SET_DRAWN_ELEMENTS", payload: newElements });
 
-		clearCanvas(ctx, canvasRef, newElements);
+		clearCanvas(state, ctx, canvasRef, newElements);
 		return;
 	}
 
@@ -77,9 +77,9 @@ export const onMouseMove = (
 	const height = y2 - state.startY;
 	const radius = Math.sqrt((x2 - state.startX) ** 2 + (y2 - state.startY) ** 2);
 
-	clearCanvas(ctx, canvasRef, state.drawnElements);
+	clearCanvas(state, ctx, canvasRef, state.drawnElements);
 
-	drawElement(ctx, {
+	drawElement(state, ctx, {
 		id: "0",
 		x: state.startX,
 		y: state.startY,
