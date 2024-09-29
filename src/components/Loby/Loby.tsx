@@ -58,8 +58,8 @@ export const Loby = () => {
 		if (!id) {
 			try {
 				const result = await createPresentation(
-					name,
 					title ?? "Untitled Presentation",
+					name,
 				);
 
 				router.push(`/presentation/${result.presentationId}/${result.creator}`);
